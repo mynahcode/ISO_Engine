@@ -1,0 +1,6 @@
+# Directories
+.vs/
+IsoEngine/bin/
+IsoEngine/intermediates/
+TheGame/bin/
+TheGame/intermediates/
