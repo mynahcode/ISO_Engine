@@ -27,9 +27,21 @@
     <ClInclude Include="src\IsoEngine\EntryPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\IsoLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\IsoLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\IsoLogger\IsoLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
