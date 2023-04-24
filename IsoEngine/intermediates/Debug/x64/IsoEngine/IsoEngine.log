@@ -1,2 +1,14 @@
-﻿  Application.cpp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1091,5): warning MSB8027: Two or more files with the name of IsoLogger.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are src\IsoEngine\IsoLogger.cpp, src\IsoEngine\IsoLogger\IsoLogger.cpp.
+  IsoLogger.cpp
+E:\dev\IsoEngine\src\IsoEngine\IsoLogger.h(15,42): warning C4251: 'IE::IsoLogger::Iso_EngineLogger': class 'std::shared_ptr<spdlog::logger>' needs to have dll-interface to be used by clients of class 'IE::IsoLogger'
+E:\dev\IsoEngine\vendor\spdlog\include\spdlog\details\registry.h(34): message : see declaration of 'std::shared_ptr<spdlog::logger>'
+E:\dev\IsoEngine\src\IsoEngine\IsoLogger.h(16,42): warning C4251: 'IE::IsoLogger::Iso_ClientLogger': class 'std::shared_ptr<spdlog::logger>' needs to have dll-interface to be used by clients of class 'IE::IsoLogger'
+E:\dev\IsoEngine\vendor\spdlog\include\spdlog\details\registry.h(34): message : see declaration of 'std::shared_ptr<spdlog::logger>'
+  Application.cpp
+  IsoLogger.cpp
+E:\dev\IsoEngine\src\IsoEngine\IsoLogger\IsoLogger.h(25,22): warning C4251: 'IE::IELogger::IsoLogger::logger_mutex': class 'std::mutex' needs to have dll-interface to be used by clients of class 'IE::IELogger::IsoLogger'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\mutex(86): message : see declaration of 'std::mutex'
+  Generating Code...
+E:\dev\IsoEngine\\intermediates\Debug\x64\IsoEngine\IsoLogger.obj : warning LNK4042: object specified more than once; extras ignored
+     Creating library E:\dev\IsoEngine\\bin\Debug\x64\IsoEngine\IsoEngine.lib and object E:\dev\IsoEngine\\bin\Debug\x64\IsoEngine\IsoEngine.exp
   IsoEngine.vcxproj -> E:\dev\IsoEngine\bin\Debug\x64\IsoEngine\IsoEngine.dll

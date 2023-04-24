@@ -9,7 +9,6 @@ namespace IE {
 	public:
 		Application();
 		virtual ~Application(); // will be inherited by Game application
-		
 		void Run();
 	};
 

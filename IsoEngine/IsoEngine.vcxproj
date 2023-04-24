@@ -11,13 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\IsoEngine\IsoLogger.h" />
     <ClInclude Include="src\IsoEngine.h" />
     <ClInclude Include="src\IsoEngine\Application.h" />
     <ClInclude Include="src\IsoEngine\EntryPoint.h" />
+    <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h" />
     <ClInclude Include="src\IsoEngine\IsoMacros.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\IsoEngine\IsoLogger.cpp" />
     <ClCompile Include="src\IsoEngine\Application.cpp" />
+    <ClCompile Include="src\IsoEngine\IsoLogger\IsoLogger.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -31,7 +35,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -66,7 +70,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>IE_PLATFORM_WINDOWS;IE_BUILD_DLL;WINDLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)\vendor\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
