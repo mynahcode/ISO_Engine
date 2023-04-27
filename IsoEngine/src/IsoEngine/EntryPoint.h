@@ -28,8 +28,6 @@ int main(int argc, char** argv)
 	for (int i = 0; i < 10; i++) { threads[i] = std::thread(log_test, i); }
 	for (int i = 0; i < 10; i++) { threads[i].join(); }
 
-	IE::IELogger::IsoLogger::CloseFileOut();
-
 	auto app = IE::CreateApplication();
 	app->Run();
 	delete app;
