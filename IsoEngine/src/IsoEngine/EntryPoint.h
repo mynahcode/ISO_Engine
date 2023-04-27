@@ -21,10 +21,14 @@ int main(int argc, char** argv)
 	IE::IsoLogger::GetClientLogger()->info("Initialized Client-Side Logger");
 	*/
 	
+	IE::IELogger::IsoLogger::EnableIsoFileOut("logs/testlog.txt");
+
 	std::thread threads[10];
 
 	for (int i = 0; i < 10; i++) { threads[i] = std::thread(log_test, i); }
 	for (int i = 0; i < 10; i++) { threads[i].join(); }
+
+	IE::IELogger::IsoLogger::CloseFileOut();
 
 	auto app = IE::CreateApplication();
 	app->Run();
