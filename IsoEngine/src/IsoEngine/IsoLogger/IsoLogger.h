@@ -66,7 +66,7 @@ namespace IE
 					{
 						printf("Invalid argument to _localtime64_s.");
 					}
-					
+
 					if (curr_time.tm_hour > 12)								// Set up extension
 						strcpy_s(am_pm, sizeof(am_pm), "PM");
 					if (curr_time.tm_hour >= 12)							// Convert from 24-hour time
@@ -91,8 +91,64 @@ namespace IE
 					if (file)
 					{
 						fprintf(file, "%.19s %s", buffer, am_pm);
-						fprintf(file,msg_priority_str);
-						fprintf(file,msg, args...);
+						fprintf(file, msg_priority_str);
+						fprintf(file, msg, args...);
+						fprintf(file, "\n");
+					}
+				}
+			}
+
+			template<typename... Args>
+			void IsoLog(int line_num, const char* src_file, IELogger::IELogger_Priority msg_priority, const char* msg_priority_str, const char* msg, Args... args)
+			{
+				if (priority_level <= msg_priority)
+				{
+
+					std::scoped_lock lock(logger_mutex);
+
+					errno_t err;
+					struct tm curr_time;
+					__time64_t long_time;
+					char buffer[26];
+					char am_pm[] = "AM";
+
+					_time64(&long_time);
+
+					err = _localtime64_s(&curr_time, &long_time);
+
+					if (err)
+					{
+						printf("Invalid argument to _localtime64_s.");
+					}
+					
+					if (curr_time.tm_hour > 12)								// Set up extension
+						strcpy_s(am_pm, sizeof(am_pm), "PM");
+					if (curr_time.tm_hour >= 12)							// Convert from 24-hour time
+						curr_time.tm_hour -= 12;							// to 12 hour time
+					if (curr_time.tm_hour == 0)								// Set hour to 12 if curr_time.tm_hour - 12 == 0 (midnight)
+						curr_time.tm_hour = 12;
+
+					// Convert to an ASCII representation
+					err = asctime_s(buffer, 26, &curr_time);
+					if (err)
+					{
+						printf("Invalid argument to asctime_s");
+					}
+
+					printf("[%.19s %s]", buffer, am_pm);
+					printf(msg_priority_str);
+					printf(msg, args...);
+					printf(" On Line %d in %s", line_num, src_file);
+					printf("\n");
+
+
+					// Enable File-Logging Check
+					if (file)
+					{
+						fprintf(file, "%.19s %s", buffer, am_pm);
+						fprintf(file, msg_priority_str);
+						fprintf(file, msg, args...);
+						fprintf(file, " On Line %d in %s", line_num, src_file);
 						fprintf(file, "\n");
 					}
 				}
@@ -119,8 +175,6 @@ namespace IE
 			}
 
 		public:
-			//IsoLogger();
-			//virtual ~IsoLogger();
 
 			static void SetPriority(IELogger_Priority priority) 
 			{ 
@@ -142,41 +196,49 @@ namespace IE
 			}
 
 			template<typename... Args>
-			static void Trace(const char* message, Args... args)
+			static void Trace(int line_num, const char* src_file, const char* message, Args... args)
 			{
-				get_InstanceIsoLogger().IsoLog(IE::IELogger::IELogger_Priority::TRACE, "[TRACE]:\t", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::TRACE, "[TRACE]:\t", message, args...);
 			}
 
 			template<typename... Args>
-			static void Debug(const char* message, Args... args)
+			static void Debug(int line_num, const char* src_file, const char* message, Args... args)
 			{
-				get_InstanceIsoLogger().IsoLog(IE::IELogger::IELogger_Priority::DEBUG, "[DEBUG]:\t", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::DEBUG, "[DEBUG]:\t", message, args...);
 			}
 
 			template<typename... Args>
-			static void Info(const char* message, Args... args)
+			static void Info(int line_num, const char* src_file, const char* message, Args... args)
 			{
-				get_InstanceIsoLogger().IsoLog(IE::IELogger::IELogger_Priority::INFO, "[INFO]:\t", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::INFO, "[INFO]:\t", message, args...);
 			}
 
 			template<typename... Args>
-			static void Warn(const char* message, Args... args)
+			static void Warn(int line_num, const char* src_file, const char* message, Args... args)
 			{
-				get_InstanceIsoLogger().IsoLog(IE::IELogger::IELogger_Priority::WARN, "[WARN]:\t", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::WARN, "[WARN]:\t", message, args...);
 			}
 
 			template<typename... Args>
-			static void Critical(const char* message, Args... args)
+			static void Critical(int line_num, const char* src_file, const char* message, Args... args)
 			{
-				get_InstanceIsoLogger().IsoLog(IE::IELogger::IELogger_Priority::CRITICAL, "[CRITICAL]:\t", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::CRITICAL, "[CRITICAL]:\t", message, args...);
 			}
 
 			template<typename... Args>
-			static void Fatal(const char* message, Args... args)
+			static void Fatal(int line_num, const char* src_file, const char* message, Args... args)
 			{
-				get_InstanceIsoLogger().IsoLog(IE::IELogger::IELogger_Priority::FATAL, "[FATAL]:\t", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::FATAL, "[FATAL]:\t", message, args...);
 			}
 
 		};
 	}
 }
+
+/* IsoLogger Macro Definitions -- Overloads IsoLog function call parameters within each respective severity-level function call*/
+#define ISOLOGGER_TRACE(Message,...) (IE::IELogger::IsoLogger::Trace(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_DEBUG(Message,...) (IE::IELogger::IsoLogger::Debug(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_INFO(Message,...) (IE::IELogger::IsoLogger::Info(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_WARN(Message,...) (IE::IELogger::IsoLogger::Warn(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_CRITICAL(Message,...) (IE::IELogger::IsoLogger::Critical(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_FATAL(Message,...) (IE::IELogger::IsoLogger::Fatal(__LINE__, __FILE__, Message, __VA_ARGS__))
