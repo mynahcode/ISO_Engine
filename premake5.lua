@@ -15,36 +15,40 @@ project "IsoEngine"
 	location "IsoEngine"
 	kind "SharedLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "On" 
 
-	targetdir ("{prj.name}/bin/" .. outputdir .. "/%{prj.name}") -- binaries
-	objdir ("{prj.name}/bin/" .. outputdir .. "/%{prj.name}")  -- intermediates
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}") 
+	objdir ("obj/" .. outputdir .. "/%{prj.name}") 
 
 	files
 	{
-		"{prj.name}/src/**.h",
-		"{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
 	}
 
-	include
+	defines
 	{
-			
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
+	includedirs
+	{
+		"IsoEngine/src"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On" --statically link runtime libraries
 		systemversion "latest"
 
 		defines
 		{
 			"_WIN32",
-			"IE_BUILD_DLL",
-			"_CRT_SECURE_NO_WARNINGS"
+			"IE_BUILD_DLL"
 		}
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} .. /{prj.name}/bin/" .. outputdir "/TheGame")
+			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .."/TheGame")
 		}
 
 	filter "configurations:Debug"
@@ -61,26 +65,37 @@ project "IsoEngine"
 		defines "IE_DIST"
 		optimize "On"
 
+	filter { "system:windows", "configurations:Debug" }
+		buildoptions "/MDd"
 	filter { "system:windows", "configurations:Release" }
+		buildoptions "/MDd"
+	filter { "system:windows", "configurations:Dist" }
 		buildoptions "/MDd"
 
 project "TheGame"
 	location "TheGame"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "On"
 
-	targetdir ("{prj.name}/bin/" .. outputdir .. "/%{prj.name}") -- binaries
-	objdir ("{prj.name}/bin/" .. outputdir .. "/%{prj.name}")  -- intermediates
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("obj/" .. outputdir .. "/%{prj.name}") 
 
 	files
 	{
-		"{prj.name}/src/**.h",
-		"{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
 	}
 
-	include
+	includedirs
 	{
-		"IsoEngine\src"
+		"IsoEngine/src"
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	links
@@ -89,14 +104,11 @@ project "TheGame"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On" --statically link runtime libraries
 		systemversion "latest"
 
 		defines
 		{
-			"_WIN32",
-			"_CRT_SECURE_NO_WARNINGS"
+			"_WIN32"
 		}
 
 	filter "configurations:Debug"
@@ -113,5 +125,9 @@ project "TheGame"
 		defines "IE_DIST"
 		optimize "On"
 
+	filter { "system:windows", "configurations:Debug" }
+		buildoptions "/MDd"
 	filter { "system:windows", "configurations:Release" }
+		buildoptions "/MDd"
+	filter { "system:windows", "configurations:Dist" }
 		buildoptions "/MDd"
