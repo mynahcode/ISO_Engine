@@ -1,7 +1,0 @@
-﻿  Application.cpp
-  IsoLogger.cpp
-E:\dev\IsoEngine\src\IsoEngine\IsoLogger\IsoLogger.h(31,15): warning C4251: 'IE::IELogger::IsoLogger::logger_mutex': class 'std::mutex' needs to have dll-interface to be used by clients of class 'IE::IELogger::IsoLogger'
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\mutex(86): message : see declaration of 'std::mutex'
-  Generating Code...
-     Creating library E:\dev\IsoEngine\\bin\Debug\x64\IsoEngine\IsoEngine.lib and object E:\dev\IsoEngine\\bin\Debug\x64\IsoEngine\IsoEngine.exp
-  IsoEngine.vcxproj -> E:\dev\IsoEngine\bin\Debug\x64\IsoEngine\IsoEngine.dll
