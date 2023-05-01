@@ -149,12 +149,15 @@
     <ClInclude Include="src\IsoEngine.h" />
     <ClInclude Include="src\IsoEngine\Application.h" />
     <ClInclude Include="src\IsoEngine\EntryPoint.h" />
+    <ClInclude Include="src\IsoEngine\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\IsoEngine\Events\Event.h" />
+    <ClInclude Include="src\IsoEngine\Events\KeyEvent.h" />
+    <ClInclude Include="src\IsoEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h" />
     <ClInclude Include="src\IsoEngine\IsoMacros.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp" />
-    <ClCompile Include="src\IsoEngine\IsoLogger\IsoLogger.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

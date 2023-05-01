@@ -4,6 +4,9 @@
     <Filter Include="IsoEngine">
       <UniqueIdentifier>{C67FA054-32EA-54CB-7B28-0671E7D13220}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IsoEngine\Events">
+      <UniqueIdentifier>{EAF09B0F-D6E9-BA61-FF1B-A0E6EB739A6D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="IsoEngine\IsoLogger">
       <UniqueIdentifier>{C0341AF1-2C96-F7FE-B503-3EB121642EBE}</UniqueIdentifier>
     </Filter>
@@ -16,6 +19,18 @@
     <ClInclude Include="src\IsoEngine\EntryPoint.h">
       <Filter>IsoEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Events\ApplicationEvent.h">
+      <Filter>IsoEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Events\Event.h">
+      <Filter>IsoEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Events\KeyEvent.h">
+      <Filter>IsoEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Events\MouseEvent.h">
+      <Filter>IsoEngine\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h">
       <Filter>IsoEngine\IsoLogger</Filter>
     </ClInclude>
@@ -26,9 +41,6 @@
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">
       <Filter>IsoEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IsoEngine\IsoLogger\IsoLogger.cpp">
-      <Filter>IsoEngine\IsoLogger</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

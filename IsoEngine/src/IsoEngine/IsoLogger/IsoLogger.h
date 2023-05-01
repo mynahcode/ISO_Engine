@@ -236,9 +236,9 @@ namespace IE
 }
 
 /* IsoLogger Macro Definitions -- Overloads IsoLog function call parameters within each respective severity-level function call*/
-#define ISOLOGGER_TRACE(Message,...) (IE::IELogger::IsoLogger::Trace(__LINE__, __FILE__, Message, __VA_ARGS__))
-#define ISOLOGGER_DEBUG(Message,...) (IE::IELogger::IsoLogger::Debug(__LINE__, __FILE__, Message, __VA_ARGS__))
-#define ISOLOGGER_INFO(Message,...) (IE::IELogger::IsoLogger::Info(__LINE__, __FILE__, Message, __VA_ARGS__))
-#define ISOLOGGER_WARN(Message,...) (IE::IELogger::IsoLogger::Warn(__LINE__, __FILE__, Message, __VA_ARGS__))
-#define ISOLOGGER_CRITICAL(Message,...) (IE::IELogger::IsoLogger::Critical(__LINE__, __FILE__, Message, __VA_ARGS__))
-#define ISOLOGGER_FATAL(Message,...) (IE::IELogger::IsoLogger::Fatal(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_TRACE(Message,...) (::IE::IELogger::IsoLogger::Trace(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_DEBUG(Message,...) (::IE::IELogger::IsoLogger::Debug(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_INFO(Message,...) (::IE::IELogger::IsoLogger::Info(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_WARN(Message,...) (::IE::IELogger::IsoLogger::Warn(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_CRITICAL(Message,...) (::IE::IELogger::IsoLogger::Critical(__LINE__, __FILE__, Message, __VA_ARGS__))
+#define ISOLOGGER_FATAL(Message,...) (::IE::IELogger::IsoLogger::Fatal(__LINE__, __FILE__, Message, __VA_ARGS__))
