@@ -12,10 +12,10 @@ namespace IE
 	{
 		enum class IsoEngine_API IELogger_Priority
 		{
-			TRACE		= 0,						// Minor Details
-			DEBUG		= 1,						// Debugger Info
-			INFO		= 2,						// Recording significant events/updates
-			WARN		= 3,						// Warnings related to exceptions and/or bugs		
+			TRACE		= 0,						// Trace level for function calls, tracking processes of program.
+			DEBUG		= 1,						// Info Level Debugging.
+			INFO		= 2,						// Recording significant events, updates, etc.
+			WARN		= 3,						// Warnings related to exceptions and/or bugs, or edge cases being met.		
 			CRITICAL	= 4,						// Error -- Failure to perform a certain task
 			FATAL		= 5							// Error -- Resulting in crash or termination of program
 		};
