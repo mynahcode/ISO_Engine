@@ -9,14 +9,17 @@ workspace "IsoEngine"
 		"Dist"
 	}
 
-	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+	
+IncludeDir = {}
+IncludeDir["GLFW"] = "IsoEngine/vendor/GLFW/include"
 
 project "IsoEngine"
 	location "IsoEngine"
 	kind "SharedLib"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "On" 
+	staticruntime "off" 
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}") 
 	objdir ("obj/" .. outputdir .. "/%{prj.name}") 
@@ -30,14 +33,21 @@ project "IsoEngine"
 		"%{prj.name}/src/**.cpp"
 	}
 
-	includedirs
-	{
-		"./IsoEngine/src"
-	}
-
 	defines
 	{
-		"_CRT_SECURE_NO_WARNINGS"
+		"_CRT_SECURE_NO_WARNINGS",
+		"GLFW_INCLUDE_NONE"
+	}
+
+	includedirs
+	{
+		"./IsoEngine/src",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW"
 	}
 
 	filter "system:windows"
@@ -56,31 +66,29 @@ project "IsoEngine"
 
 	filter "configurations:Debug"
 		defines "IE_DEBUG"
+		runtime "Debug"
+		buildoptions "/MDd"
 		symbols "On"
-
 		
 	filter "configurations:Release"
 		defines "IE_RELEASE"
+		runtime "Release"
+		buildoptions "/MD"
 		optimize "On"
 
 		
 	filter "configurations:Dist"
 		defines "IE_DIST"
+		runtime "Release"
+		buildoptions "/MD"
 		optimize "On"
-
-	filter { "system:windows", "configurations:Debug" }
-		buildoptions "/MTd"
-	filter { "system:windows", "configurations:Release" }
-		buildoptions "/MTd"
-	filter { "system:windows", "configurations:Dist" }
-		buildoptions "/MTd"
 
 project "TheGame"
 	location "TheGame"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "On"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("obj/" .. outputdir .. "/%{prj.name}") 
@@ -116,21 +124,19 @@ project "TheGame"
 
 	filter "configurations:Debug"
 		defines "IE_DEBUG"
+		runtime "Debug"
+		buildoptions "/MDd"
 		symbols "On"
-
 		
 	filter "configurations:Release"
 		defines "IE_RELEASE"
+		runtime "Release"
+		buildoptions "/MD"
 		optimize "On"
 
 		
 	filter "configurations:Dist"
 		defines "IE_DIST"
+		runtime "Release"
+		buildoptions "/MD"
 		optimize "On"
-
-	filter { "system:windows", "configurations:Debug" }
-		buildoptions "/MTd"
-	filter { "system:windows", "configurations:Release" }
-		buildoptions "/MTd"
-	filter { "system:windows", "configurations:Dist" }
-		buildoptions "/MTd"

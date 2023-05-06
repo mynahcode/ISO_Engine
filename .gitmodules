@@ -1,0 +1,3 @@
+[submodule "IsoEngine/Vendor/GLFW"]
+	path = IsoEngine/Vendor/GLFW
+	url = https://github.com/mynahcode/glfw
