@@ -27,14 +27,14 @@ project "IsoEngine"
 		"%{prj.name}/src/**.cpp"
 	}
 
+	includedirs
+	{
+		"./IsoEngine/src"
+	}
+
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS"
-	}
-
-	includedirs
-	{
-		"IsoEngine/src"
 	}
 
 	filter "system:windows"
@@ -42,7 +42,7 @@ project "IsoEngine"
 
 		defines
 		{
-			"_WIN32",
+			"_IE_PLATFORM_WINDOWS",
 			"IE_BUILD_DLL"
 		}
 
@@ -66,11 +66,11 @@ project "IsoEngine"
 		optimize "On"
 
 	filter { "system:windows", "configurations:Debug" }
-		buildoptions "/MDd"
+		buildoptions "/MTd"
 	filter { "system:windows", "configurations:Release" }
-		buildoptions "/MDd"
+		buildoptions "/MTd"
 	filter { "system:windows", "configurations:Dist" }
-		buildoptions "/MDd"
+		buildoptions "/MTd"
 
 project "TheGame"
 	location "TheGame"
@@ -108,7 +108,7 @@ project "TheGame"
 
 		defines
 		{
-			"_WIN32"
+			"_IE_PLATFORM_WINDOWS"
 		}
 
 	filter "configurations:Debug"
@@ -126,8 +126,8 @@ project "TheGame"
 		optimize "On"
 
 	filter { "system:windows", "configurations:Debug" }
-		buildoptions "/MDd"
+		buildoptions "/MTd"
 	filter { "system:windows", "configurations:Release" }
-		buildoptions "/MDd"
+		buildoptions "/MTd"
 	filter { "system:windows", "configurations:Dist" }
-		buildoptions "/MDd"
+		buildoptions "/MTd"

@@ -2,7 +2,11 @@
 
 #include "IsoMacros.h"
 
-namespace IE {
+
+int main(int argc, char** argv);
+
+namespace IE 
+{
 
 	class IsoEngine_API Application // export here, in game include.
 	{
@@ -11,9 +15,9 @@ namespace IE {
 		virtual ~Application(); // will be inherited by Game application
 
 		void Run();
+
 	};
 
 	// Defined in client
 	Application* CreateApplication();
 }
-

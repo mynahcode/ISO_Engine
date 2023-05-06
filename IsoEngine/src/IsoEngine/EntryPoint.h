@@ -1,8 +1,8 @@
 #pragma once
 
-#include "IsoEngine/IsoLogger/IsoLogger.h"
+#include "Application.h"
 
-#ifdef _WIN32
+#ifdef _IE_PLATFORM_WINDOWS
 
 extern IE::Application* IE::CreateApplication();
 

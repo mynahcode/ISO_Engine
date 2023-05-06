@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _WIN32
+#ifdef _IE_PLATFORM_WINDOWS
 	#ifdef IE_BUILD_DLL
 		#define IsoEngine_API __declspec(dllexport)
 	#else
