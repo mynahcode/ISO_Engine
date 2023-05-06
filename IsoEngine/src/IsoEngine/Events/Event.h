@@ -2,10 +2,6 @@
 
 #include "../../IsoEngine.h"
 
-#include <string>
-#include <functional>
-
-
 namespace IE
 {
 	

@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace IE 
 {
 	class IsoEngine_API WindowResizeEvent : public Event

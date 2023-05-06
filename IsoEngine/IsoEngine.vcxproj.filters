@@ -37,10 +37,12 @@
     <ClInclude Include="src\IsoEngine\IsoMacros.h">
       <Filter>IsoEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\iepch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">
       <Filter>IsoEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\iepch.cpp" />
   </ItemGroup>
 </Project>

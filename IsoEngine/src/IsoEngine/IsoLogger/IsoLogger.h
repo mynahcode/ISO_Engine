@@ -1,9 +1,5 @@
 #pragma once
 
-#include <stdio.h>
-#include <mutex>
-#include <ctime>
-
 #include "../Application.h"
 
 namespace IE

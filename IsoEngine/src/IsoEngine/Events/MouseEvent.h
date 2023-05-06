@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace IE
 {
 	class IsoEngine_API MouseMovedEvent : public Event

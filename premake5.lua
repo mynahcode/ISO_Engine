@@ -21,6 +21,9 @@ project "IsoEngine"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}") 
 	objdir ("obj/" .. outputdir .. "/%{prj.name}") 
 
+	pchheader "iepch.h"
+	pchsource "IsoEngine/src/iepch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",
