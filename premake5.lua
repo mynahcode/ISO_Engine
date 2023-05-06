@@ -12,7 +12,9 @@ workspace "IsoEngine"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 	
 IncludeDir = {}
-IncludeDir["GLFW"] = "IsoEngine/vendor/GLFW/include"
+IncludeDir["GLFW"] = "IsoEngine/Vendor/GLFW/include"
+
+include "IsoEngine/Vendor/GLFW"
 
 project "IsoEngine"
 	location "IsoEngine"
@@ -47,7 +49,8 @@ project "IsoEngine"
 
 	links
 	{
-		"GLFW"
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
