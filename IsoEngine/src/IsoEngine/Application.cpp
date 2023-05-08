@@ -1,5 +1,5 @@
 #include "iepch.h"
-#include "Application.h"
+#include "IsoEngine/Application.h"
 #include "Events/ApplicationEvent.h"
 #include "IsoLogger/IsoLogger.h"
 
@@ -22,7 +22,4 @@ namespace IE
 		while (true);
 	}
 
-	Application* IE::CreateApplication() {
-		return nullptr;
-	}
 }

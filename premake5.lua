@@ -1,6 +1,7 @@
 -- premake5.lua for IsoEngine Solution
 workspace "IsoEngine"
 	architecture "x64"
+	startproject "TheGame"
 
 	configurations
 	{

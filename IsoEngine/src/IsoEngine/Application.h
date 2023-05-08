@@ -1,7 +1,6 @@
 #pragma once
 
-#include "IsoMacros.h"
-
+#include "IsoEngine/IsoMacros.h"
 
 int main(int argc, char** argv);
 
@@ -15,9 +14,12 @@ namespace IE
 		virtual ~Application(); // will be inherited by Game application
 
 		void Run();
-
 	};
 
 	// Defined in client
-	Application* CreateApplication();
+	//Application* CreateApplication();
+	Application* CreateApplication()
+	{
+		return new Application();
+	}
 }
