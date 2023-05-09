@@ -1,6 +1,5 @@
 #include "iepch.h"
 #include "WindowsWindow.h"
-#include "IsoEngine/IsoLogger/IsoLogger.h"
 
 namespace IE
 {
@@ -27,17 +26,24 @@ namespace IE
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		//ISOLOGGER_INFO("Creating Window {0} ({1}, {2})", props.Title, props.Width, props.Height);
+		ISOLOGGER_INFO("Creating Window '%s' with dimensions (%d,%d):", props.Title.c_str(), props.Width, props.Height);
 
 		if (!s_GLFWInitialized)
 		{
-			// TODO: IOMplement glfwTerminate on system shutdown
+			// TODO: Implement glfwTerminate on system shutdown
 			int success = glfwInit();
-			IE_ENGINE_ASSERT(success, "Error: Could not initialize GLFW!")
+			//if (!glfwInit()) throw std::runtime_error("Failed to initialize GLFW!");
+			IE_ENGINE_ASSERT(success, "Could not initialize GLFW!")
 			s_GLFWInitialized = true;
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		if (m_Window == nullptr)
+		{
+			ISOLOGGER_FATAL("Failed to create GLFW Window in WindowsWindow.cpp!");
+			std::cout << "Failed to create GLFW Window!" << std::endl;
+			Shutdown();
+		}
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
@@ -46,6 +52,7 @@ namespace IE
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
+		glfwTerminate();
 	}
 
 	void WindowsWindow::OnUpdate()

@@ -1,12 +1,14 @@
 #pragma once
 
+#include <string>
+
 #include "../Application.h"
 
 namespace IE
 {
 	namespace IELogger
 	{
-		enum class IsoEngine_API IELogger_Priority
+		enum class IELogger_Priority
 		{
 			TRACE		= 0,						// Trace level for function calls, tracking processes of program.
 			DEBUG		= 1,						// Info Level Debugging.
