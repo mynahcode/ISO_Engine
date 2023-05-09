@@ -18,6 +18,7 @@ namespace IE
 
 	WindowsWindow::~WindowsWindow()
 	{
+		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
@@ -32,7 +33,7 @@ namespace IE
 		{
 			// TODO: IOMplement glfwTerminate on system shutdown
 			int success = glfwInit();
-			//ISOLOGGER_ASSERT(success, "Error: Could not initialize GLFW!")
+			IE_ENGINE_ASSERT(success, "Error: Could not initialize GLFW!")
 			s_GLFWInitialized = true;
 		}
 
@@ -44,7 +45,7 @@ namespace IE
 
 	void WindowsWindow::Shutdown()
 	{
-
+		glfwDestroyWindow(m_Window);
 	}
 
 	void WindowsWindow::OnUpdate()

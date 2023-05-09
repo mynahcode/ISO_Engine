@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../IsoEngine.h"
+#include "IsoEngine/IsoMacros.h"
+#include <functional>
 
 namespace IE
 {
@@ -34,7 +35,7 @@ namespace IE
 	{
 		friend class EventDispatcher;
 	public:
-		virtual IE::EventType GetEventType() const = 0;
+		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); }

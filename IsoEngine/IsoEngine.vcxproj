@@ -93,6 +93,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Debug-windows-x86_64\IsoEngine\IsoEngine.lib</ImportLibrary>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMTD</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>IF EXIST ..\bin\Debug-windows-x86_64\IsoEngine\IsoEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\IsoEngine\IsoEngine.dll ..\bin\Debug-windows-x86_64\TheGame &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\IsoEngine\IsoEngine.dll ..\bin\Debug-windows-x86_64\TheGame &gt; nul)</Command>
@@ -163,12 +166,15 @@
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h" />
     <ClInclude Include="src\IsoEngine\IsoMacros.h" />
     <ClInclude Include="src\iepch.h" />
+    <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\IsoEngine\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp" />
     <ClCompile Include="src\iepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Vendor\GLFW\GLFW.vcxproj">

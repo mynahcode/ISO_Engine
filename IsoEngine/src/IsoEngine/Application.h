@@ -2,8 +2,6 @@
 
 #include "IsoEngine/IsoMacros.h"
 
-int main(int argc, char** argv);
-
 namespace IE 
 {
 
@@ -17,9 +15,5 @@ namespace IE
 	};
 
 	// Defined in client
-	//Application* CreateApplication();
-	Application* CreateApplication()
-	{
-		return new Application();
-	}
+	Application* CreateApplication();
 }

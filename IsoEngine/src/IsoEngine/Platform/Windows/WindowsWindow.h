@@ -1,7 +1,8 @@
 #pragma once
 
-#include "IsoEngine/Window.h"
 #include <GLFW/glfw3.h>
+
+#include "IsoEngine/Window.h"
 
 namespace IE
 {
@@ -12,15 +13,14 @@ namespace IE
 		WindowsWindow(const WindowProps& props);
 		virtual ~WindowsWindow();
 
-		void OnUpdate override;
+		void OnUpdate() override;
 
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned int GetHeight() const override { return m_Data.Height; }
 
-		//Window Attributes
-		inline void SetEventCallback(const EventCallback& callback) override { m_Data.EventCallback = callback; }
+		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
-		bool IsVSync() override;
+		bool IsVSync() const override;
 
 		/* Private Functions and Methods */
 	private:
