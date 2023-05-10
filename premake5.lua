@@ -39,7 +39,8 @@ project "IsoEngine"
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
-		"GLFW_INCLUDE_NONE"
+		"GLFW_INCLUDE_NONE",
+		IE_ENABLE_ASSERTS
 	}
 
 	includedirs
@@ -110,7 +111,8 @@ project "TheGame"
 
 	defines
 	{
-		"_CRT_SECURE_NO_WARNINGS"
+		"_CRT_SECURE_NO_WARNINGS",
+		IE_ENABLE_ASSERTS
 	}
 
 	links

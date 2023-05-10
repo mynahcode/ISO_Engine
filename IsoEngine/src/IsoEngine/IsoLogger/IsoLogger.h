@@ -4,6 +4,7 @@
 
 #include "../Application.h"
 
+// TODO: Refactor IsoLogger to add support for formatting __VA_ARGS__ vars into a string to output to console as part of log message.
 namespace IE
 {
 	namespace IELogger
@@ -84,7 +85,7 @@ namespace IE
 					printf(msg, args...);
 					printf("\n");
 
-
+					// TODO: Fix IsoLoggers file output for logging.
 					// Enable File-Logging Check
 					if (file)
 					{

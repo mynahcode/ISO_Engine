@@ -21,7 +21,7 @@ namespace IE
 	class IsoEngine_API KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keycode, int repeatCount)
+		KeyPressedEvent(int keycode, bool isRepeat = false)
 			: KeyEvent(keycode), m_IsRepeat(isRepeat) {}
 
 		bool isRepeat() const { return m_IsRepeat; }
@@ -36,13 +36,12 @@ namespace IE
 		EVENT_CLASS_TYPE(KeyPressed)
 
 	private:
-		int keycode;
 		bool  m_IsRepeat;
-
 	};
 
 	class IsoEngine_API KeyReleasedEvent : public KeyEvent
 	{
+	public:
 		KeyReleasedEvent(int keycode)
 			: KeyEvent(keycode) {} 
 
@@ -52,6 +51,8 @@ namespace IE
 			ss << "KeyReleasedEvent: " << m_KeyCode;
 			return ss.str();
 		}
+
+		EVENT_CLASS_TYPE(KeyReleased)
 
 	private:
 		int keycode;

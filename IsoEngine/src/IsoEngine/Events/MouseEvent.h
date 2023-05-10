@@ -31,17 +31,17 @@ namespace IE
 	class IsoEngine_API MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent(float x_Offset, float y_Offset)
-			: x_Offset(x), y_Offset(y) {}
+		MouseScrolledEvent(float x_offset, float y_offset)
+			: m_XOffset(x_offset), m_YOffset(y_offset) {}
 
 		/* Getter Functions */
-		float GetXOffset() const { return x_Offset; }
-		float GetYOffset() const { return y_Offset; }
+		float GetXOffset() const { return m_XOffset; }
+		float GetYOffset() const { return m_YOffset; }
 
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseScrolledEvent: " << "{" << x_Offset << "," << y_Offset << "}";
+			ss << "MouseScrolledEvent: " << "{" << GetXOffset() << "," << GetYOffset() << "}";
 			return ss.str();
 		}
 
@@ -49,7 +49,7 @@ namespace IE
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
 	private:
-		float x_Offset, y_Offset;
+		float m_XOffset, m_YOffset;
 	};
 
 	class IsoEngine_API MouseButtonEvent : public Event

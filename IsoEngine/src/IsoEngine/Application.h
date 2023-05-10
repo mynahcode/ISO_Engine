@@ -1,8 +1,10 @@
 #pragma once
 
 #include "IsoEngine/IsoMacros.h"
-#include "Events/Event.h"
 #include "Window.h"
+#include "Events/Event.h"
+#include "Events/ApplicationEvent.h"
+
 
 namespace IE 
 {
@@ -15,7 +17,11 @@ namespace IE
 
 		void Run();
 
+		void OnEvent(Event& ev);
+
 	private:
+		bool OnWindowClose(WindowCloseEvent& ev);
+
 		std::unique_ptr<Window> m_Window;
 		bool m_IsRunning = true;
 	};
