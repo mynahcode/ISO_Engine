@@ -1,9 +1,11 @@
 #pragma once
 
 #include "IsoEngine/IsoMacros.h"
+
 #include "Window.h"
-#include "Events/Event.h"
-#include "Events/ApplicationEvent.h"
+#include "IsoEngine/LayerStack.h"
+#include "IsoEngine/Events/Event.h"
+#include "IsoEngine/Events/ApplicationEvent.h"
 
 
 namespace IE 
@@ -19,11 +21,15 @@ namespace IE
 
 		void OnEvent(Event& ev);
 
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* layer);
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& ev);
 
 		std::unique_ptr<Window> m_Window;
 		bool m_IsRunning = true;
+		LayerStack m_LayerStack;
 	};
 
 	// Defined in client

@@ -166,6 +166,8 @@
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h" />
     <ClInclude Include="src\IsoEngine\IsoMacros.h" />
     <ClInclude Include="src\iepch.h" />
+    <ClInclude Include="src\IsoEngine\Layer.h" />
+    <ClInclude Include="src\IsoEngine\LayerStack.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\IsoEngine\Window.h" />
   </ItemGroup>
@@ -174,6 +176,8 @@
     <ClCompile Include="src\iepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\Layer.cpp" />
+    <ClCompile Include="src\IsoEngine\LayerStack.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>

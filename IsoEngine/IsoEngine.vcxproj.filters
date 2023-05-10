@@ -40,6 +40,8 @@
     <ClInclude Include="src\iepch.h" />
     <ClInclude Include="src\IsoEngine\Window.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\IsoEngine\Layer.h" />
+    <ClInclude Include="src\IsoEngine\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">
@@ -47,5 +49,7 @@
     </ClCompile>
     <ClCompile Include="src\iepch.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\IsoEngine\Layer.cpp" />
+    <ClCompile Include="src\IsoEngine\LayerStack.cpp" />
   </ItemGroup>
 </Project>

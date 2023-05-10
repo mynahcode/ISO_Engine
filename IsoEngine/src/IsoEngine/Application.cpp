@@ -23,15 +23,37 @@ namespace IE
 	{
 		while (m_IsRunning)
 		{
+
+			for (Layer* layer : m_LayerStack)
+				layer->OnUpdate();
+
 			m_Window->OnUpdate();
 		}
 	}
 
+	void Application::PushLayer(Layer* layer)
+	{
+		m_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* layer)
+	{
+		m_LayerStack.PushOverlay(layer);
+	}
+
 	void Application::OnEvent(Event& ev)
 	{
-		ISOLOGGER_TRACE("Event Running");
 		EventDispatcher dispatcher(ev);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+
+		//ISOLOGGER_TRACE("Event Running");
+
+		for (auto iter = m_LayerStack.end(); iter != m_LayerStack.begin(); )
+		{
+			(*--iter)->OnEvent(ev);
+			if (ev.m_Handled)
+				break;
+		}
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& ev)

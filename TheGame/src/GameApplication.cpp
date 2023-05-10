@@ -1,7 +1,23 @@
 #include <IsoEngine.h>
 
-#include <iostream>
-#include <windows.h>
+class TestLayer : public IE::Layer
+{
+public:
+	TestLayer()
+		: Layer("Test")
+	{
+	}
+
+	void OnUpdate() override
+	{
+
+	}
+
+	void OnEvent(IE::Event& event) override
+	{
+		
+	}
+};
 
 class TheGame : public IE::Application
 {

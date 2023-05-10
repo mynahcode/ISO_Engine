@@ -34,19 +34,19 @@ namespace IE
 	class IsoEngine_API Event
 	{
 		friend class EventDispatcher;
+
 	public:
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); }
 
-		
 		/* Utility Functions */
 
 		// Returns 0 if not in a specific catgegory, 1 if in a specific category
 		inline bool IsInCategory(EventCategory ev_category) { return GetCategoryFlags() & ev_category; }
-
-	protected:
+		
+		/* Var Declarations */
 		bool m_Handled = false;
 	};
 
