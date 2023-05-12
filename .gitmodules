@@ -1,3 +1,6 @@
 [submodule "IsoEngine/Vendor/GLFW"]
 	path = IsoEngine/Vendor/GLFW
 	url = https://github.com/mynahcode/glfw
+[submodule "IsoEngine/Vendor/imgui"]
+	path = IsoEngine/Vendor/imgui
+	url = https://github.com/mynahcode/imgui

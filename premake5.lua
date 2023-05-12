@@ -20,9 +20,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLAD"] = "IsoEngine/Vendor/GLAD/include"
 IncludeDir["GLFW"] = "IsoEngine/Vendor/GLFW/include"
+IncludeDir["ImGui"] = "IsoEngine/Vendor/imgui/include"
+
 
 include "IsoEngine/Vendor/GLAD"
 include "IsoEngine/Vendor/GLFW"
+include "IsoEngine/Vendor/ImGui"
 
 project "IsoEngine"
 	location "IsoEngine"
@@ -54,13 +57,15 @@ project "IsoEngine"
 	{
 		"IsoEngine/src",
 		"%{IncludeDir.GLAD}",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links
 	{
 		"GLAD",
 		"GLFW",
+		"ImGui",
 		"opengl32.lib"
 	}
 
