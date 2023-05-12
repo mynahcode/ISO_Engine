@@ -1,5 +1,6 @@
 #include "iepch.h"
 #include "WindowsWindow.h"
+#include "IsoEngine/IsoLogger/IsoLogger.h"
 #include "IsoEngine/Events/MouseEvent.h"
 #include "IsoEngine/Events/KeyEvent.h"
 #include "IsoEngine/Events/ApplicationEvent.h"
@@ -35,7 +36,7 @@ namespace IE
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		ISOLOGGER_INFO("Creating Window '%s' with dimensions (%d,%d):", props.Title.c_str(), props.Width, props.Height);
+		ISOLOGGER_INFO("Event: Creating Window", props.Title.c_str(), props.Width, props.Height);
 
 		if (!s_GLFWInitialized)
 		{

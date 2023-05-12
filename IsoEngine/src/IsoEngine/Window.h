@@ -1,7 +1,5 @@
 #pragma once
 
-#include "iepch.h"
-
 #include "IsoMacros.h"
 #include "IsoEngine/Events/Event.h"
 

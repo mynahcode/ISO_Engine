@@ -1,12 +1,12 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-
+#include "IsoEngine/IsoMacros.h"
 #include "IsoEngine/Window.h"
 
 namespace IE
 {
-	class WindowsWindow : public Window
+	class IsoEngine_API WindowsWindow : public Window
 	{
 		/* Public Functions and Methods*/
 	public:

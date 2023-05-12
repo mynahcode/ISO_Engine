@@ -10,6 +10,11 @@ workspace "IsoEngine"
 		"Dist"
 	}
 
+	flags
+	{
+		"MultiProcessorCompile"
+	}
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 	
 IncludeDir = {}
@@ -40,7 +45,7 @@ project "IsoEngine"
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"GLFW_INCLUDE_NONE",
-		IE_ENABLE_ASSERTS
+		"IE_ENABLE_ASSERTS"
 	}
 
 	includedirs
@@ -61,7 +66,8 @@ project "IsoEngine"
 		defines
 		{
 			"_IE_PLATFORM_WINDOWS",
-			"IE_BUILD_DLL"
+			"IE_BUILD_DLL",
+			"FMT_HEADER_ONLY"
 		}
 
 		postbuildcommands
@@ -112,7 +118,8 @@ project "TheGame"
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
-		IE_ENABLE_ASSERTS
+		"IE_ENABLE_ASSERTS",
+		"FMT_HEADER_ONLY"
 	}
 
 	links

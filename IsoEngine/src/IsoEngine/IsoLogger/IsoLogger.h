@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-
-#include "../Application.h"
+#include "IsoLoggerFormatter.h"
+#include "IsoEngine/IsoMacros.h"
 
 // TODO: Refactor IsoLogger to add support for formatting __VA_ARGS__ vars into a string to output to console as part of log message.
 namespace IE
@@ -80,11 +80,16 @@ namespace IE
 						printf("Invalid argument to asctime_s");
 					}
 
-					printf("[%.19s %s]", buffer, am_pm);
-					printf(msg_priority_str);
+					printf("[%.19s %s] ", buffer, am_pm);
+					cout << msg_priority_str.str();
+					/*
 					printf(msg, args...);
+					printf(" On Line %d in %s", line_num, src_file);
 					printf("\n");
+					*/
+					IsoLoggerFormatter::IsoLoggerWrapper(line_num, src_file, msg, args...);
 
+					/*
 					// TODO: Fix IsoLoggers file output for logging.
 					// Enable File-Logging Check
 					if (file)
@@ -94,6 +99,7 @@ namespace IE
 						fprintf(file, msg, args...);
 						fprintf(file, "\n");
 					}
+					*/
 				}
 			}
 
@@ -134,14 +140,17 @@ namespace IE
 						printf("Invalid argument to asctime_s");
 					}
 
-					printf("[%.19s %s]", buffer, am_pm);
-					printf(msg_priority_str);
+					printf("[%.19s %s] ", buffer, am_pm);
+					std::cout << msg_priority_str; 
+					/*
 					printf(msg, args...);
 					printf(" On Line %d in %s", line_num, src_file);
 					printf("\n");
-
+					*/
+					IsoLoggerFormatter::IsoLoggerWrapper(line_num, src_file, msg, args...);
 
 					// Enable File-Logging Check
+					/*
 					if (file)
 					{
 						fprintf(file, "%.19s %s", buffer, am_pm);
@@ -150,6 +159,7 @@ namespace IE
 						fprintf(file, " On Line %d in %s", line_num, src_file);
 						fprintf(file, "\n");
 					}
+					*/
 				}
 			}
 
@@ -197,6 +207,7 @@ namespace IE
 			template<typename... Args>
 			static void Trace(int line_num, const char* src_file, const char* message, Args... args)
 			{
+
 				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::TRACE, "[TRACE]:\t", message, args...);
 			}
 

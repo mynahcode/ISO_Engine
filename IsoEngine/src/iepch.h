@@ -19,9 +19,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-/* IsoEngine Utilities */
-#include "IsoEngine/IsoLogger/IsoLogger.h"
-
 /* Platform Specific Includes*/
 #ifdef _IE_PLATFORM_WINDOWS
 #include <Windows.h>

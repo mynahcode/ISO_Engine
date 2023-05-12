@@ -1,5 +1,6 @@
 #include "iepch.h"
 #include "IsoEngine/Application.h"
+#include "IsoEngine/IsoLogger/IsoLogger.h"
 
 
 namespace IE 
@@ -46,7 +47,7 @@ namespace IE
 		EventDispatcher dispatcher(ev);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
 
-		//ISOLOGGER_TRACE("Event Running");
+		ISOLOGGER_TRACE("Event Running % \n");
 
 		for (auto iter = m_LayerStack.end(); iter != m_LayerStack.begin(); )
 		{

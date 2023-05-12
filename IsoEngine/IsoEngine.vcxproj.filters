@@ -10,6 +10,12 @@
     <Filter Include="IsoEngine\IsoLogger">
       <UniqueIdentifier>{C0341AF1-2C96-F7FE-B503-3EB121642EBE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IsoEngine\Platform">
+      <UniqueIdentifier>{DADA7982-C6BE-3AD8-2F1F-352B1B22255A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IsoEngine\Platform\Windows">
+      <UniqueIdentifier>{14BFB99B-00CF-656C-6988-CA8A55B75405}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\IsoEngine.h" />
@@ -34,22 +40,40 @@
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h">
       <Filter>IsoEngine\IsoLogger</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerUtilities.h">
+      <Filter>IsoEngine\IsoLogger</Filter>
+    </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoMacros.h">
       <Filter>IsoEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Layer.h">
+      <Filter>IsoEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\LayerStack.h">
+      <Filter>IsoEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h">
+      <Filter>IsoEngine\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Window.h">
+      <Filter>IsoEngine</Filter>
+    </ClInclude>
     <ClInclude Include="src\iepch.h" />
-    <ClInclude Include="src\IsoEngine\Window.h" />
-    <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
-    <ClInclude Include="src\IsoEngine\Layer.h" />
-    <ClInclude Include="src\IsoEngine\LayerStack.h" />
+    <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerFormatter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">
       <Filter>IsoEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\Layer.cpp">
+      <Filter>IsoEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\LayerStack.cpp">
+      <Filter>IsoEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp">
+      <Filter>IsoEngine\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\iepch.cpp" />
-    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
-    <ClCompile Include="src\IsoEngine\Layer.cpp" />
-    <ClCompile Include="src\IsoEngine\LayerStack.cpp" />
   </ItemGroup>
 </Project>
