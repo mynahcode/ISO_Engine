@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <mutex>
 #include <ctime>
+#include <stdlib.h>
+#include <stdarg.h>
 
 /* C++ Data Structures */
 #include <string>

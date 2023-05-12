@@ -12,7 +12,7 @@ namespace IE
 	static void GLFWErrorCallback(int error, const char* desc)
 	{
 		// TODO: Fix ISOLOGGER error logs AFTER refactoring IsoLogger.h
-		ISOLOGGER_CRITICAL("GLFW Callback Error");
+		ISOLOGGER_CRITICAL("GLFW Callback Error (Code: %)", error);
 	}
 
 	Window* Window::Create(const WindowProps& props)
@@ -36,7 +36,7 @@ namespace IE
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		ISOLOGGER_INFO("Event: Creating Window", props.Title.c_str(), props.Width, props.Height);
+		ISOLOGGER_INFO("Creating Window % with dimensions (%, %).", props.Title.c_str(), props.Width, props.Height);
 
 		if (!s_GLFWInitialized)
 		{

@@ -44,10 +44,10 @@ namespace IE
 
 	void Application::OnEvent(Event& ev)
 	{
+
+		ISOLOGGER_INFO("%", ev);
 		EventDispatcher dispatcher(ev);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-
-		ISOLOGGER_TRACE("Event Running % \n");
 
 		for (auto iter = m_LayerStack.end(); iter != m_LayerStack.begin(); )
 		{

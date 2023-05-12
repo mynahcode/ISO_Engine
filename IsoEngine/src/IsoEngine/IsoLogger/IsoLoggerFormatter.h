@@ -6,28 +6,26 @@ namespace IE
     class IsoLoggerFormatter
     {
     public:
-        // Log_Recursive wrapper that creates the ostringstream
-        template<typename... Args>
-        static void IsoLoggerWrapper(int line, const char* file, const char* log_msg, const Args&... args)
+
+        static inline std::ostream& IsoLoggerRecursive(std::ostream& log_out, const char* log_msg)
         {
-            std::ostringstream log_out;
-            log_out << log_msg;
-            IsoLoggerRecursive(line, file, log_out, args...);
+            return log_out << log_msg;
         }
 
         // "Recursive" variadic function
-        template<typename T, typename... Args>
-        static void IsoLoggerRecursive(int line, const char* file, std::ostringstream& log_out,
-            T value, const Args&... args)
+        template<typename First, typename... Args>
+        static inline std::ostream& IsoLoggerRecursive(std::ostream& log_out, const char* log_msg, First&& first, Args&&... args)
         {
-            log_out << value;
-            IsoLoggerRecursive(line, file, log_out, args...);
-        }
+            while (*log_msg)
+            {
+                if (*log_msg == '%')
+                {
+                    return IsoLoggerRecursive(log_out << std::forward<First>(first), ++log_msg, std::forward<Args>(args)...);
+                }
+                log_out << *log_msg++;
+            }
 
-        // Terminator
-        static void IsoLoggerRecursive(int line, const char* file, std::ostringstream& log_out)
-        {
-            std::cout << log_out.str() << " - " << file << " (On line " << line << ")" << std::endl;
+            return log_out;
         }
     };
 }
