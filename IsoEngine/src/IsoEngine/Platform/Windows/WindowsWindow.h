@@ -1,8 +1,9 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
 #include "IsoEngine/IsoMacros.h"
 #include "IsoEngine/Window.h"
+
+struct GLFWwindow;
 
 namespace IE
 {

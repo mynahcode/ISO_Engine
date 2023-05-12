@@ -2,6 +2,8 @@
 #include "IsoEngine/Application.h"
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
 namespace IE 
 {

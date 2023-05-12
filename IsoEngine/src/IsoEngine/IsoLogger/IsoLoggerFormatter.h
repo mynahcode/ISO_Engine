@@ -7,12 +7,13 @@ namespace IE
     {
     public:
 
+        // Base IsoLoggerFormatter function to be overriden by Variadic Function
         static inline std::ostream& IsoLoggerRecursive(std::ostream& log_out, const char* log_msg)
         {
             return log_out << log_msg;
         }
 
-        // "Recursive" variadic function
+        // "Recursive" variadic function -- hacky solution to iterate through arbitrary amount of __VA_ARGS__ passed to logging function
         template<typename First, typename... Args>
         static inline std::ostream& IsoLoggerRecursive(std::ostream& log_out, const char* log_msg, First&& first, Args&&... args)
         {

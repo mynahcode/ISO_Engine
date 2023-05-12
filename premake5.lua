@@ -18,8 +18,10 @@ workspace "IsoEngine"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 	
 IncludeDir = {}
+IncludeDir["GLAD"] = "IsoEngine/Vendor/GLAD/include"
 IncludeDir["GLFW"] = "IsoEngine/Vendor/GLFW/include"
 
+include "IsoEngine/Vendor/GLAD"
 include "IsoEngine/Vendor/GLFW"
 
 project "IsoEngine"
@@ -50,12 +52,14 @@ project "IsoEngine"
 
 	includedirs
 	{
-		"./IsoEngine/src",
+		"IsoEngine/src",
+		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.GLFW}"
 	}
 
 	links
 	{
+		"GLAD",
 		"GLFW",
 		"opengl32.lib"
 	}
@@ -66,8 +70,7 @@ project "IsoEngine"
 		defines
 		{
 			"_IE_PLATFORM_WINDOWS",
-			"IE_BUILD_DLL",
-			"FMT_HEADER_ONLY"
+			"IE_BUILD_DLL"
 		}
 
 		postbuildcommands

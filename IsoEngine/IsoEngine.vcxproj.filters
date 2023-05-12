@@ -40,6 +40,9 @@
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h">
       <Filter>IsoEngine\IsoLogger</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerFormatter.h">
+      <Filter>IsoEngine\IsoLogger</Filter>
+    </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerUtilities.h">
       <Filter>IsoEngine\IsoLogger</Filter>
     </ClInclude>
@@ -59,7 +62,6 @@
       <Filter>IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\iepch.h" />
-    <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerFormatter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">

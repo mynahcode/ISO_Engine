@@ -5,6 +5,9 @@
 #include "IsoEngine/Events/KeyEvent.h"
 #include "IsoEngine/Events/ApplicationEvent.h"
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 namespace IE
 {
 	static bool s_GLFWInitialized = false;
@@ -54,6 +57,8 @@ namespace IE
 			Shutdown();
 		}
 		glfwMakeContextCurrent(m_Window);
+		int glad_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		// IE_CORE_ASSERT(glad_status, "Failed to initialize Glad!");
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
