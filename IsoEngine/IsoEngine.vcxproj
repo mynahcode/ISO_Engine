@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>iepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;IE_ENABLE_ASSERTS;_IE_PLATFORM_WINDOWS;IE_BUILD_DLL;IE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -105,7 +105,7 @@
       <PrecompiledHeaderFile>iepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;IE_ENABLE_ASSERTS;_IE_PLATFORM_WINDOWS;IE_BUILD_DLL;IE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -133,7 +133,7 @@
       <PrecompiledHeaderFile>iepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;IE_ENABLE_ASSERTS;_IE_PLATFORM_WINDOWS;IE_BUILD_DLL;IE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -163,20 +163,24 @@
     <ClInclude Include="src\IsoEngine\Events\Event.h" />
     <ClInclude Include="src\IsoEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\IsoEngine\Events\MouseEvent.h" />
+    <ClInclude Include="src\IsoEngine\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h" />
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerFormatter.h" />
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerUtilities.h" />
     <ClInclude Include="src\IsoEngine\IsoMacros.h" />
     <ClInclude Include="src\IsoEngine\Layer.h" />
     <ClInclude Include="src\IsoEngine\LayerStack.h" />
+    <ClInclude Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\IsoEngine\Window.h" />
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp" />
+    <ClCompile Include="src\IsoEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\IsoEngine\Layer.cpp" />
     <ClCompile Include="src\IsoEngine\LayerStack.cpp" />
+    <ClCompile Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\iepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

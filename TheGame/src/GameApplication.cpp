@@ -25,7 +25,8 @@ class TheGame : public IE::Application
 public:
 	TheGame()
 	{
-
+		PushLayer(new TestLayer());
+		PushOverlay(new IE::ImGuiLayer());
 	}
 
 	~TheGame()

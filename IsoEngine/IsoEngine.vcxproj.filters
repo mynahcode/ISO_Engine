@@ -7,11 +7,17 @@
     <Filter Include="IsoEngine\Events">
       <UniqueIdentifier>{EAF09B0F-D6E9-BA61-FF1B-A0E6EB739A6D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IsoEngine\ImGui">
+      <UniqueIdentifier>{7031576D-DCBC-C431-E5CD-472651D82032}</UniqueIdentifier>
+    </Filter>
     <Filter Include="IsoEngine\IsoLogger">
       <UniqueIdentifier>{C0341AF1-2C96-F7FE-B503-3EB121642EBE}</UniqueIdentifier>
     </Filter>
     <Filter Include="IsoEngine\Platform">
       <UniqueIdentifier>{DADA7982-C6BE-3AD8-2F1F-352B1B22255A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IsoEngine\Platform\OpenGL">
+      <UniqueIdentifier>{CE8A0C02-3A4D-408C-83FD-CE18EFFE186A}</UniqueIdentifier>
     </Filter>
     <Filter Include="IsoEngine\Platform\Windows">
       <UniqueIdentifier>{14BFB99B-00CF-656C-6988-CA8A55B75405}</UniqueIdentifier>
@@ -37,6 +43,9 @@
     <ClInclude Include="src\IsoEngine\Events\MouseEvent.h">
       <Filter>IsoEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\ImGui\ImGuiLayer.h">
+      <Filter>IsoEngine\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h">
       <Filter>IsoEngine\IsoLogger</Filter>
     </ClInclude>
@@ -55,6 +64,9 @@
     <ClInclude Include="src\IsoEngine\LayerStack.h">
       <Filter>IsoEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>IsoEngine\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h">
       <Filter>IsoEngine\Platform\Windows</Filter>
     </ClInclude>
@@ -67,11 +79,17 @@
     <ClCompile Include="src\IsoEngine\Application.cpp">
       <Filter>IsoEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\ImGui\ImGuiLayer.cpp">
+      <Filter>IsoEngine\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="src\IsoEngine\Layer.cpp">
       <Filter>IsoEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\LayerStack.cpp">
       <Filter>IsoEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>IsoEngine\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp">
       <Filter>IsoEngine\Platform\Windows</Filter>

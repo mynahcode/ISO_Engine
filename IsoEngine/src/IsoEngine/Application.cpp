@@ -11,8 +11,13 @@ namespace IE
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 	/* Application is implemented as a Singleton. */
+
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application()
 	{
+		s_Instance = this; // Singleton gets set when we construct the IsoEngine Application and should only be one.
+
 		m_Window = std::unique_ptr<Window>(Window::Create()); // explicit constructor
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 	}
@@ -37,11 +42,13 @@ namespace IE
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
 		m_LayerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
 	void Application::OnEvent(Event& ev)
