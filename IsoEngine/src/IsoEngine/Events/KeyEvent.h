@@ -53,9 +53,6 @@ namespace IE
 		}
 
 		EVENT_CLASS_TYPE(KeyReleased)
-
-	private:
-		int keycode;
 	};
 
 	class KeyTypedEvent : public KeyEvent
@@ -67,7 +64,7 @@ namespace IE
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyReleasedEvent: " << m_KeyCode;
+			ss << "KeyTypedEvent: " << m_KeyCode;
 			return ss.str();
 		}
 

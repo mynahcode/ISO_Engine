@@ -1,13 +1,19 @@
 #include "iepch.h"
 #include "ImGuiLayer.h"
+#include "IsoEngine/IsoMacros.h"
 
 #include "IsoEngine/Application.h"
 #include "GLFW/glfw3.h"
 #include "imgui.h"
 #include "IsoEngine/Platform/OpenGL/ImGuiOpenGLRenderer.h"
 
+// Temporary Includes
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+
 namespace IE
 {
+
 	/* Debug Layer that should always be drawn LAST. */
 	ImGuiLayer::ImGuiLayer()
 		:Layer("ImGuiLayer")
@@ -28,7 +34,7 @@ namespace IE
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
-        /* (TEMP) TODO: Replace with IsoEngine's KeyCodes */
+        /* (TEMP) TODO: Replace with IsoEngine's KeyCodes and MouseCodes */
         io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
         io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
         io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
@@ -165,8 +171,102 @@ namespace IE
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
+    /* IsoEngine ImGui Event Implementations */
 	void ImGuiLayer::OnEvent(Event& event)
 	{
+        // Check EventType and forward to correct OnEvent function.
+        EventDispatcher dispatcher(event);
+        dispatcher.Dispatch<MouseButtonPressedEvent>(IE_BIND_EVENT_FN(ImGuiLayer::OnMouseButtonPressedEvent));
+        dispatcher.Dispatch<MouseButtonReleasedEvent>(IE_BIND_EVENT_FN(ImGuiLayer::OnMouseButtonReleasedEvent));
+        dispatcher.Dispatch<MouseMovedEvent>(IE_BIND_EVENT_FN(ImGuiLayer::OnMouseMovedEvent));
+        dispatcher.Dispatch<MouseScrolledEvent>(IE_BIND_EVENT_FN(ImGuiLayer::OnMouseScrolledEvent));
+        dispatcher.Dispatch<KeyTypedEvent>(IE_BIND_EVENT_FN(ImGuiLayer::OnKeyTypedEvent));
+        dispatcher.Dispatch<KeyPressedEvent>(IE_BIND_EVENT_FN(ImGuiLayer::OnKeyPressedEvent));
+        dispatcher.Dispatch<KeyReleasedEvent>(IE_BIND_EVENT_FN(ImGuiLayer::OnKeyReleasedEvent));
+        dispatcher.Dispatch<WindowResizeEvent>(IE_BIND_EVENT_FN(ImGuiLayer::OnWindowResizeEvent));
 
+        // TODO: Implement Ctrl+C and Ctrl+V Events for ImGui
 	}
+    
+    /* IsoEngine Imgui Mouse Event Implementations */
+    bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& ev)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseDown[ev.GetMouseButton()] = true;
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& ev)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseDown[ev.GetMouseButton()] = false;
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& ev)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MousePos = ImVec2(ev.GetX(), ev.GetY());
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& ev)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseWheel += ev.GetXOffset(); // Horizontal
+        io.MouseWheel += ev.GetYOffset(); // Vertical
+
+        return false;
+    }
+
+    /* IsoEngine ImGui Key Event Implementations */
+    bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& ev)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+
+        // GLFW char Callback
+        int keycode = ev.GetKeyCode();
+        if (keycode > 0 && keycode < 0x10000)
+            io.AddInputCharacter( (unsigned short)keycode );
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& ev)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.KeysDown[ev.GetKeyCode()] = true;
+
+        // Set Potential Modifier Keys
+        io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+        io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+        io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+        io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER]; // Windows/Cmd/Super key
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& ev)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.KeysDown[ev.GetKeyCode()] = false;
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent& ev)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.DisplaySize = ImVec2(ev.GetWidth(), ev.GetHeight());
+        io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+
+        // Set Rendering Viewport
+        glViewport(0, 0, ev.GetWidth(), ev.GetHeight()); // naughty boy
+
+        return false;
+    }
+
 }

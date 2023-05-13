@@ -24,3 +24,6 @@
 
 /* Bit-Field for EventCategory Class*/
 #define BIT(x) (1 << x)
+
+/* Event Binding Function */
+#define IE_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)

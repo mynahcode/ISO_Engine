@@ -1,6 +1,5 @@
 #pragma once
 
-#include "IsoEngine/IsoMacros.h"
 #include "Window.h"
 #include "IsoEngine/LayerStack.h"
 #include "IsoEngine/Events/ApplicationEvent.h"

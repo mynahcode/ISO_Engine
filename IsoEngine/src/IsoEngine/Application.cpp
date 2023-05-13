@@ -1,4 +1,5 @@
 #include "iepch.h"
+#include "IsoEngine/IsoMacros.h"
 #include "IsoEngine/Application.h"
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 
@@ -7,9 +8,6 @@
 
 namespace IE 
 {
-
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 	/* Application is implemented as a Singleton. */
 
 	Application* Application::s_Instance = nullptr;
@@ -19,7 +17,7 @@ namespace IE
 		s_Instance = this; // Singleton gets set when we construct the IsoEngine Application and should only be one.
 
 		m_Window = std::unique_ptr<Window>(Window::Create()); // explicit constructor
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		m_Window->SetEventCallback(IE_BIND_EVENT_FN(Application::OnEvent));
 	}
 
 	Application::~Application()
@@ -56,7 +54,7 @@ namespace IE
 
 		ISOLOGGER_INFO("%", ev);
 		EventDispatcher dispatcher(ev);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<WindowCloseEvent>(IE_BIND_EVENT_FN(Application::OnWindowClose));
 
 		for (auto iter = m_LayerStack.end(); iter != m_LayerStack.begin(); )
 		{
