@@ -153,6 +153,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\IsoEngine\input.h" />
     <ClInclude Include="src\IsoEngine.h" />
     <ClInclude Include="src\IsoEngine\Application.h" />
     <ClInclude Include="src\IsoEngine\EntryPoint.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="src\IsoEngine\Layer.h" />
     <ClInclude Include="src\IsoEngine\LayerStack.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
+    <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\IsoEngine\Window.h" />
     <ClInclude Include="src\iepch.h" />
@@ -178,6 +180,7 @@
     <ClCompile Include="src\IsoEngine\Layer.cpp" />
     <ClCompile Include="src\IsoEngine\LayerStack.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
+    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\iepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

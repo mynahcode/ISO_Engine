@@ -1,6 +1,7 @@
 #include "iepch.h"
 #include "IsoEngine/IsoMacros.h"
 #include "IsoEngine/Application.h"
+#include "input.h"
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 
 #include <gl/GL.h>
@@ -32,6 +33,9 @@ namespace IE
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			auto [x, y] = Input::GetMousePos();
+			ISOLOGGER_INFO("<%, %>", x, y);
 
 			m_Window->OnUpdate();
 		}

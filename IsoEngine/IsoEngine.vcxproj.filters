@@ -74,6 +74,8 @@
       <Filter>IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\iepch.h" />
+    <ClInclude Include="src\IsoEngine\input.h" />
+    <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">
@@ -95,5 +97,6 @@
       <Filter>IsoEngine\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\iepch.cpp" />
+    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

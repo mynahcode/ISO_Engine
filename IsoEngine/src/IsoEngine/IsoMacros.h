@@ -12,6 +12,11 @@
 
 /* Debug Assertions */
 // TODO: Fix Asserts
+
+#ifdef IE_DEBUG_MODE
+	#define IE_ENABLE_ASSERTS
+#endif
+
 /*
 #ifdef IE_ENABLE_ASSERTS
 	#define IE_APPLICATION_ASSERT(x, ...) { if(!(x)) {ISOLOGGER_FATAL(("IsoEngine Application Assertion Failed:", x, __VA_ARGS__); __debugbreak(); } }  // _debugbreak() is Windows OS only.

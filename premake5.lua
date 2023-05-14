@@ -50,7 +50,7 @@ project "IsoEngine"
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"GLFW_INCLUDE_NONE",
-		"IE_ENABLE_ASSERTS"
+		"IE_DEBUG_MODE"
 	}
 
 	includedirs
@@ -123,7 +123,7 @@ project "TheGame"
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
-		"IE_ENABLE_ASSERTS",
+		"IE_DEBUG_MODE",
 		"FMT_HEADER_ONLY"
 	}
 
