@@ -74,8 +74,10 @@
       <Filter>IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\iepch.h" />
-    <ClInclude Include="src\IsoEngine\input.h" />
+    <ClInclude Include="src\IsoEngine\Input.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\IsoEngine\KeyCodes.h" />
+    <ClInclude Include="src\IsoEngine\MouseCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">

@@ -34,8 +34,8 @@ namespace IE
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
-			auto [x, y] = Input::GetMousePos();
-			ISOLOGGER_INFO("<%, %>", x, y);
+			//auto [x, y] = Input::GetMousePos();
+			//ISOLOGGER_INFO("<%, %>", x, y);
 
 			m_Window->OnUpdate();
 		}
@@ -56,7 +56,7 @@ namespace IE
 	void Application::OnEvent(Event& ev)
 	{
 
-		ISOLOGGER_INFO("%", ev);
+		//ISOLOGGER_INFO("%", ev);
 		EventDispatcher dispatcher(ev);
 		dispatcher.Dispatch<WindowCloseEvent>(IE_BIND_EVENT_FN(Application::OnWindowClose));
 

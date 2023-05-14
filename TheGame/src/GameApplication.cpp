@@ -10,11 +10,24 @@ public:
 
 	void OnUpdate() override
 	{
-
+		
+		//ISOLOGGER_INFO("TestLayer::Update() called");
+		
+		if (IE::Input::IsKeyPressed(IE_KEY_TAB))
+			ISOLOGGER_INFO("[Client]: Tab Key is Pressed! (POLL)");
+		
 	}
 
-	void OnEvent(IE::Event& event) override
+	void OnEvent(IE::Event& ev) override
 	{
+		
+		if (ev.GetEventType() == IE::EventType::KeyPressed)
+		{
+			IE::KeyPressedEvent& event = (IE::KeyPressedEvent&)ev;
+			if(event.GetKeyCode() == IE_KEY_TAB)
+				ISOLOGGER_INFO("Tab key is pressed! (EVENT)");
+			ISOLOGGER_INFO("KeyCode Char: %", (char)event.GetKeyCode());
+		}
 		
 	}
 

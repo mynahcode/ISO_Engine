@@ -153,7 +153,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\IsoEngine\input.h" />
+    <ClInclude Include="src\IsoEngine\Input.h" />
     <ClInclude Include="src\IsoEngine.h" />
     <ClInclude Include="src\IsoEngine\Application.h" />
     <ClInclude Include="src\IsoEngine\EntryPoint.h" />
@@ -166,8 +166,10 @@
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerFormatter.h" />
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerUtilities.h" />
     <ClInclude Include="src\IsoEngine\IsoMacros.h" />
+    <ClInclude Include="src\IsoEngine\KeyCodes.h" />
     <ClInclude Include="src\IsoEngine\Layer.h" />
     <ClInclude Include="src\IsoEngine\LayerStack.h" />
+    <ClInclude Include="src\IsoEngine\MouseCodes.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />

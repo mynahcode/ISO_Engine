@@ -2,13 +2,13 @@
 
 #include "IsoEngine/IsoMacros.h"
 
-/* Global Input Manager -- Singleton */
+/* Global Input Polling Manager -- Singleton */
 namespace IE
 {
 	class IsoEngine_API Input
 	{
 	public:
-		inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode);  }
+		inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode);  } // TODO: Add IsoEngine's own keycodes so it can be platform independent.
 
 		inline static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
 		inline static std::pair<float, float> GetMousePos() { return s_Instance->GetMousePosImpl(); }
