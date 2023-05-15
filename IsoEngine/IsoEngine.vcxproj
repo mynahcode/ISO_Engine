@@ -79,8 +79,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>iepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;IE_ENABLE_ASSERTS;_IE_PLATFORM_WINDOWS;IE_BUILD_DLL;IE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;FMT_HEADER_ONLY;IE_DEBUG_MODE;_IE_PLATFORM_WINDOWS;IE_BUILD_DLL;IE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;Vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -103,8 +103,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>iepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;IE_ENABLE_ASSERTS;_IE_PLATFORM_WINDOWS;IE_BUILD_DLL;IE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;FMT_HEADER_ONLY;IE_DEBUG_MODE;_IE_PLATFORM_WINDOWS;IE_BUILD_DLL;IE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;Vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -130,8 +130,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>iepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;IE_ENABLE_ASSERTS;_IE_PLATFORM_WINDOWS;IE_BUILD_DLL;IE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;FMT_HEADER_ONLY;IE_DEBUG_MODE;_IE_PLATFORM_WINDOWS;IE_BUILD_DLL;IE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;Vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -153,7 +153,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\IsoEngine\Input.h" />
     <ClInclude Include="src\IsoEngine.h" />
     <ClInclude Include="src\IsoEngine\Application.h" />
     <ClInclude Include="src\IsoEngine\EntryPoint.h" />
@@ -162,6 +161,7 @@
     <ClInclude Include="src\IsoEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\IsoEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\IsoEngine\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\IsoEngine\Input.h" />
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h" />
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerFormatter.h" />
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerUtilities.h" />
@@ -187,6 +187,9 @@
     <ClCompile Include="src\iepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Vendor\glm\glm" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Vendor\GLAD\GLAD.vcxproj">

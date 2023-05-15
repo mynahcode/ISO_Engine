@@ -7,6 +7,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
+
 namespace IE 
 {
 	/* Application is implemented as a Singleton. */

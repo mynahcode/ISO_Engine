@@ -21,6 +21,8 @@ IncludeDir = {}
 IncludeDir["GLAD"] = "IsoEngine/Vendor/GLAD/include"
 IncludeDir["GLFW"] = "IsoEngine/Vendor/GLFW/include"
 IncludeDir["ImGui"] = "IsoEngine/Vendor/imgui"
+IncludeDir["glm"] = "IsoEngine/Vendor/glm"
+--IncludeDir["fmt"] = "IsoEngine/Vendor/fmt"
 
 
 include "IsoEngine/Vendor/GLAD"
@@ -43,13 +45,16 @@ project "IsoEngine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/Vendor/glm/glm",
+		--"%{prj.name}/Vendor/fmt/include/fmt/**.h"
 	}
 
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"GLFW_INCLUDE_NONE",
+		"FMT_HEADER_ONLY",
 		"IE_DEBUG_MODE"
 	}
 
@@ -58,7 +63,9 @@ project "IsoEngine"
 		"IsoEngine/src",
 		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
+		--"%{IncludeDir.fmt}"
 	}
 
 	links
@@ -117,7 +124,8 @@ project "TheGame"
 
 	includedirs
 	{
-		"IsoEngine/src"
+		"IsoEngine/src",
+		"%{IncludeDir.glm}"
 	}
 
 	defines

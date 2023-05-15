@@ -1,104 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="IsoEngine">
-      <UniqueIdentifier>{C67FA054-32EA-54CB-7B28-0671E7D13220}</UniqueIdentifier>
+    <Filter Include="Vendor">
+      <UniqueIdentifier>{935FDCD7-7F01-07AE-68BC-1A0254FD8DFE}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IsoEngine\Events">
-      <UniqueIdentifier>{EAF09B0F-D6E9-BA61-FF1B-A0E6EB739A6D}</UniqueIdentifier>
+    <Filter Include="Vendor\glm">
+      <UniqueIdentifier>{627B7327-4E33-B574-B73A-8ED0A3115065}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IsoEngine\ImGui">
-      <UniqueIdentifier>{7031576D-DCBC-C431-E5CD-472651D82032}</UniqueIdentifier>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IsoEngine\IsoLogger">
-      <UniqueIdentifier>{C0341AF1-2C96-F7FE-B503-3EB121642EBE}</UniqueIdentifier>
+    <Filter Include="src\IsoEngine">
+      <UniqueIdentifier>{9DE15A94-09A2-D6CA-D2DC-1F483E5C1BA7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IsoEngine\Platform">
-      <UniqueIdentifier>{DADA7982-C6BE-3AD8-2F1F-352B1B22255A}</UniqueIdentifier>
+    <Filter Include="src\IsoEngine\Events">
+      <UniqueIdentifier>{E1FA0877-CD89-9240-76A8-A63B6216A3E6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IsoEngine\Platform\OpenGL">
-      <UniqueIdentifier>{CE8A0C02-3A4D-408C-83FD-CE18EFFE186A}</UniqueIdentifier>
+    <Filter Include="src\IsoEngine\ImGui">
+      <UniqueIdentifier>{8758BF87-F3B9-9C95-7C27-E347E887D354}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IsoEngine\Platform\Windows">
-      <UniqueIdentifier>{14BFB99B-00CF-656C-6988-CA8A55B75405}</UniqueIdentifier>
+    <Filter Include="src\IsoEngine\IsoLogger">
+      <UniqueIdentifier>{570FDEC2-C346-265A-CC50-8A7D38074D53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\IsoEngine\Platform">
+      <UniqueIdentifier>{913E5179-7D38-7ACB-66A5-10DC523EE037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\IsoEngine\Platform\OpenGL">
+      <UniqueIdentifier>{A5BA6559-11D3-4C83-DA7F-DC1C4657E11C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\IsoEngine\Platform\Windows">
+      <UniqueIdentifier>{CBE938DE-B70F-0345-A055-88108C1A2811}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\IsoEngine.h" />
+    <ClInclude Include="src\IsoEngine.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\IsoEngine\Application.h">
-      <Filter>IsoEngine</Filter>
+      <Filter>src\IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\EntryPoint.h">
-      <Filter>IsoEngine</Filter>
+      <Filter>src\IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Events\ApplicationEvent.h">
-      <Filter>IsoEngine\Events</Filter>
+      <Filter>src\IsoEngine\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Events\Event.h">
-      <Filter>IsoEngine\Events</Filter>
+      <Filter>src\IsoEngine\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Events\KeyEvent.h">
-      <Filter>IsoEngine\Events</Filter>
+      <Filter>src\IsoEngine\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Events\MouseEvent.h">
-      <Filter>IsoEngine\Events</Filter>
+      <Filter>src\IsoEngine\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\ImGui\ImGuiLayer.h">
-      <Filter>IsoEngine\ImGui</Filter>
+      <Filter>src\IsoEngine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Input.h">
+      <Filter>src\IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h">
-      <Filter>IsoEngine\IsoLogger</Filter>
+      <Filter>src\IsoEngine\IsoLogger</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerFormatter.h">
-      <Filter>IsoEngine\IsoLogger</Filter>
+      <Filter>src\IsoEngine\IsoLogger</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerUtilities.h">
-      <Filter>IsoEngine\IsoLogger</Filter>
+      <Filter>src\IsoEngine\IsoLogger</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoMacros.h">
-      <Filter>IsoEngine</Filter>
+      <Filter>src\IsoEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\KeyCodes.h">
+      <Filter>src\IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Layer.h">
-      <Filter>IsoEngine</Filter>
+      <Filter>src\IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\LayerStack.h">
-      <Filter>IsoEngine</Filter>
+      <Filter>src\IsoEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\MouseCodes.h">
+      <Filter>src\IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.h">
-      <Filter>IsoEngine\Platform\OpenGL</Filter>
+      <Filter>src\IsoEngine\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h">
+      <Filter>src\IsoEngine\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h">
-      <Filter>IsoEngine\Platform\Windows</Filter>
+      <Filter>src\IsoEngine\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Window.h">
-      <Filter>IsoEngine</Filter>
+      <Filter>src\IsoEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\iepch.h" />
-    <ClInclude Include="src\IsoEngine\Input.h" />
-    <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
-    <ClInclude Include="src\IsoEngine\KeyCodes.h" />
-    <ClInclude Include="src\IsoEngine\MouseCodes.h" />
+    <ClInclude Include="src\iepch.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">
-      <Filter>IsoEngine</Filter>
+      <Filter>src\IsoEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\ImGui\ImGuiLayer.cpp">
-      <Filter>IsoEngine\ImGui</Filter>
+      <Filter>src\IsoEngine\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Layer.cpp">
-      <Filter>IsoEngine</Filter>
+      <Filter>src\IsoEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\LayerStack.cpp">
-      <Filter>IsoEngine</Filter>
+      <Filter>src\IsoEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
-      <Filter>IsoEngine\Platform\OpenGL</Filter>
+      <Filter>src\IsoEngine\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp">
+      <Filter>src\IsoEngine\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp">
-      <Filter>IsoEngine\Platform\Windows</Filter>
+      <Filter>src\IsoEngine\Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\iepch.cpp" />
-    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\iepch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Vendor\glm\glm">
+      <Filter>Vendor\glm</Filter>
+    </None>
   </ItemGroup>
 </Project>
