@@ -13,7 +13,7 @@
 namespace IE 
 {
 
-	class IsoEngine_API Application // export here, in game include.
+	class Application // export here, in game include.
 	{
 	public:
 		Application();

@@ -5,7 +5,7 @@
 /* Global Input Polling Manager -- Singleton */
 namespace IE
 {
-	class IsoEngine_API Input
+	class Input
 	{
 	public:
 		inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode);  } // TODO: Add IsoEngine's own keycodes so it can be platform independent.

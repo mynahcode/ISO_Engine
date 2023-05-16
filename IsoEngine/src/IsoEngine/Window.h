@@ -20,7 +20,7 @@ namespace IE
 	};
 
 	/* Abstract Interface Representing a desktop system based Window */
-	class IsoEngine_API Window
+	class Window
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;

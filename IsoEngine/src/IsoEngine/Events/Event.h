@@ -32,7 +32,7 @@ namespace IE
 
 #define EVENT_CLASS_CATEGORY(ev_category) virtual int GetCategoryFlags() const override { return ev_category; }
 
-	class IsoEngine_API Event
+	class Event
 	{
 		friend class EventDispatcher;
 

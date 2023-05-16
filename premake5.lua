@@ -31,10 +31,10 @@ include "IsoEngine/Vendor/ImGui"
 
 project "IsoEngine"
 	location "IsoEngine"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "off" 
+	staticruntime "on" 
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}") 
 	objdir ("obj/" .. outputdir .. "/%{prj.name}") 
@@ -86,33 +86,28 @@ project "IsoEngine"
 			"IE_BUILD_DLL"
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .."/TheGame")
-		}
-
 	filter "configurations:Debug"
 		defines "IE_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 		
 	filter "configurations:Release"
 		defines "IE_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 		
 	filter "configurations:Dist"
 		defines "IE_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "TheGame"
 	location "TheGame"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "off"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("obj/" .. outputdir .. "/%{prj.name}") 
@@ -153,15 +148,15 @@ project "TheGame"
 	filter "configurations:Debug"
 		defines "IE_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 		
 	filter "configurations:Release"
 		defines "IE_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 		
 	filter "configurations:Dist"
 		defines "IE_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"

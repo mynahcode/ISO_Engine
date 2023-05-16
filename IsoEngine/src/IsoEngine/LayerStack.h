@@ -7,7 +7,7 @@
 
 namespace IE
 {
-	class IsoEngine_API LayerStack
+	class LayerStack
 	{
 	public:
 		LayerStack();

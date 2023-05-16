@@ -7,7 +7,7 @@ struct GLFWwindow;
 
 namespace IE
 {
-	class IsoEngine_API WindowsWindow : public Window
+	class WindowsWindow : public Window
 	{
 		/* Public Functions and Methods*/
 	public:
