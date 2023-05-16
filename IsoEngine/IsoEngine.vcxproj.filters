@@ -25,9 +25,6 @@
     <Filter Include="src\IsoEngine\Platform">
       <UniqueIdentifier>{913E5179-7D38-7ACB-66A5-10DC523EE037}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\IsoEngine\Platform\OpenGL">
-      <UniqueIdentifier>{A5BA6559-11D3-4C83-DA7F-DC1C4657E11C}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\IsoEngine\Platform\Windows">
       <UniqueIdentifier>{CBE938DE-B70F-0345-A055-88108C1A2811}</UniqueIdentifier>
     </Filter>
@@ -84,9 +81,6 @@
     <ClInclude Include="src\IsoEngine\MouseCodes.h">
       <Filter>src\IsoEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.h">
-      <Filter>src\IsoEngine\Platform\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h">
       <Filter>src\IsoEngine\Platform\Windows</Filter>
     </ClInclude>
@@ -104,6 +98,9 @@
     <ClCompile Include="src\IsoEngine\Application.cpp">
       <Filter>src\IsoEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\ImGui\ImGuiBuild.cpp">
+      <Filter>src\IsoEngine\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="src\IsoEngine\ImGui\ImGuiLayer.cpp">
       <Filter>src\IsoEngine\ImGui</Filter>
     </ClCompile>
@@ -112,9 +109,6 @@
     </ClCompile>
     <ClCompile Include="src\IsoEngine\LayerStack.cpp">
       <Filter>src\IsoEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IsoEngine\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
-      <Filter>src\IsoEngine\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp">
       <Filter>src\IsoEngine\Platform\Windows</Filter>

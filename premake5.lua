@@ -55,7 +55,8 @@ project "IsoEngine"
 		"_CRT_SECURE_NO_WARNINGS",
 		"GLFW_INCLUDE_NONE",
 		"FMT_HEADER_ONLY",
-		"IE_DEBUG_MODE"
+		"IE_DEBUG_MODE",
+		"IMGUI_API=__declspec(dllexport)" 
 	}
 
 	includedirs
@@ -125,7 +126,8 @@ project "TheGame"
 	includedirs
 	{
 		"IsoEngine/src",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"IsoEngine/Vendor"
 	}
 
 	defines

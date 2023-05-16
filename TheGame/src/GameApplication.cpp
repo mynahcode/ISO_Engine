@@ -1,5 +1,7 @@
 #include <IsoEngine.h>
 
+#include "imgui/imgui.h"
+
 class TestLayer : public IE::Layer
 {
 public:
@@ -16,6 +18,13 @@ public:
 		if (IE::Input::IsKeyPressed(IE_KEY_TAB))
 			ISOLOGGER_INFO("[Client]: Tab Key is Pressed! (POLL)");
 		
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World!");
+		ImGui::End();
 	}
 
 	void OnEvent(IE::Event& ev) override
@@ -39,7 +48,6 @@ public:
 	TheGame()
 	{
 		PushLayer(new TestLayer());
-		PushOverlay(new IE::ImGuiLayer());
 	}
 
 	~TheGame()

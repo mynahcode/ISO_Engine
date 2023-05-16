@@ -1,8 +1,13 @@
 #pragma once
 
+#include "IsoMacros.h"
+
 #include "Window.h"
 #include "IsoEngine/LayerStack.h"
+#include "IsoEngine/Events/Event.h"
 #include "IsoEngine/Events/ApplicationEvent.h"
+
+#include "IsoEngine/ImGui/ImGuiLayer.h"
 
 
 namespace IE 
@@ -29,6 +34,7 @@ namespace IE
 		bool OnWindowClose(WindowCloseEvent& ev);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_IsRunning = true;
 		LayerStack m_LayerStack;
 

@@ -15,26 +15,13 @@ namespace IE
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		virtual void OnAttach();
-		virtual void OnDetach();
-		virtual void OnUpdate();
-		virtual void OnEvent(Event& event);
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
+		virtual void OnImGuiRender() override;
+		void Begin();
+		void End();
 
 	private:
-		/* IsoEngine ImGui Mouse Events */
-		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& ev);
-		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& ev);
-		bool OnMouseMovedEvent(MouseMovedEvent& ev);
-		bool OnMouseScrolledEvent(MouseScrolledEvent& ev);
-
-		/* IsoEngine ImGui Key Events */
-		bool OnKeyTypedEvent(KeyTypedEvent& ev);
-		bool OnKeyPressedEvent(KeyPressedEvent& ev);
-		bool OnKeyReleasedEvent(KeyReleasedEvent& ev);
-
-		/* IsoEngine ImGui Window Events */
-		bool OnWindowResizeEvent(WindowResizeEvent& ev);
-
 		float m_Time = 0.0f;
 	};
 }
