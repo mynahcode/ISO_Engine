@@ -4,9 +4,7 @@
 #include "IsoEngine/Events/MouseEvent.h"
 #include "IsoEngine/Events/KeyEvent.h"
 #include "IsoEngine/Events/ApplicationEvent.h"
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "IsoEngine/Platform/OpenGL/OpenGLContext.h"
 
 namespace IE
 {
@@ -56,9 +54,11 @@ namespace IE
 			ISOLOGGER_FATAL("Failed to create GLFW Window in WindowsWindow.cpp!");
 			Shutdown();
 		}
-		glfwMakeContextCurrent(m_Window);
-		int glad_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		// IE_CORE_ASSERT(glad_status, "Failed to initialize Glad!");
+
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
@@ -161,7 +161,7 @@ namespace IE
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

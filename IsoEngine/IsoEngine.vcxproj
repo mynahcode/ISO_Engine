@@ -161,8 +161,10 @@
     <ClInclude Include="src\IsoEngine\Layer.h" />
     <ClInclude Include="src\IsoEngine\LayerStack.h" />
     <ClInclude Include="src\IsoEngine\MouseCodes.h" />
+    <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\IsoEngine\Window.h" />
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
@@ -172,6 +174,7 @@
     <ClCompile Include="src\IsoEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\IsoEngine\Layer.cpp" />
     <ClCompile Include="src\IsoEngine\LayerStack.cpp" />
+    <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\iepch.cpp">

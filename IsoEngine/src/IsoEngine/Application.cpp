@@ -4,7 +4,7 @@
 #include "input.h"
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 
-
+#include <gl/GL.h>
 
 namespace IE 
 {
