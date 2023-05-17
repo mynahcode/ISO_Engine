@@ -1,4 +1,5 @@
 #include "iepch.h"
+#include "IsoEngine/IsoLogger/IsoLogger.h"
 #include "OpenGLContext.h"
 
 #include <GLFW/glfw3.h>
@@ -18,6 +19,11 @@ namespace IE
 		glfwMakeContextCurrent(m_WindowHandle);
 		int glad_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		// IE_CORE_ASSERT(glad_status, "Failed to initialize Glad!");
+
+		ISOLOGGER_INFO("***OPENGL INFO***");
+		ISOLOGGER_INFO("Vendor: %", glGetString(GL_VENDOR));
+		ISOLOGGER_INFO("Renderer: %", glGetString(GL_RENDERER));
+		ISOLOGGER_INFO("Version: %", glGetString(GL_VERSION));
 	}
 
 	void OpenGLContext::SwapBuffers()
