@@ -16,7 +16,10 @@ public:
 		//ISOLOGGER_INFO("TestLayer::Update() called");
 		
 		if (IE::Input::IsKeyPressed(IE_KEY_TAB))
-			ISOLOGGER_INFO("[Client]: Tab Key is Pressed! (POLL)");
+		{
+			//IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::DEBUG);
+			//ISOLOGGER_INFO("[Client]: Tab Key is Pressed! (POLL)");
+		}
 		
 	}
 

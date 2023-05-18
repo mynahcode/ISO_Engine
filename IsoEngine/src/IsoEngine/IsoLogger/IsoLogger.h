@@ -2,7 +2,6 @@
 
 #include <string>
 #include "IsoLoggerFormatter.h"
-#include "IsoEngine/IsoMacros.h"
 
 // TODO: Refactor IsoLogger to add support for formatting __VA_ARGS__ vars into a string to output to console as part of log message.
 namespace IE
@@ -20,13 +19,13 @@ namespace IE
 		};
 
 		/* Re-factored to be a Singleton design pattern */
-		class IsoEngine_API IsoLogger
+		class IsoLogger
 		{
 
 		private:
 
 			/* Member Variable Initializations */
-			IELogger_Priority priority_level = IELogger_Priority::INFO;		// Default Priority Level
+			static IELogger_Priority priority_level;	// TODO: Store in a Static state
 			std::mutex logger_mutex;
 			const char* filepath = 0;
 			FILE* file;
@@ -189,7 +188,9 @@ namespace IE
 
 		public:
 
-			static void SetPriority(IELogger_Priority priority) 
+			inline static IELogger_Priority GetPriority() { return priority_level;  }
+
+			inline static void SetPriority(IELogger_Priority priority) 
 			{ 
 				get_InstanceIsoLogger().priority_level = priority; 
 			}
