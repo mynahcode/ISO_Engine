@@ -95,6 +95,7 @@
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">
@@ -122,6 +123,7 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\glm">

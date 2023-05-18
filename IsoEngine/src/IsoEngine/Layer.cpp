@@ -7,8 +7,4 @@ namespace IE
 		: m_DebugName(debug_name)
 	{
 	}
-
-	Layer::~Layer()
-	{
-	}
 }

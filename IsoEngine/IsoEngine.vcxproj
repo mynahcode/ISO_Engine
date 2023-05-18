@@ -165,6 +165,7 @@
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\IsoEngine\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Shader.h" />
     <ClInclude Include="src\IsoEngine\Window.h" />
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
@@ -180,6 +181,7 @@
     <ClCompile Include="src\iepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\Renderer\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\glm" />

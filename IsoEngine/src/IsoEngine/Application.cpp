@@ -61,11 +61,6 @@ namespace IE
 
 	}
 
-	Application::~Application()
-	{
-
-	}
-
 	void Application::Run()
 	{
 

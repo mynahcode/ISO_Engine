@@ -19,9 +19,6 @@ namespace IE
 	{
 	}
 
-	ImGuiLayer::~ImGuiLayer()
-	{
-	}
 
 	void ImGuiLayer::OnAttach()
 	{
