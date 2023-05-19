@@ -6,7 +6,6 @@
 
 #include <glad/glad.h>
 
-
 #define const int GL_COLOR_BUFFER_BIT = 0x00004000;
 
 namespace IE 
@@ -14,6 +13,24 @@ namespace IE
 	/* Application is implemented as a Singleton. */
 
 	Application* Application::s_Instance = nullptr;
+
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	{
+		switch(type)
+		{
+			case IE::ShaderDataType::Float:		return GL_FLOAT; 
+			case IE::ShaderDataType::Float2:	return GL_FLOAT;
+			case IE::ShaderDataType::Float3:	return GL_FLOAT;
+			case IE::ShaderDataType::Float4:	return GL_FLOAT;
+			case IE::ShaderDataType::Mat3:		return GL_FLOAT;
+			case IE::ShaderDataType::Mat4:		return GL_FLOAT;
+			case IE::ShaderDataType::Int:		return GL_INT;
+			case IE::ShaderDataType::Int2:		return GL_INT;
+			case IE::ShaderDataType::Int3:		return GL_INT;
+			case IE::ShaderDataType::Int4:		return GL_INT;
+			case IE::ShaderDataType::Bool:		return GL_BOOL;
+		}
+	}
 
 	Application::Application()
 	{
@@ -32,18 +49,39 @@ namespace IE
 		glBindVertexArray(m_VertexArray);
 
 		/* Populate w/ Vertex Data -- 3D Coordinates */
-		float vertices[3 * 3] =
-		{
-			-0.5f, -0.5f, 0.0f,							// Vertex 1 -- Z_coordinate = 0
-			0.5f, -0.5f, 0.0f,							// Vertex 2 -- Z_coordinate = 0
-			0.0f, 0.0f, 0.0f							// Vertex 3 -- Z_coordinate = 0
+		float vertices[3 * 7] = {
+			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,								// Vertex 1 -- Z_coordinate = 0 (0-2), Color (3-6)
+			0.5f, -0.5f, 0.0f, 0.2f, 0.0f, 0.8f, 1.0f,								// Vertex 2 -- Z_coordinate = 0
+			0.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f								// Vertex 3 -- Z_coordinate = 0
 		};
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-		/* Layout of Buffer */
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);	// Vertex attribute for shader, 3 floats, not normalized, stride (amt of bytes between vertices), offset attribute
+		{
+			BufferLayout layout = {
+				{ ShaderDataType::Float3, "a_Position"},				// 3-Component Float
+				{ ShaderDataType::Float4, "a_color"}
+			};
+
+			m_VertexBuffer->SetLayout(layout);
+		}
+
+		/* Iterate through every element in layout */
+		uint32_t vb_Index = 0;
+		auto& layout = m_VertexBuffer->GetLayout();
+		for (auto& element : layout)
+		{
+			/* Layout of Buffer */
+			glEnableVertexAttribArray(vb_Index);
+			glVertexAttribPointer(vb_Index, 
+				element.GetComponentCount(), 
+				ShaderDataTypeToOpenGLBaseType(element.Type), 
+				element.IsNormalized ? GL_TRUE : GL_FALSE, 
+				layout.GetStride(), 
+				(void*)element.Offset);
+
+			vb_Index++;
+		}
 
 		/* Create Element (Index) Buffer */
 		unsigned int indices[3] = { 0, 1, 2 };
@@ -53,12 +91,14 @@ namespace IE
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Color;
 
 			out vec3 v_Position;
-
+			out vec4 v_Color;
 			void main()
 			{
 				v_Position = a_Position;
+				v_Color = a_Color;
 				gl_Position = vec4(a_Position, 1.0);
 			}
 
@@ -70,10 +110,12 @@ namespace IE
 			layout(location = 0) in vec4 color;
 
 			in vec3 v_Position;
+			in vec4 v_Color;
 
 			void main()
 			{
 				color = vec4(v_Position* 0.5 + 0.5, 1.0);
+				color = v_color;
 			}
 
 		)";

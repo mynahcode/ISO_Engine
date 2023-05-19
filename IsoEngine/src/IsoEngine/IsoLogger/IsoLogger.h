@@ -25,7 +25,7 @@ namespace IE
 		private:
 
 			/* Member Variable Initializations */
-			static IELogger_Priority priority_level;	// TODO: Store in a Static state
+			static IELogger_Priority priority_level;
 			std::mutex logger_mutex;
 			const char* filepath = 0;
 			FILE* file;

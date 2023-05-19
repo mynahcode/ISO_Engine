@@ -3,5 +3,5 @@
 
 namespace IE
 {
-	IE::IELogger::IELogger_Priority IELogger::IsoLogger::priority_level = IELogger::IELogger_Priority::INFO;
+	IELogger::IELogger_Priority IELogger::IsoLogger::priority_level = IELogger::IELogger_Priority::INFO;
 }
