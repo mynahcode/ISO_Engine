@@ -12,12 +12,12 @@ namespace IE
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None:
-			//IE_CORE_ASSERT(false, "RenderAPI::None is currently not supported!");
-			return nullptr;
+			case RendererAPI::API::None:
+				//IE_CORE_ASSERT(false, "RenderAPI::None is currently not supported!");
+				return nullptr;
 
-		case RendererAPI::OpenGL:
-			return new OpenGLVertexArray();
+			case RendererAPI::API::OpenGL:
+				return new OpenGLVertexArray();
 		}
 
 		//IE_CORE_ASSERT(false, "Error: Unknown Renderer API");

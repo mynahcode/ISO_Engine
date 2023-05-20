@@ -1,11 +1,11 @@
 #include "iepch.h"
 #include "IsoEngine/IsoMacros.h"
 #include "IsoEngine/Application.h"
+
+#include "IsoEngine/Renderer/Renderer.h"
+
 #include "input.h"
 #include "IsoEngine/IsoLogger/IsoLogger.h"
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 namespace IE 
 {
@@ -155,30 +155,35 @@ namespace IE
 	{
 		while (m_IsRunning)
 		{
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			// TODO: Move below code to TheGame project GameApplication.cpp
+			/* Starts scene and contains all information of scene.*/
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
+			RenderCommand::Clear();
+
+			/* Begin Renderering the scene */
+			Renderer::BeginScene(); // parameters should be: camera, lights, environment
 
 			m_ShaderSquare->Bind();
-			m_SquareVertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(m_SquareVertexArray); // Submit mesh/geometry/primitives.
 
 			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(m_VertexArray); // Submit mesh/geometry/primitives.
+
+			Renderer::EndScene();
+
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
-			//auto [x, y] = Input::GetMousePos();
-			//ISOLOGGER_INFO("<%, %>", x, y);
-
+			/* imgui debug layer */
 			m_ImGuiLayer->Begin();
-
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();
-
 			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
+
+			//auto [x, y] = Input::GetMousePos(); // DEBUG
+			//ISOLOGGER_INFO("<%, %>", x, y);
 		}
 	}
 
