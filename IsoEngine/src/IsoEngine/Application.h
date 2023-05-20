@@ -10,6 +10,7 @@
 #include "IsoEngine/ImGui/ImGuiLayer.h"
 #include "IsoEngine/Renderer/Shader.h"
 #include "IsoEngine/Renderer/Buffer.h"
+#include "IsoEngine/Renderer/VertexArray.h"
 
 
 namespace IE 
@@ -40,11 +41,11 @@ namespace IE
 		bool m_IsRunning = true;
 		LayerStack m_LayerStack;
 
-		/* Renderer IDs */
-		unsigned int m_VertexArray;
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> m_VertexArray;
+
+		std::shared_ptr<Shader> m_ShaderSquare;
+		std::shared_ptr<VertexArray> m_SquareVertexArray;
 
 		static Application* s_Instance;
 	};

@@ -163,6 +163,7 @@
     <ClInclude Include="src\IsoEngine\MouseCodes.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\IsoEngine\Renderer\GraphicsContext.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="src\IsoEngine\Renderer\Renderer.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Shader.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Textures.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\IsoEngine\Window.h" />
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
@@ -182,6 +184,7 @@
     <ClCompile Include="src\IsoEngine\LayerStack.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\iepch.cpp">
@@ -190,6 +193,7 @@
     <ClCompile Include="src\IsoEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Shader.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\glm" />

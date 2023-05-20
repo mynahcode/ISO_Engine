@@ -74,6 +74,7 @@ namespace IE
 				WindowResizeEvent event(width, height);
 				data.EventCallback(event);
 			});
+
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -156,7 +157,6 @@ namespace IE
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
-		glfwTerminate();
 	}
 
 	void WindowsWindow::OnUpdate()
