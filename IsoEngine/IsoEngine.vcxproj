@@ -169,6 +169,7 @@
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\IsoEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Buffer.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\IsoEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Renderer.h" />
     <ClInclude Include="src\IsoEngine\Renderer\RendererAPI.h" />
@@ -195,6 +196,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\RendererAPI.cpp" />

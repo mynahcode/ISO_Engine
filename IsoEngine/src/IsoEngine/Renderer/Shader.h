@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <glm/glm.hpp>
 
 namespace IE
 {
@@ -12,6 +13,8 @@ namespace IE
 
 		void Bind() const;
 		void UnBind() const;
+
+		void UploadUniformMat4(const std::string& name, const glm::mat4& uMatrix);
 
 	private:
 		uint32_t m_RendererID;

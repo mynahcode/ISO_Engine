@@ -105,6 +105,7 @@
     <ClInclude Include="src\IsoEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\IsoEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\OrthographicCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">
@@ -142,6 +143,7 @@
     <ClCompile Include="src\IsoEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\OrthographicCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\glm">
