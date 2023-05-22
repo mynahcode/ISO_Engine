@@ -14,7 +14,7 @@ namespace IE
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
-		: m_Camera(-1.0f, 1.0f, -1.0f, 1.0f)
+		: m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		/* Create GLFW Window */
 		//IE_CORE_ASSERT(!s_Instance, "Application already created!");
@@ -166,16 +166,14 @@ namespace IE
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
 			RenderCommand::Clear();
 
+			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+			m_Camera.SetRotation(45.0f);
+
 			/* Begin Renderering the scene */
-			Renderer::BeginScene(); // parameters should be: camera, lights, environment
+			Renderer::BeginScene(m_Camera); // parameters should be: camera, lights, environment
 
-			m_ShaderSquare->Bind();
-			m_ShaderSquare->UploadUniformMat4("u_ViewProjection", m_Camera.GetVPMatrix());
-			Renderer::Submit(m_SquareVertexArray); // Submit mesh/geometry/primitives.
-
-			m_Shader->Bind();
-			m_Shader->UploadUniformMat4("u_ViewProjection", m_Camera.GetVPMatrix());
-			Renderer::Submit(m_VertexArray); // Submit mesh/geometry/primitives.
+			Renderer::Submit(m_ShaderSquare, m_SquareVertexArray); // Submit mesh/geometry/primitives.
+			Renderer::Submit(m_Shader, m_VertexArray); // Submit mesh/geometry/primitives.
 
 			Renderer::EndScene();
 

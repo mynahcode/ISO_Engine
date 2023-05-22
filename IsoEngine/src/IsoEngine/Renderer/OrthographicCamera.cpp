@@ -17,7 +17,7 @@ namespace IE
 	{
 		// transform = translation_matrix(position) * rotation_matrix(rotation)
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position);
-		transform = glm::rotate(transform, m_Rotation, glm::vec3(0, 0, 1));
+		transform = glm::rotate(transform, glm::radians(m_Rotation), glm::vec3(0, 0, 1));
 
 		// Take inverse of the transform
 		SetViewMatrix(glm::inverse(transform));
