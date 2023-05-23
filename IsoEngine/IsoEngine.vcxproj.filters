@@ -106,6 +106,7 @@
     <ClInclude Include="src\IsoEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\IsoEngine\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\IsoEngine\Core\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Application.cpp">

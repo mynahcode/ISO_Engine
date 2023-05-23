@@ -14,6 +14,7 @@
 
 #include "IsoEngine/Renderer/OrthographicCamera.h"
 
+#include "IsoEngine/Core/Timestep.h"
 
 namespace IE 
 {
@@ -42,6 +43,8 @@ namespace IE
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_IsRunning = true;
 		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0.0f;
+
 
 		static Application* s_Instance;
 	};

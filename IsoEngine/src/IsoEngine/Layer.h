@@ -2,6 +2,7 @@
 
 #include "IsoEngine/IsoMacros.h"
 #include "IsoEngine/Events/Event.h"
+#include "IsoEngine/Core/Timestep.h"
 
 namespace IE
 {
@@ -13,7 +14,7 @@ namespace IE
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {} // Should occur EVERY frame
+		virtual void OnUpdate(Timestep timestep) {} // Should occur EVERY frame
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

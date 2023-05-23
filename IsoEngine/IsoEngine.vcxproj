@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="src\IsoEngine.h" />
     <ClInclude Include="src\IsoEngine\Application.h" />
+    <ClInclude Include="src\IsoEngine\Core\Timestep.h" />
     <ClInclude Include="src\IsoEngine\EntryPoint.h" />
     <ClInclude Include="src\IsoEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\IsoEngine\Events\Event.h" />

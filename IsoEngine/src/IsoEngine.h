@@ -14,6 +14,9 @@
 #include "IsoEngine/Renderer/Shader.h"
 #include "IsoEngine/Renderer/VertexArray.h"
 
+/* Timestep Helper */
+#include "IsoEngine/Core/Timestep.h"
+
 /* IsoEngine's Input Polling Manager */
 #include "IsoEngine/Input.h"
 

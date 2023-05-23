@@ -7,6 +7,8 @@
 #include "input.h"
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 
+#include <GLFW/glfw3.h>
+
 namespace IE 
 {
 	/* Application is implemented as a Singleton. */
@@ -32,8 +34,12 @@ namespace IE
 	{
 		while (m_IsRunning)
 		{
+			float time = (float)glfwGetTime();
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
+
 			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 
 			/* imgui debug layer */
 			m_ImGuiLayer->Begin();

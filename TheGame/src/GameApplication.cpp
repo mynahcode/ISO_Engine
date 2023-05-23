@@ -136,15 +136,17 @@ public:
 		m_ShaderSquare.reset(new IE::Shader(vertexSrcSquare, fragmentSrcSquare));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(IE::Timestep timestep) override
 	{
+		IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::TRACE);
+		ISOLOGGER_TRACE("Time step: % seconds (% milliseconds)", timestep.GetSeconds(),timestep.GetMilliseconds());
 		/* Basic Camera Movement */
-		if (IE::Input::IsKeyPressed(IE_KEY_UP)) m_CameraPosition.y += m_CameraMoveSpeed;
-		else if(IE::Input::IsKeyPressed(IE_KEY_DOWN)) m_CameraPosition.y -= m_CameraMoveSpeed;
-		if(IE::Input::IsKeyPressed(IE_KEY_RIGHT)) m_CameraPosition.x += m_CameraMoveSpeed;
-		else if(IE::Input::IsKeyPressed(IE_KEY_LEFT)) m_CameraPosition.x -= m_CameraMoveSpeed;	
-		if(IE::Input::IsKeyPressed(IE_KEY_Q)) m_CameraRotation += m_CameraRotationSpeed; // Positive rotation 
-		else if(IE::Input::IsKeyPressed(IE_KEY_E)) m_CameraRotation -= m_CameraRotationSpeed; // Negative rotation -- Counterintuitively
+		if (IE::Input::IsKeyPressed(IE_KEY_UP)) m_CameraPosition.y += m_CameraMoveSpeed * timestep;
+		else if(IE::Input::IsKeyPressed(IE_KEY_DOWN)) m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
+		if(IE::Input::IsKeyPressed(IE_KEY_RIGHT)) m_CameraPosition.x += m_CameraMoveSpeed * timestep;
+		else if(IE::Input::IsKeyPressed(IE_KEY_LEFT)) m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
+		if (IE::Input::IsKeyPressed(IE_KEY_Q)) m_CameraRotation += m_CameraRotationSpeed * timestep; // Positive rotation 
+		else if (IE::Input::IsKeyPressed(IE_KEY_E)) m_CameraRotation -= m_CameraRotationSpeed * timestep; // Negative rotation -- Counterintuitively
 
 		/* Starts scene and contains all information of scene.*/
 		IE::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
@@ -183,10 +185,10 @@ private:
 
 	glm::vec3 m_CameraPosition;
 
-	float m_CameraMoveSpeed = 0.1f;
+	float m_CameraMoveSpeed = 5.0f;
 
 	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 1.0f;
+	float m_CameraRotationSpeed = 180.0f;
 };
 
 class TheGame : public IE::Application
