@@ -6,6 +6,14 @@
 #include "IsoEngine/Layer.h" 
 #include "IsoEngine/ImGui/ImGuiLayer.h"
 
+/* Renderer and Camera */
+#include "IsoEngine/Renderer/Buffer.h"
+#include "IsoEngine/Renderer/OrthographicCamera.h"
+#include "IsoEngine/Renderer/RenderCommand.h"
+#include "IsoEngine/Renderer/Renderer.h"
+#include "IsoEngine/Renderer/Shader.h"
+#include "IsoEngine/Renderer/VertexArray.h"
+
 /* IsoEngine's Input Polling Manager */
 #include "IsoEngine/Input.h"
 
