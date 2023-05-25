@@ -165,6 +165,7 @@
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="src\IsoEngine\LayerStack.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />

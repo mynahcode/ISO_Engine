@@ -1,5 +1,7 @@
 #include "iepch.h"
 #include "Renderer.h"
+#include "IsoEngine/Platform/OpenGL/OpenGLShader.h"
+
 
 namespace IE
 {
@@ -14,10 +16,13 @@ namespace IE
 	{
 	}
 
-	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray)
+	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
 	{
 		shader->Bind();
-		shader->UploadUniformMat4("u_ViewProjection", m_SceneData->VPMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", m_SceneData->VPMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform); // needs to be done PER OBJECT
+
+		//material_ir.Bind();
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

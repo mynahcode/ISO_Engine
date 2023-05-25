@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #ifdef _IE_PLATFORM_WINDOWS
 	#ifdef IE_DLL
 		#ifdef IE_BUILD_DLL
@@ -36,3 +38,12 @@
 
 /* Event Binding Function */
 #define IE_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace IE
+{
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+}
