@@ -59,18 +59,19 @@ namespace IE
 		for (const auto& element : layout)
 		{
 			/* Layout of Buffer */
-			glEnableVertexAttribArray(vb_Index);
-			glVertexAttribPointer(vb_Index,
+			glEnableVertexAttribArray(vb_Index + m_VertexBufferIndexOffset);
+			glVertexAttribPointer(vb_Index + m_VertexBufferIndexOffset,
 				element.GetComponentCount(),
 				ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.IsNormalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
-				(void*)element.Offset);
+				(const void*)(intptr_t)element.Offset);
 
 			vb_Index++;
 		}
 
 		m_VertexBuffers.push_back(vertexBuffer);
+		m_VertexBufferIndexOffset += layout.GetElements().size();
 	}
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)

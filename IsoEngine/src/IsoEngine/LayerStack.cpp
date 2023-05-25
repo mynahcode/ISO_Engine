@@ -31,8 +31,8 @@ namespace IE
 
 	void LayerStack::PopLayer(Layer* layer)
 	{
-		auto iter = std::find(m_Layers.begin(), m_Layers.end(), layer);
-		if (iter != m_Layers.end())
+		auto iter = std::find(m_Layers.begin(), m_Layers.begin() + m_LayerInsertIndex, layer);
+		if (iter != m_Layers.begin() + m_LayerInsertIndex)
 		{
 			m_Layers.erase(iter);
 			m_LayerInsertIndex--;
