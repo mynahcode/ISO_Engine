@@ -10,6 +10,8 @@ namespace IE
 	class Renderer
 	{
 	public:
+		static void Init();
+
 		static void BeginScene(OrthographicCamera& camera); // TODO: Add scene parameters: lighting, camera, environment
 		static void EndScene();
 

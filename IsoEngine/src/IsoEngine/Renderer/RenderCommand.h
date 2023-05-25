@@ -8,6 +8,11 @@ namespace IE
 	{
 	public:
 
+		inline static void Init()
+		{
+			s_RendererAPI->Init();
+		}
+
 		// RenderCommands should NOT do multiple things
 		inline static void SetClearColor(const glm::vec4& color)
 		{

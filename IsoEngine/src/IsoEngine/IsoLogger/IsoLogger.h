@@ -168,6 +168,9 @@ namespace IE
 
 			void enable_IsoFileOut()
 			{
+				// TODO: Refactor to account for a file pointer being null cause fclose() error follow: https://stackoverflow.com/questions/34824568/visual-studio-2015-shows-debug-assertion-failed
+				// * Logging w/o file output works for now *
+				/*
 				if (file != 0)
 				{
 					fclose(file);
@@ -178,12 +181,13 @@ namespace IE
 				{
 					printf("<<IsoLogger>> Failed to open file at %s", filepath);
 				}
+				*/
 			}
 
 			void free_File()
 			{
-				fclose(file);
-				file = 0;
+				//fclose(file);
+				//file = 0;
 			}
 
 		public:
@@ -198,15 +202,15 @@ namespace IE
 			static void EnableIsoFileOut()
 			{
 				IsoLogger& isologger_instance = get_InstanceIsoLogger();
-				isologger_instance.filepath = "log.txt";
-				isologger_instance.enable_IsoFileOut();
+				//isologger_instance.filepath = "log.txt";
+				//isologger_instance.enable_IsoFileOut();
 			}
 
 			static void EnableIsoFileOut(const char* new_filepath)
 			{
 				IsoLogger& isologger_instance = get_InstanceIsoLogger();
-				isologger_instance.filepath = new_filepath;
-				isologger_instance.enable_IsoFileOut();
+				//isologger_instance.filepath = new_filepath;
+				//isologger_instance.enable_IsoFileOut();
 			}
 
 			template<typename... Args>

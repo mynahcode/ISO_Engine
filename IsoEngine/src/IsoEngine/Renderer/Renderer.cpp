@@ -7,6 +7,11 @@ namespace IE
 {
 	Renderer::SceneData* Renderer::m_SceneData = new SceneData;
 
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
+
 	void Renderer::BeginScene(OrthographicCamera& camera) // TODO: Implement environment maps, cube maps, camera, projection matrix, view matrix, lighting as shader uniforms
 	{
 		m_SceneData->VPMatrix = camera.GetVPMatrix();
