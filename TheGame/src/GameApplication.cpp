@@ -1,21 +1,22 @@
 #include <IsoEngine.h>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 #include "IsoEngine/Platform/OpenGL/OpenGLShader.h"
 #include "imgui/imgui.h"
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class TestLayer : public IE::Layer
 {
 public:
 	TestLayer()
-		: Layer("Test"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_SquarePosition(0.0f)
+		: Layer("Test"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
 	{
 		/* Rendering The Triangle -- All temporary test code */
 		m_VertexArray.reset(IE::VertexArray::Create());
 
 		/* Populate w/ Vertex Data -- 3D Coordinates */
-		float vertices[3 * 7] = {
+		float vertices[7 * 3] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,								// Vertex 1 -- Z_coordinate = 0 (0-2), Color (3-6)
 			 0.5f, -0.5f, 0.0f, 0.2f, 0.0f, 0.8f, 1.0f,								// Vertex 2 -- Z_coordinate = 0
 			 0.0f, 0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f								// Vertex 3 -- Z_coordinate = 0
@@ -45,17 +46,18 @@ public:
 		/* Rendering the Square */
 		m_SquareVertexArray.reset(IE::VertexArray::Create());
 
-		float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f, 0.5f, 0.0f,
-			-0.5f, 0.5f, 0.0f
+		float squareVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,				// Texture coords: Bottom Left (0.0f, 0.0f)
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,				// Texture coords: Bottom Right (1.0f, 0.0f)
+			 0.5f, 0.5f, 0.0f, 1.0f, 1.0f,				// Texture coords: Top Right (1.0f, 1.0f)
+			-0.5f, 0.5f, 0.0f, 0.0f, 1.0f				// Texture coords: Top Left (0.0f, 1.0f)
 		};
 
 		IE::Ref<IE::VertexBuffer> m_SquareVertexBuffer;
 		m_SquareVertexBuffer.reset(IE::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 		m_SquareVertexBuffer->SetLayout({
-			{ IE::ShaderDataType::Float3, "a_Position"}
+			{ IE::ShaderDataType::Float3, "a_Position"},
+			{ IE::ShaderDataType::Float2, "a_TextureCoord"}
 			});
 		m_SquareVertexArray->AddVertexBuffer(m_SquareVertexBuffer);
 
@@ -102,9 +104,9 @@ public:
 			}
 
 		)";
-
 		m_Shader.reset(IE::Shader::Create(vertexSrc, fragmentSrc));
 
+		/* Square Shader */
 		std::string flatColorVertexSrc = R"(
 			#version 330 core
 			
@@ -138,8 +140,49 @@ public:
 			}
 
 		)";
+		m_FlatColorShader.reset(IE::Shader::Create(flatColorVertexSrc, flatColorShaderFragmentSrc));	
 
-		m_FlatColorShader.reset(IE::Shader::Create(flatColorVertexSrc, flatColorShaderFragmentSrc));
+		/* Texture Shader */
+		std::string textureVertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TextureCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TextureCoord;
+
+			void main()
+			{
+				v_TextureCoord = a_TextureCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+
+		)";
+
+		std::string textureShaderFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec2 v_TextureCoord;
+			
+			uniform sampler2D u_Texture;
+
+			void main()
+			{
+				color = texture(u_Texture, v_TextureCoord);
+			}
+
+		)";
+
+		m_TextureShader.reset(IE::Shader::Create(textureVertexSrc, textureShaderFragmentSrc));
+		m_Texture = IE::Textures2D::Create("assets/textures/grass.jpg");
+
+		std::dynamic_pointer_cast<IE::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<IE::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(IE::Timestep timestep) override
@@ -175,7 +218,7 @@ public:
 		*/
 
 		std::dynamic_pointer_cast<IE::OpenGLShader>(m_FlatColorShader)->Bind();
-		std::dynamic_pointer_cast<IE::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_color", m_SquareColor);
+		std::dynamic_pointer_cast<IE::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
 
 		for (int y = 0; y < 20; y++)
 		{
@@ -186,8 +229,8 @@ public:
 				IE::Renderer::Submit(m_FlatColorShader, m_SquareVertexArray, transform); 
 			}
 		}
-
-		IE::Renderer::Submit(m_Shader, m_VertexArray);
+		m_Texture->Bind();
+		IE::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		IE::Renderer::EndScene();
 	}
 
@@ -207,8 +250,10 @@ private:
 	IE::Ref<IE::Shader> m_Shader;
 	IE::Ref<IE::VertexArray> m_VertexArray;
 
-	IE::Ref<IE::Shader> m_FlatColorShader;
+	IE::Ref<IE::Shader> m_FlatColorShader, m_TextureShader;
 	IE::Ref<IE::VertexArray> m_SquareVertexArray;
+
+	IE::Ref<IE::Textures2D> m_Texture;
 
 	IE::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
@@ -218,7 +263,6 @@ private:
 	float m_CameraRotationSpeed = 180.0f;
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
-	glm::vec3 m_SquarePosition;
 };
 
 class TheGame : public IE::Application

@@ -22,6 +22,7 @@ IncludeDir["GLAD"] = "IsoEngine/Vendor/GLAD/include"
 IncludeDir["GLFW"] = "IsoEngine/Vendor/GLFW/include"
 IncludeDir["ImGui"] = "IsoEngine/Vendor/imgui"
 IncludeDir["glm"] = "IsoEngine/Vendor/glm"
+IncludeDir["stb_image"] = "IsoEngine/Vendor/stb_image"
 --IncludeDir["fmt"] = "IsoEngine/Vendor/fmt"
 
 
@@ -46,7 +47,10 @@ project "IsoEngine"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/Vendor/glm/glm",
+		"%{prj.name}/Vendor/stb_image/**.h",
+		"%{prj.name}/Vendor/stb_image/**.cpp",
+		"%{prj.name}/Vendor/glm/glm/**.hpp",
+		"%{prj.name}/Vendor/glm/glm/**.inl",
 		--"%{prj.name}/Vendor/fmt/include/fmt/**.h"
 	}
 
@@ -66,6 +70,7 @@ project "IsoEngine"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 		--"%{IncludeDir.fmt}"
 	}
 
