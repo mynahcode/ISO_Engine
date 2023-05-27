@@ -4,11 +4,15 @@
 
 #include <glm/glm.hpp>
 
+// TODO: remove
+typedef unsigned int GLenum;
+
 namespace IE
 {
 	class OpenGLShader : public Shader
 	{
 	public:
+		OpenGLShader(const std::string& filepath);
 		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~OpenGLShader();
 
@@ -27,6 +31,9 @@ namespace IE
 
 
 	private:
+		std::string ReadShaderFile(const std::string& filepath);
+		std::unordered_map<GLenum, std::string>PreProcessShaderSrc(const std::string& src);
+		void CompileGLShader(const std::unordered_map<GLenum, std::string>& shaderSrc);
 		uint32_t m_RendererID;
 	};
 }
