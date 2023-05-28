@@ -12,38 +12,8 @@ public:
 	TestLayer()
 		: Layer("Test"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
 	{
-		/* Rendering The Triangle -- All temporary test code */
-		m_VertexArray.reset(IE::VertexArray::Create());
 
-		/* Populate w/ Vertex Data -- 3D Coordinates */
-		float vertices[7 * 3] = {
-			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,								// Vertex 1 -- Z_coordinate = 0 (0-2), Color (3-6)
-			 0.5f, -0.5f, 0.0f, 0.2f, 0.0f, 0.8f, 1.0f,								// Vertex 2 -- Z_coordinate = 0
-			 0.0f, 0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f								// Vertex 3 -- Z_coordinate = 0
-		};
-		IE::Ref<IE::VertexBuffer> m_VertexBuffer;
-		m_VertexBuffer.reset(IE::VertexBuffer::Create(vertices, sizeof(vertices)));
-
-		IE::BufferLayout layout = {
-				{ IE::ShaderDataType::Float3, "a_Position"},
-				{ IE::ShaderDataType::Float4, "a_color"}
-		};
-		m_VertexBuffer->SetLayout(layout);
-
-		/* Binds vertex Array and Vertex Buffer, sets layout, and links them together */
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-		/* Create Element (Index) Buffer */
-		IE::Ref<IE::IndexBuffer> m_IndexBuffer;
-		unsigned int indices[3] = { 0, 1, 2 };
-		m_IndexBuffer.reset(IE::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
-		///////////////////////////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////////////////////////
-
-		/* Rendering the Square */
+		/* Rendering a Square */
 		m_SquareVertexArray.reset(IE::VertexArray::Create());
 
 		float squareVertices[5 * 4] = {
@@ -65,46 +35,6 @@ public:
 		IE::Ref<IE::IndexBuffer> m_SquareIndexBuffer;
 		m_SquareIndexBuffer.reset((IE::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t))));
 		m_SquareVertexArray->SetIndexBuffer(m_SquareIndexBuffer);
-
-		/* Initializing the Shaders */
-		std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-
-			out vec3 v_Position;
-			out vec4 v_Color;
-
-			void main()
-			{
-				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-
-		)";
-		// ^ in DX, we multiply vec4 * u_ViewProjection likely put into a multiply function
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			in vec3 v_Position;
-			in vec4 v_Color;
-
-			void main()
-			{
-				color = vec4(v_Position* 0.5 + 0.5, 1.0);
-				color = v_Color;
-			}
-
-		)";
-		m_Shader.reset(IE::Shader::Create(vertexSrc, fragmentSrc));
 
 		/* Square Shader */
 		std::string flatColorVertexSrc = R"(
@@ -172,17 +102,9 @@ public:
 		m_Camera.SetRotation(m_CameraRotation);
 
 		/* Renderer Flow */
-		IE::Renderer::BeginScene(m_Camera); // parameters should be: camera, lights, environment
+		IE::Renderer::BeginScene(m_Camera); // parameters should be: lights, environment
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
-
-		/*
-		IE::MaterialRef material = new IE::Material(m_FlatColorShader);
-		IE::MaterialInstanceRef material_ir = new IE::MaterialInstanceREf(material);
-
-		material_ir->Set("u_Color", redColor);
-		squareMesh->SetMaterial(material_ir);
-		*/
 
 		std::dynamic_pointer_cast<IE::OpenGLShader>(m_FlatColorShader)->Bind();
 		std::dynamic_pointer_cast<IE::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);

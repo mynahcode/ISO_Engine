@@ -12,7 +12,7 @@ namespace IE
 	public:
 		static void Init();
 
-		static void BeginScene(OrthographicCamera& camera); // TODO: Add scene parameters: lighting, camera, environment
+		static void BeginScene(OrthographicCamera& camera); // TODO: Add scene parameters: lighting, environment
 		static void EndScene();
 
 		static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));

@@ -143,7 +143,7 @@ namespace IE
 	{
 		/* Adapted From https://www.khronos.org/opengl/wiki/Shader_Compilation */
 
-		// Vertex and fragment shaders are successfully compiled.
+		// Assuming vertex and fragment shaders are successfully compiled.
 		// Now time to link them together into a program.
 		// Get a program object.
 		GLuint program = glCreateProgram();
