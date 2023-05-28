@@ -3,6 +3,7 @@
 /* Necessary C++ Libs */
 #include <iostream>
 #include <memory>
+#include <array>
 #include <utility>
 #include <algorithm>
 #include <sstream>

@@ -99,7 +99,7 @@ namespace IE
 	std::string OpenGLShader::ReadShaderFile(const std::string& filepath)
 	{
 		std::string result;
-		std::ifstream in(filepath, std::ios::in, std::ios::binary);
+		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in)
 		{
 			in.seekg(0, std::ios::end);
@@ -147,8 +147,9 @@ namespace IE
 		// Now time to link them together into a program.
 		// Get a program object.
 		GLuint program = glCreateProgram();
-		std::vector<GLenum> glShaderIDs(shaderSrc.size());
-
+		// IE_CORE_ASSERT(shaderSrc.size() <= 2, "Error: only 2 shader sources");
+		std::array<GLenum, 2> glShaderIDs; 
+		int glShaderIDIndex = 0;
 		for (auto& keyval : shaderSrc)
 		{
 			GLenum shaderType = keyval.first;
@@ -185,7 +186,7 @@ namespace IE
 
 			// Attach our shaders to our program
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIDIndex++] = shader;
 		}
 
 		// Maybe a bad spot for this \/
