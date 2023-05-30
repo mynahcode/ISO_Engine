@@ -20,17 +20,38 @@ namespace IE
 		return nullptr;
 	}
 
-	Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc)
+	Shader* Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: /* IE_CORE_ASSERT(false, "RendererAPI::None is not supported!"); */ 
 				return nullptr;
 			case RendererAPI::API::OpenGL: 
-				return new OpenGLShader(vertexSrc, fragmentSrc);
+				return new OpenGLShader(name, vertexSrc, fragmentSrc);
 		}
 
 		/*IE_CORE_ASSERT(false, "Unknown Renderering API!"); */
 		return nullptr;
+	}
+
+	void ShaderLibrary::Add(const Ref<Shader>& shader)
+	{
+		auto& nameshader->GetName();
+		m_Shaders
+	}
+
+	Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
+	{
+
+	}
+
+	Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
+	{
+
+	}
+
+	Ref<Shader> ShaderLibrary::Get(const std::string& name)
+	{
+
 	}
 }
