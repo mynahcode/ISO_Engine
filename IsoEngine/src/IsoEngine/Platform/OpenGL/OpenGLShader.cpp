@@ -22,13 +22,18 @@ namespace IE
 		auto shaderSrc = PreProcessShaderSrc(src);
 		CompileGLShader(shaderSrc);
 
+		std::filesystem::path path = filepath;
+		m_Name = path.stem().string(); // Returns the file's name stripped of the extension.
+
+		/*
 		// Extracting name from filepath
 		auto lastSlash = filepath.find_last_of("/\\");
 		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
 
 		auto lastDot = filepath.rfind('.');
 		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
-		filepath.substr(lastSlash, count);
+		m_Name = filepath.substr(lastSlash, count);
+		*/
 
 	}
 
@@ -159,6 +164,7 @@ namespace IE
 		GLuint program = glCreateProgram();
 		// IE_CORE_ASSERT(shaderSrc.size() <= 2, "Error: only 2 shader sources");
 		std::array<GLenum, 2> glShaderIDs; 
+
 		int glShaderIDIndex = 0;
 		for (auto& keyval : shaderSrc)
 		{
@@ -200,7 +206,7 @@ namespace IE
 		}
 
 		// Maybe a bad spot for this \/
-		m_RendererID = program;
+		
 		// Link our program
 		glLinkProgram(program);
 
@@ -230,6 +236,7 @@ namespace IE
 		// Always detach shaders after a successful link.
 		for (auto id : glShaderIDs)
 			glDetachShader(program, id);
-	}
 
+		m_RendererID = program;
+	}
 }

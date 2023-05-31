@@ -19,7 +19,7 @@ namespace IE
 		virtual void Bind() const override;
 		virtual void UnBind() const override;
 
-		virtual const std::string& GetName() const override { return m_Name; }
+		inline virtual const std::string& GetName() const override { return m_Name; }
 
 		void UploadUniformInt(const std::string& name, int value);
 

@@ -6,52 +6,69 @@
 
 namespace IE
 {
-	Shader* Shader::Create(const std::string& filepath)
+	Ref<Shader> Shader::Create(const std::string& filepath)
 	{
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None: /* IE_CORE_ASSERT(false, "RendererAPI::None is not supported!"); */
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLShader(filepath);
+			return std::make_shared<OpenGLShader>(filepath);
 		}
 
 		/*IE_CORE_ASSERT(false, "Unknown Renderering API!"); */
 		return nullptr;
 	}
 
-	Shader* Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: /* IE_CORE_ASSERT(false, "RendererAPI::None is not supported!"); */ 
 				return nullptr;
 			case RendererAPI::API::OpenGL: 
-				return new OpenGLShader(name, vertexSrc, fragmentSrc);
+				return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
 		}
 
 		/*IE_CORE_ASSERT(false, "Unknown Renderering API!"); */
 		return nullptr;
 	}
 
+	void ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader)
+	{
+		// IE_CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end();
+		m_Shaders[name] = shader;
+	}
+
 	void ShaderLibrary::Add(const Ref<Shader>& shader)
 	{
-		auto& nameshader->GetName();
-		m_Shaders
-	}
+		auto& name = shader->GetName();
+		// IE_CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end();
+		Add(name, shader);
+	}	
 
 	Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
 	{
-
+		auto shader = Shader::Create(filepath);
+		Add(shader);
+		return shader;
 	}
 
 	Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
 	{
-
+		auto shader = Shader::Create(filepath);
+		Add(shader);
+		return shader;
 	}
 
 	Ref<Shader> ShaderLibrary::Get(const std::string& name)
 	{
+		// IE_CORE_ASSERT(Exists(name), "Shader not found!");
+		return m_Shaders[name];
+	}
 
+	bool ShaderLibrary::Exists(const std::string& name) const
+	{
+		return m_Shaders.find(name) != m_Shaders.end();
 	}
 }

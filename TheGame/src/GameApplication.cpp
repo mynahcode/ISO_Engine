@@ -70,16 +70,16 @@ public:
 			}
 
 		)";
-		m_FlatColorShader.reset(IE::Shader::Create(flatColorVertexSrc, flatColorShaderFragmentSrc));	
+		m_FlatColorShader = IE::Shader::Create("FlatColor", flatColorVertexSrc, flatColorShaderFragmentSrc);
 
 
 
-		m_TextureShader.reset(IE::Shader::Create("assets/shaders/Texture.glsl"));
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 		m_Texture = IE::Textures2D::Create("assets/textures/grass.jpg");
 		m_LogoTexture = IE::Textures2D::Create("assets/textures/ChernoLogo.png");
 
-		std::dynamic_pointer_cast<IE::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<IE::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<IE::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<IE::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(IE::Timestep timestep) override
@@ -118,10 +118,13 @@ public:
 				IE::Renderer::Submit(m_FlatColorShader, m_SquareVertexArray, transform); 
 			}
 		}
+
+		auto textureShader = m_ShaderLibrary.Get("Texture");
+
 		m_Texture->Bind();
-		IE::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		IE::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		m_LogoTexture->Bind();
-		IE::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		IE::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		IE::Renderer::EndScene();
 	}
@@ -139,10 +142,11 @@ public:
 	}
 
 private:
+	IE::ShaderLibrary m_ShaderLibrary;
 	IE::Ref<IE::Shader> m_Shader;
 	IE::Ref<IE::VertexArray> m_VertexArray;
 
-	IE::Ref<IE::Shader> m_FlatColorShader, m_TextureShader;
+	IE::Ref<IE::Shader> m_FlatColorShader;
 	IE::Ref<IE::VertexArray> m_SquareVertexArray;
 
 	IE::Ref<IE::Textures2D> m_Texture, m_LogoTexture;
