@@ -1,6 +1,6 @@
 #include "iepch.h"
-#include "IsoEngine/IsoMacros.h"
-#include "IsoEngine/Application.h"
+#include "IsoEngine/Core/IsoMacros.h"
+#include "IsoEngine/Core/Application.h"
 
 #include "IsoEngine/Renderer/Renderer.h"
 

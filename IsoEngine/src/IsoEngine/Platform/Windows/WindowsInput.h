@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IsoEngine/Input.h"
+#include "IsoEngine/Core/Input.h"
 
 namespace IE
 {

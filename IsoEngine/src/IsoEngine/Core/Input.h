@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IsoEngine/IsoMacros.h"
+#include "IsoEngine/Core/IsoMacros.h"
 
 /* Global Input Polling Manager -- Singleton */
 namespace IE

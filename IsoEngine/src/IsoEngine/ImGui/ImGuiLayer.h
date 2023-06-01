@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IsoEngine/IsoMacros.h"
-#include "IsoEngine/Layer.h"
+#include "IsoEngine/Core/IsoMacros.h"
+#include "IsoEngine/Core/Layer.h"
 
 #include "IsoEngine/Events/KeyEvent.h"
 #include "IsoEngine/Events/MouseEvent.h"

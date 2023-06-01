@@ -1,9 +1,9 @@
 #include "iepch.h"
-#include "IsoMacros.h"
+#include "IsoEngine/Core/IsoMacros.h"
 #include "OrthographicCameraController.h"
 
-#include "IsoEngine/Input.h"
-#include "IsoEngine/KeyCodes.h"
+#include "IsoEngine/Core/Input.h"
+#include "IsoEngine/Core/KeyCodes.h"
 
 namespace IE
 {

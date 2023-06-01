@@ -1,9 +1,9 @@
 #pragma once
 // For use ONLY by IsoEngine applications
-#include "IsoEngine/Application.h"
+#include "IsoEngine/Core/Application.h"
 
 /* Layers and Debug Layers */
-#include "IsoEngine/Layer.h" 
+#include "IsoEngine/Core/Layer.h" 
 #include "IsoEngine/ImGui/ImGuiLayer.h"
 
 /* Renderer and Camera */
@@ -16,20 +16,20 @@
 #include "IsoEngine/Renderer/VertexArray.h"
 
 #include "IsoEngine/Renderer/OrthographicCamera.h"
-#include "IsoEngine/OrthographicCameraController.h"
+#include "IsoEngine/Controllers/OrthographicCameraController.h"
 
 /* Timestep Helper */
 #include "IsoEngine/Core/Timestep.h"
 
 /* IsoEngine's Input Polling Manager */
-#include "IsoEngine/Input.h"
+#include "IsoEngine/Core/Input.h"
 
 /* IsoEngine KeyCodes and MouseCodes */
-#include "IsoEngine/KeyCodes.h"
-#include "IsoEngine/MouseCodes.h"
+#include "IsoEngine/Core/KeyCodes.h"
+#include "IsoEngine/Core/MouseCodes.h"
 
 /* IsoEngine's Native Logging System*/
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 
 /* Entry Point */
-#include "IsoEngine/EntryPoint.h"
+#include "IsoEngine/Core/EntryPoint.h"

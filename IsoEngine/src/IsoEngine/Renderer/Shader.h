@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "IsoEngine/IsoMacros.h"
+#include "IsoEngine/Core/IsoMacros.h"
 
 namespace IE
 {

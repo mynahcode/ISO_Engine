@@ -31,6 +31,9 @@
     <Filter Include="src\IsoEngine">
       <UniqueIdentifier>{9DE15A94-09A2-D6CA-D2DC-1F483E5C1BA7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\IsoEngine\Controllers">
+      <UniqueIdentifier>{83B30B32-EF75-3FBC-3826-CE48A427189A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\IsoEngine\Core">
       <UniqueIdentifier>{159002A7-0174-C3FC-6AD4-BD4F56D7AD7E}</UniqueIdentifier>
     </Filter>
@@ -1311,14 +1314,38 @@
     <ClInclude Include="src\IsoEngine.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\IsoEngine\Application.h">
-      <Filter>src\IsoEngine</Filter>
+    <ClInclude Include="src\IsoEngine\Controllers\OrthographicCameraController.h">
+      <Filter>src\IsoEngine\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Core\Application.h">
+      <Filter>src\IsoEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Core\EntryPoint.h">
+      <Filter>src\IsoEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Core\Input.h">
+      <Filter>src\IsoEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Core\IsoMacros.h">
+      <Filter>src\IsoEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Core\KeyCodes.h">
+      <Filter>src\IsoEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Core\Layer.h">
+      <Filter>src\IsoEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Core\LayerStack.h">
+      <Filter>src\IsoEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Core\MouseCodes.h">
+      <Filter>src\IsoEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Core\Timestep.h">
       <Filter>src\IsoEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\IsoEngine\EntryPoint.h">
-      <Filter>src\IsoEngine</Filter>
+    <ClInclude Include="src\IsoEngine\Core\Window.h">
+      <Filter>src\IsoEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Events\ApplicationEvent.h">
       <Filter>src\IsoEngine\Events</Filter>
@@ -1335,9 +1362,6 @@
     <ClInclude Include="src\IsoEngine\ImGui\ImGuiLayer.h">
       <Filter>src\IsoEngine\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\IsoEngine\Input.h">
-      <Filter>src\IsoEngine</Filter>
-    </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h">
       <Filter>src\IsoEngine\IsoLogger</Filter>
     </ClInclude>
@@ -1346,21 +1370,6 @@
     </ClInclude>
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerUtilities.h">
       <Filter>src\IsoEngine\IsoLogger</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IsoEngine\IsoMacros.h">
-      <Filter>src\IsoEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IsoEngine\KeyCodes.h">
-      <Filter>src\IsoEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IsoEngine\Layer.h">
-      <Filter>src\IsoEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IsoEngine\LayerStack.h">
-      <Filter>src\IsoEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IsoEngine\MouseCodes.h">
-      <Filter>src\IsoEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\IsoEngine\Platform\OpenGL</Filter>
@@ -1413,20 +1422,25 @@
     <ClInclude Include="src\IsoEngine\Renderer\VertexArray.h">
       <Filter>src\IsoEngine\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\IsoEngine\Window.h">
-      <Filter>src\IsoEngine</Filter>
-    </ClInclude>
     <ClInclude Include="src\iepch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\IsoEngine\OrthographicCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\stb_image\stb_image.cpp">
       <Filter>Vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\IsoEngine\Application.cpp">
-      <Filter>src\IsoEngine</Filter>
+    <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp">
+      <Filter>src\IsoEngine\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\Core\Application.cpp">
+      <Filter>src\IsoEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\Core\Layer.cpp">
+      <Filter>src\IsoEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\Core\LayerStack.cpp">
+      <Filter>src\IsoEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\ImGui\ImGuiBuild.cpp">
       <Filter>src\IsoEngine\ImGui</Filter>
@@ -1436,12 +1450,6 @@
     </ClCompile>
     <ClCompile Include="src\IsoEngine\IsoLogger\Isologger.cpp">
       <Filter>src\IsoEngine\IsoLogger</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IsoEngine\Layer.cpp">
-      <Filter>src\IsoEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IsoEngine\LayerStack.cpp">
-      <Filter>src\IsoEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\IsoEngine\Platform\OpenGL</Filter>
@@ -1494,6 +1502,5 @@
     <ClCompile Include="src\iepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\IsoEngine\OrthographicCameraController.cpp" />
   </ItemGroup>
 </Project>

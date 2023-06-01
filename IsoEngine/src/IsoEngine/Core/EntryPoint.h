@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IsoEngine/IsoMacros.h"
-#include "IsoEngine/Application.h"
+#include "IsoEngine/Core/IsoMacros.h"
+#include "IsoEngine/Core/Application.h"
 
 #ifdef _IE_PLATFORM_WINDOWS
 
