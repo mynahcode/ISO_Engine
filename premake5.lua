@@ -59,7 +59,7 @@ project "IsoEngine"
 		"_CRT_SECURE_NO_WARNINGS",
 		"GLFW_INCLUDE_NONE",
 		"FMT_HEADER_ONLY",
-		"IE_DEBUG_MODE",
+		"_IE_DEBUG_MODE",
 		"IMGUI_API=__declspec(dllexport)" 
 	}
 
@@ -84,12 +84,6 @@ project "IsoEngine"
 
 	filter "system:windows"
 		systemversion "latest"
-
-		defines
-		{
-			"_IE_PLATFORM_WINDOWS",
-			"IE_BUILD_DLL"
-		}
 
 	filter "configurations:Debug"
 		defines "IE_DEBUG"
@@ -133,8 +127,8 @@ project "TheGame"
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
-		"IE_DEBUG_MODE",
-		"FMT_HEADER_ONLY"
+		"_IE_DEBUG_MODE",
+		--"FMT_HEADER_ONLY"
 	}
 
 	links
@@ -144,11 +138,6 @@ project "TheGame"
 
 	filter "system:windows"
 		systemversion "latest"
-
-		defines
-		{
-			"_IE_PLATFORM_WINDOWS"
-		}
 
 	filter "configurations:Debug"
 		defines "IE_DEBUG"

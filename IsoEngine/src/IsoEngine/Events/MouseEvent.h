@@ -28,7 +28,7 @@ namespace IE
 		float m_MouseX, m_MouseY;
 	};
 
-	class IsoEngine_API MouseScrolledEvent : public Event
+	class MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(float x_offset, float y_offset)
@@ -52,7 +52,7 @@ namespace IE
 		float m_XOffset, m_YOffset;
 	};
 
-	class IsoEngine_API MouseButtonEvent : public Event
+	class MouseButtonEvent : public Event
 	{
 	public:
 		int GetMouseButton() const { return m_Button; }
@@ -66,7 +66,7 @@ namespace IE
 		int m_Button;
 	};
 
-	class IsoEngine_API MouseButtonPressedEvent : public MouseButtonEvent
+	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 
 	public:
@@ -83,7 +83,7 @@ namespace IE
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class IsoEngine_API MouseButtonReleasedEvent : public MouseButtonEvent
+	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonReleasedEvent(int button)

@@ -1,9 +1,12 @@
 [submodule "IsoEngine/Vendor/GLFW"]
 	path = IsoEngine/Vendor/GLFW
 	url = https://github.com/mynahcode/glfw
+	branch = master
 [submodule "IsoEngine/Vendor/imgui"]
 	path = IsoEngine/Vendor/imgui
 	url = https://github.com/mynahcode/imgui
+	branch = docking
 [submodule "IsoEngine/Vendor/glm"]
 	path = IsoEngine/Vendor/glm
 	url = https://github.com/g-truc/glm
+	branch = master

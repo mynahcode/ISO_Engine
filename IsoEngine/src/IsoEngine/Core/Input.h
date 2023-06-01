@@ -26,6 +26,6 @@ namespace IE
 		virtual float GetMouseYImpl() = 0; 
 
 	private:
-		static Input* s_Instance; // Singleton Instance of Input
+		static Scope<Input> s_Instance; // Singleton Instance of Input
 	};
 }

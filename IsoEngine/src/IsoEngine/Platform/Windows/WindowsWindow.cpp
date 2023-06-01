@@ -56,7 +56,7 @@ namespace IE
 			Shutdown();
 		}
 
-		m_Context = new OpenGLContext(m_Window);
+		m_Context = CreateScope<OpenGLContext>(m_Window);
 		m_Context->Init();
 
 

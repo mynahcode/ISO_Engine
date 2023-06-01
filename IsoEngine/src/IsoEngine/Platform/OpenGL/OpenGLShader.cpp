@@ -148,7 +148,7 @@ namespace IE
 
 			size_t nextLinePos = src.find_first_not_of("\r\n", eol);
 			pos = src.find(typeToken, nextLinePos);
-			shaderSrc[StringToShaderType(type)] = src.substr(nextLinePos, pos - (nextLinePos == std::string::npos ? src.size() - 1 : nextLinePos));
+			shaderSrc[StringToShaderType(type)] = (pos == std::string::npos) ? src.substr(nextLinePos) : src.substr(nextLinePos, pos - nextLinePos);
 		}
 
 		return shaderSrc;
@@ -235,7 +235,10 @@ namespace IE
 
 		// Always detach shaders after a successful link.
 		for (auto id : glShaderIDs)
+		{
 			glDetachShader(program, id);
+			glDeleteShader(id);
+		}
 
 		m_RendererID = program;
 	}

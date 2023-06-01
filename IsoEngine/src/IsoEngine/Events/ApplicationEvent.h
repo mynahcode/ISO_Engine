@@ -27,7 +27,7 @@ namespace IE
 		unsigned int m_Width, m_Height;
 	};
 
-	class IsoEngine_API WindowCloseEvent: public Event
+	class WindowCloseEvent: public Event
 	{
 	public:
 		WindowCloseEvent() = default;
@@ -36,7 +36,7 @@ namespace IE
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class IsoEngine_API AppTickEvent : public Event
+	class AppTickEvent : public Event
 	{
 		AppTickEvent() = default;
 
@@ -45,7 +45,7 @@ namespace IE
 	};
 
 
-	class IsoEngine_API AppUpdateEvent : public Event
+	class AppUpdateEvent : public Event
 	{
 		AppUpdateEvent() = default;
 
@@ -54,7 +54,7 @@ namespace IE
 	};
 
 
-	class IsoEngine_API AppRenderEvent : public Event
+	class AppRenderEvent : public Event
 	{
 		AppRenderEvent() = default;
 

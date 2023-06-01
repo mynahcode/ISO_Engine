@@ -26,6 +26,6 @@ namespace IE
 			glm::mat4 VPMatrix;
 		};
 
-		static SceneData* m_SceneData;
+		static Scope<SceneData> m_SceneData;
 	};
 }

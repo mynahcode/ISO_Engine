@@ -5,7 +5,7 @@
 
 namespace IE
 {
-	Renderer::SceneData* Renderer::m_SceneData = new SceneData;
+	Scope<Renderer::SceneData> Renderer::m_SceneData = CreateScope<SceneData>();
 
 	void Renderer::Init()
 	{

@@ -18,7 +18,7 @@ namespace IE
 		int m_KeyCode;
 	};
 
-	class IsoEngine_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(int keycode, bool isRepeat = false)
@@ -39,7 +39,7 @@ namespace IE
 		bool  m_IsRepeat;
 	};
 
-	class IsoEngine_API KeyReleasedEvent : public KeyEvent
+	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(int keycode)
