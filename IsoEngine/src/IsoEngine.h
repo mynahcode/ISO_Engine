@@ -16,6 +16,7 @@
 #include "IsoEngine/Renderer/VertexArray.h"
 
 #include "IsoEngine/Renderer/OrthographicCamera.h"
+#include "IsoEngine/OrthographicCameraController.h"
 
 /* Timestep Helper */
 #include "IsoEngine/Core/Timestep.h"

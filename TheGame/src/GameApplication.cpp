@@ -10,7 +10,7 @@ class TestLayer : public IE::Layer
 {
 public:
 	TestLayer()
-		: Layer("Test"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
+		: Layer("Test"), m_CameraController(1280.0f / 720.0f, true)
 	{
 
 		/* Rendering a Square */
@@ -84,25 +84,22 @@ public:
 
 	void OnUpdate(IE::Timestep timestep) override
 	{
-		IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::TRACE);
-		ISOLOGGER_TRACE("Time step: % seconds (% milliseconds)", timestep.GetSeconds(), timestep.GetMilliseconds());
-		/* Basic Camera Movement */
-		if (IE::Input::IsKeyPressed(IE_KEY_UP)) m_CameraPosition.y += m_CameraMoveSpeed * timestep;
-		else if (IE::Input::IsKeyPressed(IE_KEY_DOWN)) m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
-		if (IE::Input::IsKeyPressed(IE_KEY_RIGHT)) m_CameraPosition.x += m_CameraMoveSpeed * timestep;
-		else if (IE::Input::IsKeyPressed(IE_KEY_LEFT)) m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
-		if (IE::Input::IsKeyPressed(IE_KEY_Q)) m_CameraRotation += m_CameraRotationSpeed * timestep; // Positive rotation 
-		else if (IE::Input::IsKeyPressed(IE_KEY_E)) m_CameraRotation -= m_CameraRotationSpeed * timestep; // Negative rotation -- Counterintuitively		
+		//IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::TRACE);
+		//ISOLOGGER_TRACE("Time step: % seconds (% milliseconds)", timestep.GetSeconds(), timestep.GetMilliseconds());	
 
+		// Hook-in to the methods needed -- UPDATE
+		m_CameraController.OnUpdate(timestep);
+
+		/* RENDER */
 		/* Starts scene and contains all information of scene.*/
 		IE::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
 		IE::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
 		/* Renderer Flow */
-		IE::Renderer::BeginScene(m_Camera); // parameters should be: lights, environment
+		IE::Renderer::BeginScene(m_CameraController.GetCamera()); // parameters should be: lights, environment
+		//IE::Renderer::BeginScene(m_Scene);
+		//IE::Renderer2::BeginScene(m_Scene2D);
+		//IE::Renderer2D::DrawQuad();
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -138,7 +135,7 @@ public:
 
 	void OnEvent(IE::Event& ev) override
 	{
-
+		m_CameraController.OnEvent(ev);
 	}
 
 private:
@@ -151,12 +148,7 @@ private:
 
 	IE::Ref<IE::Textures2D> m_Texture, m_LogoTexture;
 
-	IE::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 5.0f;
-
-	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 180.0f;
+	IE::OrthographicCameraController m_CameraController;
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
