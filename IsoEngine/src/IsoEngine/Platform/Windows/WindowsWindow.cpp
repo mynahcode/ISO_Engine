@@ -38,7 +38,7 @@ namespace IE
 		m_Data.Height = props.Height;
 
 		IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::TRACE);
-		ISOLOGGER_TRACE("Creating Window % with dimensions (%, %).", props.Title.c_str(), props.Width, props.Height);
+		ISOLOGGER_TRACE("Creating Window << % >> with dimensions (%, %).", props.Title.c_str(), props.Width, props.Height);
 
 		if (!s_GLFWInitialized)
 		{
@@ -63,7 +63,7 @@ namespace IE
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
-		// GLFW Callbacks
+		// Set the GLFW Callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);

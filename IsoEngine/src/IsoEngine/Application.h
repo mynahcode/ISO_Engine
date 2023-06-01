@@ -38,13 +38,14 @@ namespace IE
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& ev);
+		bool OnWindowResize(WindowResizeEvent& ev);
 
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_IsRunning = true;
+		bool m_Minimized = false;
 		LayerStack m_LayerStack;
 		float m_LastFrameTime = 0.0f;
-
 
 		static Application* s_Instance;
 	};

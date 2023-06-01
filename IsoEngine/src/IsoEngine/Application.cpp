@@ -40,8 +40,11 @@ namespace IE
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(timestep);
+			if (!m_Minimized)
+			{
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(timestep);
+			}
 
 			/* imgui debug layer */
 			m_ImGuiLayer->Begin();
@@ -74,6 +77,7 @@ namespace IE
 		//ISOLOGGER_INFO("%", ev);
 		EventDispatcher dispatcher(ev);
 		dispatcher.Dispatch<WindowCloseEvent>(IE_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(IE_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto iter = m_LayerStack.end(); iter != m_LayerStack.begin(); )
 		{
@@ -86,6 +90,22 @@ namespace IE
 	bool Application::OnWindowClose(WindowCloseEvent& ev)
 	{
 		m_IsRunning = false;
+		return true;
+	}
+
+
+	bool Application::OnWindowResize(WindowResizeEvent& ev)
+	{
+		if (ev.GetWidth() == 0 || ev.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResize(ev.GetWidth(), ev.GetHeight());
+		IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::WARN);
+		ISOLOGGER_WARN("Window Resized: (%, %)", ev.GetWidth(), ev.GetWidth());
 		return true;
 	}
 }

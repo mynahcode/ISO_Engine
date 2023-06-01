@@ -20,6 +20,9 @@ namespace IE
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
 
+		void SetZoomLevel(float level) { m_ZoomLevel = level; }
+		float GetZoomLevel() const { return m_ZoomLevel; }
+
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& ev);
 		bool OnWindowResized(WindowResizeEvent& ev);

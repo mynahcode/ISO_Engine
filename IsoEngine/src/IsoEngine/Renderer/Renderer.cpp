@@ -12,6 +12,11 @@ namespace IE
 		RenderCommand::Init();
 	}
 
+	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
+	{
+		RenderCommand::SetViewport(0, 0, width, height); // Set viewport from (0,0) to (width, height)
+	}
+
 	void Renderer::BeginScene(OrthographicCamera& camera) // TODO: Implement environment maps, cube maps, camera, projection matrix, view matrix, lighting as shader uniforms
 	{
 		m_SceneData->VPMatrix = camera.GetVPMatrix();

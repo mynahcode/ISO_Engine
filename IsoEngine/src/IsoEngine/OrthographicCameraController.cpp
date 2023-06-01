@@ -57,8 +57,9 @@ namespace IE
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& ev)
 	{
-		m_AspectRatio = (float)ev.GetWidth() / (float)ev.GetHeight();
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+		float yScale = ev.GetHeight() / 720.0f;
+		m_AspectRatio = yScale * (float)ev.GetWidth() / ev.GetHeight();
+		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -yScale * m_ZoomLevel, yScale * m_ZoomLevel);
 
 		return false;
 	}
