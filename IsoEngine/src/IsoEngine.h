@@ -8,6 +8,7 @@
 
 /* Renderer and Camera */
 #include "IsoEngine/Renderer/Renderer.h"
+#include "IsoEngine/Renderer/Renderer2D.h"
 #include "IsoEngine/Renderer/RenderCommand.h"
 
 #include "IsoEngine/Renderer/Buffer.h"

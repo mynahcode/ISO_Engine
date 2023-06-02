@@ -1425,6 +1425,7 @@
     <ClInclude Include="src\iepch.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Renderer\Renderer2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\stb_image\stb_image.cpp">
@@ -1502,5 +1503,6 @@
     <ClCompile Include="src\iepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\Renderer\Renderer2D.cpp" />
   </ItemGroup>
 </Project>

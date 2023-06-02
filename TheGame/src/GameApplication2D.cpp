@@ -4,8 +4,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "IsoEngine/Platform/OpenGL/OpenGLShader.h"
-
 TheGame2D::TheGame2D()
 	: Layer("TheGame2D"), m_CameraController(1280.0f / 720.0f)
 {
@@ -13,30 +11,7 @@ TheGame2D::TheGame2D()
 
 void TheGame2D::OnAttach()
 {
-	/* Rendering a Square */
-	m_SquareVertexArray = IE::VertexArray::Create();
-
-	float squareVertices[5 * 4] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.5f, 0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f
-	};
-
-	IE::Ref<IE::VertexBuffer> m_SquareVertexBuffer;
-	m_SquareVertexBuffer.reset(IE::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-	m_SquareVertexBuffer->SetLayout({
-		{ IE::ShaderDataType::Float3, "a_Position"},
-		});
-	m_SquareVertexArray->AddVertexBuffer(m_SquareVertexBuffer);
-
-	unsigned int squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-	IE::Ref<IE::IndexBuffer> m_SquareIndexBuffer;
-	m_SquareIndexBuffer.reset(IE::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
-	m_SquareVertexArray->SetIndexBuffer(m_SquareIndexBuffer);
-
-	
-	m_FlatColorShader = IE::Shader::Create("assets/shaders/FlatColor.glsl");
+	m_GrassTexture = IE::Textures2D::Create("assets/textures/grass.jpg");
 }
 
 void TheGame2D::OnDetach()
@@ -50,19 +25,18 @@ void TheGame2D::OnUpdate(IE::Timestep timestep)
 	m_CameraController.OnUpdate(timestep);
 
 	/* RENDER */
-		/* Starts scene and contains all information of scene.*/
+	/* Starts scene and contains all information of scene.*/
 	IE::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
 	IE::RenderCommand::Clear();
 
 	/* Renderer Flow */
-	IE::Renderer::BeginScene(m_CameraController.GetCamera()); // parameters should be: lights, environment
+	IE::Renderer2D::BeginScene(m_CameraController.GetCamera()); // parameters should be: lights, environment
 
-	std::dynamic_pointer_cast<IE::OpenGLShader>(m_FlatColorShader)->Bind();
-	std::dynamic_pointer_cast<IE::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat4("u_Color", m_SquareColor);
+	IE::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f }); // Testing translation of quad rendering
+	IE::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f }); // Non-Uniform Quad render test
+	IE::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_GrassTexture); // Blending Test for Textures -- z coordinate -0.1 pushes quad behind other textures
 
-	IE::Renderer::Submit(m_FlatColorShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-
-	IE::Renderer::EndScene();
+	IE::Renderer2D::EndScene();
 }
 
 void TheGame2D::OnImGuiRender()
