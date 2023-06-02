@@ -1,10 +1,13 @@
 #include <IsoEngine.h>
+#include <IsoEngine/Core/EntryPoint.h>
 
 #include "IsoEngine/Platform/OpenGL/OpenGLShader.h"
 #include "imgui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "GameApplication2D.h"
 
 class TestLayer : public IE::Layer
 {
@@ -14,7 +17,7 @@ public:
 	{
 
 		/* Rendering a Square */
-		m_SquareVertexArray.reset(IE::VertexArray::Create());
+		m_SquareVertexArray = IE::VertexArray::Create();
 
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,				// Texture coords: Bottom Left (0.0f, 0.0f)
@@ -159,7 +162,8 @@ public:
 	TheGame()
 		: Application()
 	{
-		PushLayer(new TestLayer());
+		//PushLayer(new TestLayer());
+		PushLayer(new TheGame2D());
 	}
 
 	~TheGame()

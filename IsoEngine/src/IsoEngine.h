@@ -31,5 +31,3 @@
 /* IsoEngine's Native Logging System*/
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 
-/* Entry Point */
-#include "IsoEngine/Core/EntryPoint.h"

@@ -34,7 +34,7 @@ namespace IE
 
 	private:
 		std::string ReadShaderFile(const std::string& filepath);
-		std::unordered_map<GLenum, std::string>PreProcessShaderSrc(const std::string& src);
+		std::unordered_map<GLenum, std::string> PreProcessShaderSrc(const std::string& src);
 		void CompileGLShader(const std::unordered_map<GLenum, std::string>& shaderSrc);
 		uint32_t m_RendererID;
 		std::string m_Name;

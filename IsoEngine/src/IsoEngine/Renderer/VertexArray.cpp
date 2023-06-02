@@ -8,7 +8,7 @@
 
 namespace IE
 {
-	VertexArray* VertexArray::Create()
+	Ref<VertexArray> VertexArray::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -17,7 +17,7 @@ namespace IE
 				return nullptr;
 
 			case RendererAPI::API::OpenGL:
-				return new OpenGLVertexArray();
+				return CreateRef<OpenGLVertexArray>();
 		}
 
 		//IE_CORE_ASSERT(false, "Error: Unknown Renderer API");

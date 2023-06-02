@@ -13,7 +13,7 @@ namespace IE
 		case RendererAPI::API::None: /* IE_CORE_ASSERT(false, "RendererAPI::None is not supported!"); */
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLShader>(filepath);
+			return CreateRef<OpenGLShader>(filepath);
 		}
 
 		/*IE_CORE_ASSERT(false, "Unknown Renderering API!"); */
@@ -27,7 +27,7 @@ namespace IE
 			case RendererAPI::API::None: /* IE_CORE_ASSERT(false, "RendererAPI::None is not supported!"); */ 
 				return nullptr;
 			case RendererAPI::API::OpenGL: 
-				return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+				return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
 		}
 
 		/*IE_CORE_ASSERT(false, "Unknown Renderering API!"); */

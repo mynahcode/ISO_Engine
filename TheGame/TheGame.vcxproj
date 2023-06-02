@@ -135,7 +135,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameApplication2D.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\GameApplication.cpp" />
+    <ClCompile Include="src\GameApplication2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IsoEngine\IsoEngine.vcxproj">

@@ -11,7 +11,7 @@ namespace IE
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None: /* IE_CORE_ASSERT(false, "RendererAPI::None isn't supported! */ return nullptr;
-		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLTextures2D>(path);
+		case RendererAPI::API::OpenGL: return CreateRef<OpenGLTextures2D>(path);
 		}
 
 		/* IE_CORE_ASSERT(false, "Unknown RendererAPI! */
