@@ -8,7 +8,7 @@
 
 namespace IE
 {
-	static bool s_GLFWInitialized = false;
+	static uint8_t s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* desc)
 	{
@@ -40,21 +40,22 @@ namespace IE
 		IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::TRACE);
 		ISOLOGGER_TRACE("Creating Window << % >> with dimensions (%, %).", props.Title.c_str(), props.Width, props.Height);
 
-		if (!s_GLFWInitialized)
+		if (s_GLFWWindowCount == 0)
 		{
-			// TODO: Implement glfwTerminate on system shutdown
+			ISOLOGGER_TRACE("Initializing GLFW...");
 			int success = glfwInit();
 			//IE_ENGINE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
-			s_GLFWInitialized = true;
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		if (m_Window == nullptr)
 		{
-			//ISOLOGGER_FATAL("Failed to create GLFW Window in WindowsWindow.cpp!");
+			IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::FATAL);
+			ISOLOGGER_FATAL("Failed to create GLFW Window in WindowsWindow.cpp!");
 			Shutdown();
 		}
+		++s_GLFWWindowCount;
 
 		m_Context = CreateScope<OpenGLContext>(m_Window);
 		m_Context->Init();
@@ -157,6 +158,13 @@ namespace IE
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
+
+		if (--s_GLFWWindowCount == 0)
+		{
+			IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::TRACE);
+			ISOLOGGER_TRACE("Terminating GLFW in WindowsWindow::Shutdown()");
+			glfwTerminate();
+		}
 	}
 
 	void WindowsWindow::OnUpdate()

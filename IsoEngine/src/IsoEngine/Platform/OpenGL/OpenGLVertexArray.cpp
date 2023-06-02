@@ -65,7 +65,7 @@ namespace IE
 				ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.IsNormalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
-				(const void*)(intptr_t)element.Offset);
+				(const void*)element.Offset);
 
 			vb_Index++;
 		}

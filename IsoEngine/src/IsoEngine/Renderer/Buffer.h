@@ -48,11 +48,11 @@ namespace IE
 	{
 		std::string Name;
 		ShaderDataType Type;
-		uint32_t Offset;
+		size_t Offset;
 		uint32_t Size;
 		bool IsNormalized;
 
-		BufferElement() {}
+		BufferElement() = default;
 
 		// BufferElements Constructor with Initializer List
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
@@ -109,7 +109,7 @@ namespace IE
 	private:
 		void CalcOffsetsAndStride()
 		{
-			uint32_t offset = 0;
+			size_t offset = 0;
 			m_Stride = 0;
 
 			for (auto& element : m_Elements)
