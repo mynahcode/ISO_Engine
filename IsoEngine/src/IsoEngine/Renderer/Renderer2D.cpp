@@ -13,8 +13,8 @@ namespace IE
 	struct Renderer2DStorage
 	{
 		Ref<VertexArray> QuadVertexArray;
-		Ref<Shader> FlatColorShader;
 		Ref<Shader> TextureShader;
+		Ref<Textures2D> WhiteTexture;
 	};
 
 	static Renderer2DStorage* s_Data2D;
@@ -46,8 +46,10 @@ namespace IE
 		m_SquareIndexBuffer.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		s_Data2D->QuadVertexArray->SetIndexBuffer(m_SquareIndexBuffer);
 
+		s_Data2D->WhiteTexture = Textures2D::Create(1, 1);
+		uint32_t whiteTextureData = 0xffffffff;
+		s_Data2D->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t)); // 4 bytes
 
-		s_Data2D->FlatColorShader = Shader::Create("assets/shaders/FlatColor.glsl");
 		s_Data2D->TextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_Data2D->TextureShader->Bind();
 		s_Data2D->TextureShader->SetInt("u_Texture", 0);				// Texture slot that sampler samples from is slot 0.
@@ -60,16 +62,12 @@ namespace IE
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		s_Data2D->FlatColorShader->Bind();
-		s_Data2D->FlatColorShader->SetMat4("u_ViewProjection", camera.GetVPMatrix()); // API agnostic call, in OpenGL its a Uniform, in DX it is setconstantbuffer
-
 		s_Data2D->TextureShader->Bind();
 		s_Data2D->TextureShader->SetMat4("u_ViewProjection", camera.GetVPMatrix()); // API agnostic call, in OpenGL its a Uniform, in DX it is setconstantbuffer
 	}
 
 	void Renderer2D::EndScene()
 	{
-
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
@@ -79,13 +77,13 @@ namespace IE
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		s_Data2D->FlatColorShader->Bind();
-		s_Data2D->FlatColorShader->SetFloat4("u_Color", color);
+		s_Data2D->TextureShader->SetFloat4("u_Color", color);
+		s_Data2D->WhiteTexture->Bind();
 
 		/* Calculate the transform matrix */
 		// TODO: Add rotation matrix to the calculation for transform.
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
-		s_Data2D->FlatColorShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
+		s_Data2D->TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
 
 		/* Draw Call */
 		s_Data2D->QuadVertexArray->Bind();
@@ -99,14 +97,13 @@ namespace IE
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Textures2D>& texture)
 	{
-		s_Data2D->TextureShader->Bind();
+		s_Data2D->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f)); // TODO: Refactor to allow vec4 of color in for tint/fading effects on textures!
+		texture->Bind();
 
 		/* Calculate the transform matrix */
 		// TODO: Add rotation matrix to the calculation for transform.
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
 		s_Data2D->TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
-
-		texture->Bind();
 
 		/* Draw Call */
 		s_Data2D->QuadVertexArray->Bind();
