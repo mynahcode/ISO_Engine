@@ -1,8 +1,7 @@
 #include <IsoEngine.h>
 #include <IsoEngine/Core/EntryPoint.h>
 
-#include "IsoEngine/Platform/OpenGL/OpenGLShader.h"
-#include "imgui/imgui.h"
+#include <imgui/imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -81,8 +80,8 @@ public:
 		m_Texture = IE::Textures2D::Create("assets/textures/grass.jpg");
 		m_LogoTexture = IE::Textures2D::Create("assets/textures/ChernoLogo.png");
 
-		std::dynamic_pointer_cast<IE::OpenGLShader>(textureShader)->Bind();
-		std::dynamic_pointer_cast<IE::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
+		textureShader->Bind();
+		textureShader->SetInt("u_Texture", 0);
 	}
 
 	void OnUpdate(IE::Timestep timestep) override
@@ -106,8 +105,8 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		std::dynamic_pointer_cast<IE::OpenGLShader>(m_FlatColorShader)->Bind();
-		std::dynamic_pointer_cast<IE::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
+		m_FlatColorShader->Bind();
+		m_FlatColorShader->SetFloat3("u_Color", m_SquareColor);
 
 		for (int y = 0; y < 20; y++)
 		{

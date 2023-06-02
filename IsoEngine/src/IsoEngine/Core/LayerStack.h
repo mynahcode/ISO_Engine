@@ -1,16 +1,16 @@
 #pragma once
 
-#include <vector>
-
 #include "IsoEngine/Core/IsoMacros.h"
-#include "Layer.h"
+#include "IsoEngine/Core/Layer.h"
+
+#include <vector>
 
 namespace IE
 {
 	class LayerStack
 	{
 	public:
-		LayerStack();
+		LayerStack() = default;
 		~LayerStack();
 
 		void PushLayer(Layer* layer);

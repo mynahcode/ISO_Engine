@@ -1,5 +1,5 @@
 #include "iepch.h"
-#include "WindowsWindow.h"
+#include "IsoEngine/Platform/Windows/WindowsWindow.h"
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 #include "IsoEngine/Events/MouseEvent.h"
 #include "IsoEngine/Events/KeyEvent.h"
@@ -16,9 +16,9 @@ namespace IE
 		// ISOLOGGER_CRITICAL("GLFW Callback Error (Code: %)", error);
 	}
 
-	Window* Window::Create(const WindowProps& props)
+	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -57,7 +57,7 @@ namespace IE
 		}
 		++s_GLFWWindowCount;
 
-		m_Context = CreateScope<OpenGLContext>(m_Window);
+		m_Context = GraphicsContext::Create(m_Window);
 		m_Context->Init();
 
 

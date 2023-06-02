@@ -1,5 +1,8 @@
 #pragma once
-// For use ONLY by IsoEngine applications
+/* IsoEngine Core Macros and Definitions */
+#include "IsoEngine/Core/IsoMacros.h"
+
+/* For use ONLY by IsoEngine applications */
 #include "IsoEngine/Core/Application.h"
 
 /* Layers and Debug Layers */

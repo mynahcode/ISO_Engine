@@ -1,9 +1,9 @@
 #pragma once
 
-#include "RenderCommand.h"
+#include "IsoEngine/Renderer/RenderCommand.h"
 
-#include "OrthographicCamera.h"
-#include "Shader.h"
+#include "IsoEngine/Renderer/OrthographicCamera.h"
+#include "IsoEngine/Renderer/Shader.h"
 
 namespace IE
 {
@@ -11,6 +11,8 @@ namespace IE
 	{
 	public:
 		static void Init();
+		static void Shutdown();
+
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
 		static void BeginScene(OrthographicCamera& camera); // TODO: Add scene parameters: lighting, environment

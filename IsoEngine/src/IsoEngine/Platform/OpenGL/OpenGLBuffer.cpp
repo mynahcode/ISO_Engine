@@ -1,5 +1,5 @@
 #include "iepch.h"
-#include "OpenGLBuffer.h"
+#include "IsoEngine/Platform/OpenGL/OpenGLBuffer.h"
 
 #include <glad/glad.h>
 

@@ -1,7 +1,6 @@
 #include "iepch.h"
-#include "Renderer.h"
-#include "Renderer2D.h"
-#include "IsoEngine/Platform/OpenGL/OpenGLShader.h"
+#include "IsoEngine/Renderer/Renderer.h"
+#include "IsoEngine/Renderer/Renderer2D.h"
 
 
 namespace IE
@@ -14,12 +13,17 @@ namespace IE
 		Renderer2D::Init();
 	}
 
-	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
+	void Renderer::Shutdown()
 	{
-		RenderCommand::SetViewport(0, 0, width, height); // Set viewport from (0,0) to (width, height)
+		Renderer2D::Shutdown();
 	}
 
-	void Renderer::BeginScene(OrthographicCamera& camera) // TODO: Implement environment maps, cube maps, camera, projection matrix, view matrix, lighting as shader uniforms
+	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
+	{
+		RenderCommand::SetViewport(0, 0, width, height);						// Set viewport from (0,0) to (width, height)
+	}
+
+	void Renderer::BeginScene(OrthographicCamera& camera)						// TODO: Implement environment maps, cube maps, camera, projection matrix, view matrix, lighting as shader uniforms
 	{
 		m_SceneData->VPMatrix = camera.GetVPMatrix();
 	}
@@ -32,10 +36,8 @@ namespace IE
 	{
 		// TODO: Refactor to be API agnostic.
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", m_SceneData->VPMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform); // needs to be done PER OBJECT
-
-		//material_ir.Bind();
+		shader->SetMat4("u_ViewProjection", m_SceneData->VPMatrix);
+		shader->SetMat4("u_Transform", transform);								// needs to be done PER OBJECT
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

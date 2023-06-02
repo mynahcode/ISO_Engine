@@ -1,8 +1,8 @@
 #pragma once
 
-#include "IsoMacros.h"
+#include "IsoEngine/Core/IsoMacros.h"
 
-#include "Window.h"
+#include "IsoEngine/Core/Window.h"
 #include "IsoEngine/Core/LayerStack.h"
 #include "IsoEngine/Events/Event.h"
 #include "IsoEngine/Events/ApplicationEvent.h"
@@ -23,7 +23,7 @@ namespace IE
 	{
 	public:
 		Application();
-		virtual ~Application() = default; // will be inherited by Game application
+		virtual ~Application(); // will be inherited by Game application
 
 		void Run();
 

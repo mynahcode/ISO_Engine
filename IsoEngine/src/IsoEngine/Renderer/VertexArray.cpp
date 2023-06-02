@@ -1,7 +1,7 @@
 #include "iepch.h"
-#include "VertexArray.h"
 
-#include "Renderer.h"
+#include "IsoEngine/Renderer/VertexArray.h"
+#include "IsoEngine/Renderer/Renderer.h"
 
 #include "IsoEngine/Platform/OpenGL/OpenGLBuffer.h"
 #include "IsoEngine/Platform/OpenGL/OpenGLVertexArray.h"

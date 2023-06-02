@@ -1,7 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "Buffer.h"
+
+#include "IsoEngine/Renderer/Buffer.h"
 
 namespace IE
 {

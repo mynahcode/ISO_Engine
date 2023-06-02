@@ -1,6 +1,6 @@
 #include "iepch.h"
 #include "IsoEngine/Core/IsoMacros.h"
-#include "OrthographicCameraController.h"
+#include "IsoEngine/Controllers/OrthographicCameraController.h"
 
 #include "IsoEngine/Core/Input.h"
 #include "IsoEngine/Core/KeyCodes.h"

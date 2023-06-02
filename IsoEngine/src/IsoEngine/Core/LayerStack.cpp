@@ -1,5 +1,5 @@
 #include "iepch.h"
-#include "LayerStack.h"
+#include "IsoEngine/Core/LayerStack.h"
 
 namespace IE
 {
@@ -8,9 +8,6 @@ namespace IE
 	 * Layers get pushed on to the first half of the list, overlays get pushed onto the latter
 	 * half of the list. Overlays MUST always come AFTER Layers.
 	 */
-	LayerStack::LayerStack()
-	{
-	}
 
 	LayerStack::~LayerStack()
 	{

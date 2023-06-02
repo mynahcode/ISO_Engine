@@ -4,7 +4,7 @@
 
 #include "IsoEngine/Renderer/Renderer.h"
 
-#include "input.h"
+#include "IsoEngine/Core/Input.h"
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 
 #include <GLFW/glfw3.h>
@@ -30,6 +30,11 @@ namespace IE
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
+	}
+
+	Application::~Application()
+	{
+		Renderer::Shutdown();
 	}
 
 	void Application::Run()

@@ -1,7 +1,8 @@
 #include "iepch.h"
-#include "Shader.h"
 
-#include "Renderer.h"
+#include "IsoEngine/Renderer/Shader.h"
+#include "IsoEngine/Renderer/Renderer.h"
+
 #include "IsoEngine/Platform/OpenGL/OpenGLShader.h"
 
 namespace IE

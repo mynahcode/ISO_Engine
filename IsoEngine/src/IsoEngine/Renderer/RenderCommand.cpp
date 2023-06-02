@@ -1,9 +1,9 @@
 #include "iepch.h"
-#include "RenderCommand.h"
+#include "IsoEngine/Renderer/RenderCommand.h"
 
 #include "IsoEngine/Platform/OpenGL/OpenGLRendererAPI.h"
 
 namespace IE
 {
-	Scope<RendererAPI> RenderCommand::s_RendererAPI = CreateScope<OpenGLRendererAPI>();
+	Scope<RendererAPI> RenderCommand::s_RendererAPI = RendererAPI::Create();
 }

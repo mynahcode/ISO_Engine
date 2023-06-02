@@ -1,6 +1,7 @@
 #include "iepch.h"
+
 #include "IsoEngine/IsoLogger/IsoLogger.h"
-#include "OpenGLContext.h"
+#include "IsoEngine/Platform/OpenGL/OpenGLContext.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>

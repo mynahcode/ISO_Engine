@@ -1,6 +1,7 @@
 #include "iepch.h"
-#include "Textures.h"
-#include "Renderer.h"
+
+#include "IsoEngine/Renderer/Textures.h"
+#include "IsoEngine/Renderer/Renderer.h"
 
 #include "IsoEngine/Platform/OpenGL/OpenGLTextures.h"
 

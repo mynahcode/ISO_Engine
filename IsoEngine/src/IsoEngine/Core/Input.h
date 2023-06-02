@@ -2,12 +2,15 @@
 
 #include "IsoEngine/Core/IsoMacros.h"
 
-/* Global Input Polling Manager -- Singleton */
+/* Global Input Polling Manager -- Singleton Instance */
 namespace IE
 {
 	class Input
 	{
 	public:
+		Input(const Input&) = delete;
+		Input& operator=(const Input&) = delete;
+
 		inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode);  } // TODO: Add IsoEngine's own keycodes so it can be platform independent.
 
 		inline static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
@@ -17,6 +20,7 @@ namespace IE
 
 	protected:
 		/* Implemented Per - Platform */
+		Input() = default;
 		virtual bool IsKeyPressedImpl(int keycode) = 0; 
 
 		virtual bool IsMouseButtonPressedImpl(int button) = 0; 
@@ -26,6 +30,6 @@ namespace IE
 		virtual float GetMouseYImpl() = 0; 
 
 	private:
-		static Scope<Input> s_Instance; // Singleton Instance of Input
+		static Scope<Input> s_Instance;
 	};
 }

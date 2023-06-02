@@ -1,7 +1,7 @@
 #pragma once
 
-#include "OrthographicCamera.h"
-#include "Textures.h"
+#include "IsoEngine/Renderer/OrthographicCamera.h"
+#include "IsoEngine/Renderer/Textures.h"
 
 namespace IE
 {

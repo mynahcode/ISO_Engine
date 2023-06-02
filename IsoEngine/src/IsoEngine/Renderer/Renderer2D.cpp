@@ -1,9 +1,9 @@
 #include "iepch.h"
-#include "Renderer2D.h"
+#include "IsoEngine/Renderer/Renderer2D.h"
 
-#include "VertexArray.h"
-#include "Shader.h"
-#include "RenderCommand.h"
+#include "IsoEngine/Renderer/VertexArray.h"
+#include "IsoEngine/Renderer/Shader.h"
+#include "IsoEngine/Renderer/RenderCommand.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 

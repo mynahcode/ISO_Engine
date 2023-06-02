@@ -1504,5 +1504,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\GraphicsContext.cpp" />
   </ItemGroup>
 </Project>

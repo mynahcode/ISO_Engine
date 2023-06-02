@@ -1,5 +1,5 @@
 #include "iepch.h"
-#include "OpenGLTextures.h"
+#include "IsoEngine/Platform/OpenGL/OpenGLTextures.h"
 
 #include "stb_image.h"
 
