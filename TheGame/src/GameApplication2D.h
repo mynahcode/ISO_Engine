@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <IsoEngine.h>
 
 class TheGame2D : public IE::Layer
@@ -26,4 +28,12 @@ private:
 	IE::Ref<IE::Textures2D> m_GrassTexture;
 
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+
+	struct ProfilerResult
+	{
+		const char* ProfilerName;
+		float ProfilerTime;
+	};
+
+	std::vector<ProfilerResult> m_ProfilerResults;
 };
