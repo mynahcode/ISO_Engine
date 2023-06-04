@@ -43,12 +43,12 @@ public:
 private:
 	const char* m_Name;
 	Fn m_Func;
-	bool m_Stopped;
 	std::chrono::time_point<std::chrono::steady_clock> m_StartTime;
+	bool m_Stopped;
 };
 
 // TODO: Fix define macro
-//#define PROFILE_SCOPE(name) Timer timer##__LINE__(name, [&](ProfilerResult profilerResult) { m_ProfilerResults.push_back(profilerResult); } )
+#define PROFILE_SCOPE(name) Timer timer##__LINE__(name, [&](ProfilerResult profilerResult) { m_ProfilerResults.push_back(profilerResult); } )
 
 TheGame2D::TheGame2D()
 	: Layer("TheGame2D"), m_CameraController(1280.0f / 720.0f)
@@ -67,26 +67,25 @@ void TheGame2D::OnDetach()
 
 void TheGame2D::OnUpdate(IE::Timestep timestep)
 {
-	//PROFILE_SCOPE("TheGame2D::OnUpdate()");
-	Timer timer("TheGame2D::OnUpdate()", [&](ProfilerResult profilerResult) { m_ProfilerResults.push_back(profilerResult); });
+	PROFILE_SCOPE("TheGame2D::OnUpdate()");
 
 	{
 		// Hook-in to the methods needed -- UPDATE
-		Timer timer("TheGame2D::OrthographicCameraController::OnUpdate()", [&](ProfilerResult profilerResult) { m_ProfilerResults.push_back(profilerResult); });
+		PROFILE_SCOPE("TheGame2D::OrthographicCameraController::OnUpdate()");
 		m_CameraController.OnUpdate(timestep);
 	}
 
 	/* RENDER */
 	/* Starts scene and contains all information of scene.*/
 	{
-		Timer timer("Renderer Preparation Functions", [&](ProfilerResult profilerResult) { m_ProfilerResults.push_back(profilerResult); });
+		PROFILE_SCOPE("Renderer Preparation Functions");
 		IE::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
 		IE::RenderCommand::Clear();
 	}
 
 	/* Renderer Flow */
 	{
-		Timer timer("Renderer Draw Functions", [&](ProfilerResult profilerResult) { m_ProfilerResults.push_back(profilerResult); });
+		PROFILE_SCOPE("Renderer Draw Functions");
 		IE::Renderer2D::BeginScene(m_CameraController.GetCamera()); // parameters should be: lights, environment
 
 		IE::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f }); // Testing translation of quad rendering
