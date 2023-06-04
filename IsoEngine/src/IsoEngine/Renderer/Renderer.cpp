@@ -9,6 +9,8 @@ namespace IE
 
 	void Renderer::Init()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}

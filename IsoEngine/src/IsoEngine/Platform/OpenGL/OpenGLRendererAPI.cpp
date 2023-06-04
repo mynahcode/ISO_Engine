@@ -5,8 +5,11 @@
 
 namespace IE
 {
+	// TODO: Implement graphics API specific renderer profiler that can be enabled with ifdef define.
 	void OpenGLRendererAPI::Init()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

@@ -18,21 +18,27 @@ namespace IE
 
 	Scope<Window> Window::Create(const WindowProps& props)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		_IE_PROFILER_FUNCTION();
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		_IE_PROFILER_FUNCTION();
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
@@ -42,13 +48,18 @@ namespace IE
 
 		if (s_GLFWWindowCount == 0)
 		{
+			_IE_PROFILER_SCOPE("WindowsWindow::Init()->glfwInit()");
 			ISOLOGGER_TRACE("Initializing GLFW...");
 			int success = glfwInit();
 			//IE_ENGINE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
+		
+		{
+			_IE_PROFILER_SCOPE("WindowsWindow::Init()->glfwCreateWindow()");
+			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		}
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		if (m_Window == nullptr)
 		{
 			IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::FATAL);
@@ -157,6 +168,8 @@ namespace IE
 
 	void WindowsWindow::Shutdown()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
 
 		if (--s_GLFWWindowCount == 0)
@@ -169,12 +182,15 @@ namespace IE
 
 	void WindowsWindow::OnUpdate()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		_IE_PROFILER_FUNCTION();
 		if (enabled)
 			glfwSwapInterval(1);
 		else

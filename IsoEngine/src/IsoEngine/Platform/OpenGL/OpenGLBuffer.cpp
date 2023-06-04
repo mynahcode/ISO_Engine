@@ -8,6 +8,8 @@ namespace IE
 	/* Vertex Buffer Implementation for OpenGL */
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		/* Upload data to GPU from CPU */
 		glCreateBuffers(1, &m_RendererID);	
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
@@ -16,16 +18,22 @@ namespace IE
 
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
 	void OpenGLVertexBuffer::Bind() const
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 	}
 
 	void OpenGLVertexBuffer::UnBind() const
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
@@ -33,6 +41,8 @@ namespace IE
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
 		: m_Count(count)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		/* Upload data to GPU from CPU */
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
@@ -41,16 +51,22 @@ namespace IE
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
 	void OpenGLIndexBuffer::Bind() const
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 	}
 
 	void OpenGLIndexBuffer::UnBind() const
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 }

@@ -37,6 +37,9 @@
     <Filter Include="src\IsoEngine\Core">
       <UniqueIdentifier>{159002A7-0174-C3FC-6AD4-BD4F56D7AD7E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\IsoEngine\Debug">
+      <UniqueIdentifier>{D3ED6087-3F4F-3E95-C8BC-8447341D7554}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\IsoEngine\Events">
       <UniqueIdentifier>{E1FA0877-CD89-9240-76A8-A63B6216A3E6}</UniqueIdentifier>
     </Filter>
@@ -1347,6 +1350,9 @@
     <ClInclude Include="src\IsoEngine\Core\Window.h">
       <Filter>src\IsoEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Debug\Instrumentor.h">
+      <Filter>src\IsoEngine\Debug</Filter>
+    </ClInclude>
     <ClInclude Include="src\IsoEngine\Events\ApplicationEvent.h">
       <Filter>src\IsoEngine\Events</Filter>
     </ClInclude>
@@ -1410,6 +1416,9 @@
     <ClInclude Include="src\IsoEngine\Renderer\Renderer.h">
       <Filter>src\IsoEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Renderer\Renderer2D.h">
+      <Filter>src\IsoEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\IsoEngine\Renderer\RendererAPI.h">
       <Filter>src\IsoEngine\Renderer</Filter>
     </ClInclude>
@@ -1425,7 +1434,6 @@
     <ClInclude Include="src\iepch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\IsoEngine\Renderer\Renderer2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\stb_image\stb_image.cpp">
@@ -1479,6 +1487,9 @@
     <ClCompile Include="src\IsoEngine\Renderer\Buffer.cpp">
       <Filter>src\IsoEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\Renderer\GraphicsContext.cpp">
+      <Filter>src\IsoEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\IsoEngine\Renderer\OrthographicCamera.cpp">
       <Filter>src\IsoEngine\Renderer</Filter>
     </ClCompile>
@@ -1486,6 +1497,9 @@
       <Filter>src\IsoEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Renderer\Renderer.cpp">
+      <Filter>src\IsoEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\Renderer\Renderer2D.cpp">
       <Filter>src\IsoEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Renderer\RendererAPI.cpp">
@@ -1503,7 +1517,5 @@
     <ClCompile Include="src\iepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\IsoEngine\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="src\IsoEngine\Renderer\GraphicsContext.cpp" />
   </ItemGroup>
 </Project>

@@ -23,6 +23,11 @@
 #include <unordered_map>
 #include <unordered_set>
 
+/* Debug and Logging */
+// TODO: Add ifdef define for debugging/logging and implement in this file and all others that use these classes.
+#include "IsoEngine/IsoLogger/IsoLogger.h"
+#include "IsoEngine/Debug/Instrumentor.h"
+
 /* Platform Specific Includes*/
 #ifdef _IE_PLATFORM_WINDOWS
 #include <Windows.h>

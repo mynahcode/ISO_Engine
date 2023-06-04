@@ -21,6 +21,8 @@ namespace IE
 
 	void Renderer2D::Init()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		s_Data2D = new Renderer2DStorage();
 
 		/* Rendering a Square */
@@ -57,26 +59,35 @@ namespace IE
 
 	void Renderer2D::Shutdown()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		delete s_Data2D;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		s_Data2D->TextureShader->Bind();
 		s_Data2D->TextureShader->SetMat4("u_ViewProjection", camera.GetVPMatrix()); // API agnostic call, in OpenGL its a Uniform, in DX it is setconstantbuffer
 	}
 
 	void Renderer2D::EndScene()
 	{
+		_IE_PROFILER_FUNCTION();
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		DrawQuad({ position.x, position.y, 0.0f }, size, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		s_Data2D->TextureShader->SetFloat4("u_Color", color);
 		s_Data2D->WhiteTexture->Bind();
 
@@ -92,11 +103,15 @@ namespace IE
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Textures2D>& texture)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		DrawQuad({ position.x, position.y, 0.0f }, size, texture);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Textures2D>& texture)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		s_Data2D->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f)); // TODO: Refactor to allow vec4 of color in for tint/fading effects on textures!
 		texture->Bind();
 

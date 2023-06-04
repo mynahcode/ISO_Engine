@@ -17,6 +17,8 @@ namespace IE
 
 	void OpenGLContext::Init()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glfwMakeContextCurrent(m_WindowHandle);
 		int glad_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		// IE_CORE_ASSERT(glad_status, "Failed to initialize Glad!");
@@ -30,6 +32,7 @@ namespace IE
 
 	void OpenGLContext::SwapBuffers()
 	{
+		_IE_PROFILER_FUNCTION();
 		glfwSwapBuffers(m_WindowHandle);
 	}
 }

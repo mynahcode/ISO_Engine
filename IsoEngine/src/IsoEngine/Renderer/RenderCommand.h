@@ -10,6 +10,8 @@ namespace IE
 
 		inline static void Init()
 		{
+			_IE_PROFILER_FUNCTION();
+
 			s_RendererAPI->Init();
 		}
 

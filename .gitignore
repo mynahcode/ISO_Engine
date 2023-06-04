@@ -1,11 +1,16 @@
 # Visual Studio files and folders
 .vs/
-**.sln
-**.vcxproj
-**.vcxproj.filters
-**.vcxproj.user
+*/*.sln
+*/*.vcxproj
+*/*.vcxproj.filters
+*/*.vcxproj.user
 
 # Project Binaries
 **/bin/
 !vendor/bin/premake
 **/obj/
+
+# Logging and Instrumentation Outputs
+TheGame/logs/
+TheGame/imgui.ini
+TheGame/**.json

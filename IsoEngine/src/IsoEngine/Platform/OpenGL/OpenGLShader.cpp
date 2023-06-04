@@ -18,6 +18,8 @@ namespace IE
 
 	OpenGLShader::OpenGLShader(const std::string& filepath) // input file stream: std::ifstream
 	{
+		_IE_PROFILER_FUNCTION();
+
 		std::string src = ReadShaderFile(filepath);
 		auto shaderSrc = PreProcessShaderSrc(src);
 		CompileGLShader(shaderSrc);
@@ -40,6 +42,8 @@ namespace IE
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -50,36 +54,50 @@ namespace IE
 
 	OpenGLShader::~OpenGLShader()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glDeleteProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Bind() const
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glUseProgram(m_RendererID);
 	}
 
 	void OpenGLShader::UnBind() const
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glUseProgram(0);
 	}
 
 	void OpenGLShader::SetInt(const std::string& name, int value)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		UploadUniformInt(name, value);
 	}
 
 	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& values)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		UploadUniformFloat3(name, values);
 	}
 
 	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& values)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		UploadUniformFloat4(name, values);
 	}
 
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& values)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		UploadUniformMat4(name, values);
 	}
 
@@ -133,6 +151,8 @@ namespace IE
 
 	std::string OpenGLShader::ReadShaderFile(const std::string& filepath)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		std::string result;
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in)
@@ -157,6 +177,8 @@ namespace IE
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcessShaderSrc(const std::string& src)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSrc;
 
 		const char* typeToken = "#type";
@@ -180,6 +202,8 @@ namespace IE
 
 	void OpenGLShader::CompileGLShader(const std::unordered_map<GLenum, std::string>& shaderSrc)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		/* Adapted From https://www.khronos.org/opengl/wiki/Shader_Compilation */
 
 		// Assuming vertex and fragment shaders are successfully compiled.

@@ -27,26 +27,36 @@ namespace IE
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glCreateVertexArrays(1, &m_RendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 
 	void OpenGLVertexArray::Bind() const
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 	}
 
 	void OpenGLVertexArray::UnBind() const
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		/* Create OpenGL Context */
 		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
@@ -76,6 +86,8 @@ namespace IE
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
 

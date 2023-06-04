@@ -17,6 +17,7 @@ namespace IE
 
 	Application::Application()
 	{
+		_IE_PROFILER_FUNCTION();
 		/* Create GLFW Window */
 		//IE_CORE_ASSERT(!s_Instance, "Application already created!");
 		s_Instance = this; // Singleton gets set when we construct the IsoEngine Application and should only be one.
@@ -34,30 +35,41 @@ namespace IE
 
 	Application::~Application()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		Renderer::Shutdown();
 	}
 
 	void Application::Run()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		while (m_IsRunning)
 		{
+			_IE_PROFILER_SCOPE("Application::Run() runloop iteration");
 			float time = (float)glfwGetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
 			if (!m_Minimized)
 			{
-				for (Layer* layer : m_LayerStack)
-					layer->OnUpdate(timestep);
+				{
+					_IE_PROFILER_SCOPE("LayerStack::OnUpdate() in Application::Run()");
+					for (Layer* layer : m_LayerStack)
+						layer->OnUpdate(timestep);
+				}
+
+				{
+					_IE_PROFILER_SCOPE("LayerStack OnImGuiRender() in Application::Run()");
+					/* imgui debugger layer */
+					m_ImGuiLayer->Begin();
+					for (Layer* layer : m_LayerStack)
+						layer->OnImGuiRender();
+					m_ImGuiLayer->End();
+
+					m_Window->OnUpdate();
+				}
 			}
-
-			/* imgui debug layer */
-			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender();
-			m_ImGuiLayer->End();
-
-			m_Window->OnUpdate();
 
 			//auto [x, y] = Input::GetMousePos(); // DEBUG
 			//ISOLOGGER_INFO("<%, %>", x, y);
@@ -66,18 +78,23 @@ namespace IE
 
 	void Application::PushLayer(Layer* layer)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		m_LayerStack.PushOverlay(layer);
 		layer->OnAttach();
 	}
 
 	void Application::OnEvent(Event& ev)
 	{
+		_IE_PROFILER_FUNCTION();
 
 		//ISOLOGGER_INFO("%", ev);
 		EventDispatcher dispatcher(ev);
@@ -101,6 +118,8 @@ namespace IE
 
 	bool Application::OnWindowResize(WindowResizeEvent& ev)
 	{
+		_IE_PROFILER_FUNCTION();
+
 		if (ev.GetWidth() == 0 || ev.GetHeight() == 0)
 		{
 			m_Minimized = true;

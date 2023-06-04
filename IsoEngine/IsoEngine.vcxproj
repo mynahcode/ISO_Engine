@@ -144,7 +144,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\IsoEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="Vendor\glm\glm\common.hpp" />
     <ClInclude Include="Vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="Vendor\glm\glm\detail\_fixes.hpp" />
@@ -574,6 +573,7 @@
     <ClInclude Include="src\IsoEngine\Core\MouseCodes.h" />
     <ClInclude Include="src\IsoEngine\Core\Timestep.h" />
     <ClInclude Include="src\IsoEngine\Core\Window.h" />
+    <ClInclude Include="src\IsoEngine\Debug\Instrumentor.h" />
     <ClInclude Include="src\IsoEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\IsoEngine\Events\Event.h" />
     <ClInclude Include="src\IsoEngine\Events\KeyEvent.h" />
@@ -595,6 +595,7 @@
     <ClInclude Include="src\IsoEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\IsoEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Renderer.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\IsoEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Shader.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Textures.h" />
@@ -602,8 +603,6 @@
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\IsoEngine\Renderer\GraphicsContext.cpp" />
-    <ClCompile Include="src\IsoEngine\Renderer\Renderer2D.cpp" />
     <ClCompile Include="Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />
     <ClCompile Include="src\IsoEngine\Core\Application.cpp" />
@@ -621,9 +620,11 @@
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Shader.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Textures.cpp" />
