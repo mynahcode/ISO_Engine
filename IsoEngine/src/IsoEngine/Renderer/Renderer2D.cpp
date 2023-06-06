@@ -89,6 +89,7 @@ namespace IE
 		_IE_PROFILER_FUNCTION();
 
 		s_Data2D->TextureShader->SetFloat4("u_Color", color);
+		s_Data2D->TextureShader->SetFloat("u_TilingFactor", 1.0f);
 		s_Data2D->WhiteTexture->Bind();
 
 		/* Calculate the transform matrix */
@@ -101,23 +102,75 @@ namespace IE
 		RenderCommand::DrawIndexed(s_Data2D->QuadVertexArray);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Textures2D>& texture)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Textures2D>& texture, float tilingFactor)
 	{
 		_IE_PROFILER_FUNCTION();
 
-		DrawQuad({ position.x, position.y, 0.0f }, size, texture);
+		DrawQuad({ position.x, position.y, 0.0f }, size, texture, tilingFactor);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Textures2D>& texture)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Textures2D>& texture, float tilingFactor)
 	{
 		_IE_PROFILER_FUNCTION();
 
-		s_Data2D->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f)); // TODO: Refactor to allow vec4 of color in for tint/fading effects on textures!
+		s_Data2D->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
+		s_Data2D->TextureShader->SetFloat("u_TilingFactor", tilingFactor); 
 		texture->Bind();
 
 		/* Calculate the transform matrix */
 		// TODO: Add rotation matrix to the calculation for transform.
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
+		s_Data2D->TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
+
+		/* Draw Call */
+		s_Data2D->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data2D->QuadVertexArray);
+	}
+
+	// Rotation should be in radians.
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, color);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		s_Data2D->TextureShader->SetFloat4("u_Color", color);
+		s_Data2D->TextureShader->SetFloat("u_TilingFactor", 1.0f);
+		s_Data2D->WhiteTexture->Bind();
+
+		/* Calculate the transform matrix */
+		// TODO: Add rotation matrix to the calculation for transform.
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, { size.x, size.y, 1.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
+		s_Data2D->TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
+
+		/* Draw Call */
+		s_Data2D->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data2D->QuadVertexArray);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Textures2D>& texture, float tilingFactor)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, texture, tilingFactor);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Textures2D>& texture, float tilingFactor)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		s_Data2D->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
+		s_Data2D->TextureShader->SetFloat("u_TilingFactor", tilingFactor);
+		texture->Bind();
+
+		/* Calculate the transform matrix */
+		// TODO: Add rotation matrix to the calculation for transform.
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, { size.x, size.y, 1.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
 		s_Data2D->TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
 
 		/* Draw Call */
