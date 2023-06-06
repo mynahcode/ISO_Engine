@@ -145,7 +145,7 @@ namespace IE
 
 		/* Calculate the transform matrix */
 		// TODO: Add rotation matrix to the calculation for transform.
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, { size.x, size.y, 1.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
 		s_Data2D->TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
 
 		/* Draw Call */
@@ -170,7 +170,7 @@ namespace IE
 
 		/* Calculate the transform matrix */
 		// TODO: Add rotation matrix to the calculation for transform.
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, { size.x, size.y, 1.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
 		s_Data2D->TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
 
 		/* Draw Call */
