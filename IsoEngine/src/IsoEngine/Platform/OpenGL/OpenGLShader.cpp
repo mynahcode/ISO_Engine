@@ -96,7 +96,7 @@ namespace IE
 
 	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& values)
 	{
-		_IE_PROFILER_FUNCTION();
+		_IE_PROFILER_FUNCTION(); 
 
 		UploadUniformFloat4(name, values);
 	}

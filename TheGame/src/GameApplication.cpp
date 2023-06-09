@@ -26,7 +26,7 @@ public:
 		};
 
 		IE::Ref<IE::VertexBuffer> m_SquareVertexBuffer;
-		m_SquareVertexBuffer.reset(IE::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		m_SquareVertexBuffer = IE::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		m_SquareVertexBuffer->SetLayout({
 			{ IE::ShaderDataType::Float3, "a_Position"},
 			{ IE::ShaderDataType::Float2, "a_TextureCoord"}
@@ -35,7 +35,7 @@ public:
 
 		unsigned int squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
 		IE::Ref<IE::IndexBuffer> m_SquareIndexBuffer;
-		m_SquareIndexBuffer.reset((IE::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t))));
+		m_SquareIndexBuffer = IE::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVertexArray->SetIndexBuffer(m_SquareIndexBuffer);
 
 		/* Square Shader */
