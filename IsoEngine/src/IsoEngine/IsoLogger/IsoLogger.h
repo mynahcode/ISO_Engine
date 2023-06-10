@@ -30,7 +30,7 @@ namespace IE
 			const char* filepath = 0;
 			FILE* file;
 
-			IsoLogger() {}
+			IsoLogger() = default;
 			IsoLogger(const IsoLogger&) = delete;							// Copy-Constructor
 			IsoLogger& operator = (const IsoLogger&) = delete;				// Assignment Constructor
 			~IsoLogger() { free_File(); }
@@ -43,7 +43,7 @@ namespace IE
 			}
 
 			template<typename... Args>
-			void IsoLog(IELogger::IELogger_Priority msg_priority, const char* msg_priority_str, const char* msg, Args&&... args)
+			void IsoLog(IELogger_Priority msg_priority, const char* msg_priority_str, const char* msg, Args&&... args)
 			{
 				if (priority_level <= msg_priority)
 				{
@@ -105,7 +105,7 @@ namespace IE
 			}
 
 			template<typename... Args>
-			void IsoLog(int line_num, const char* src_file, IELogger::IELogger_Priority msg_priority, const char* msg_priority_str, const char* msg, Args&&... args)
+			void IsoLog(int line_num, const char* src_file, IELogger_Priority msg_priority, const char* msg_priority_str, const char* msg, Args&&... args)
 			{
 				if (priority_level <= msg_priority)
 				{
@@ -217,37 +217,37 @@ namespace IE
 			static void Trace(int line_num, const char* src_file, const char* message, Args&&... args)
 			{
 
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::TRACE, "[TRACE]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::TRACE, "[TRACE]: ", message, args...);
 			}
 
 			template<typename... Args>
 			static void Debug(int line_num, const char* src_file, const char* message, Args&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::DEBUG, "[DEBUG]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::DEBUG, "[DEBUG]: ", message, args...);
 			}
 
 			template<typename... Args>
 			static void Info(int line_num, const char* src_file, const char* message, Args&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::INFO, "[INFO]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::INFO, "[INFO]: ", message, args...);
 			}
 
 			template<typename... Args>
 			static void Warn(int line_num, const char* src_file, const char* message, Args&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::WARN, "[WARN]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::WARN, "[WARN]: ", message, args...);
 			}
 
 			template<typename... Args>
 			static void Critical(int line_num, const char* src_file, const char* message, Args&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::CRITICAL, "[CRITICAL]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::CRITICAL, "[CRITICAL]: ", message, args...);
 			}
 
 			template<typename... Args>
 			static void Fatal(int line_num, const char* src_file, const char* message, Args&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IE::IELogger::IELogger_Priority::FATAL, "[FATAL]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::FATAL, "[FATAL]: ", message, args...);
 			}
 
 		};

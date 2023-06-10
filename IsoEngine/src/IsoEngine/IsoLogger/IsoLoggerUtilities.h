@@ -1,8 +1,0 @@
-#pragma once
-
-#define ISOLOGGER_TRACE 0
-#define ISOLOGGER_DEBUG 1
-#define ISOLOGGER_INFO 2
-#define ISOLOGGER_WARN 3
-#define ISOLOGGER_CRITICAL 4
-#define ISOLOGGER_FATAL 5
