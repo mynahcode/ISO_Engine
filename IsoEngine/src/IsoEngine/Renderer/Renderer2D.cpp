@@ -36,6 +36,8 @@ namespace IE
 
 		std::array<Ref<Textures2D>, MAXTEXTURESLOTS> TextureSlots;
 		uint32_t TextureSlotIndex = 1; // Slot 0 dedicated to white texture.
+
+		glm::vec4 QuadVertexPositions[4];
 	};
 
 	static Renderer2DStorage s_Data2D;
@@ -93,6 +95,10 @@ namespace IE
 		s_Data2D.TextureShader->SetIntArray("u_Textures", samplers, s_Data2D.MAXTEXTURESLOTS);				// Texture slot that sampler samples from is slot 0.
 
 		s_Data2D.TextureSlots[0] = s_Data2D.WhiteTexture;
+		s_Data2D.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data2D.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data2D.QuadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
+		s_Data2D.QuadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
 
 	}
 
@@ -148,28 +154,31 @@ namespace IE
 		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
 
-		s_Data2D.QuadVertexBufferPtr->Position = position; // Bottom-Left
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[0]; // Bottom-Left
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
 		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-		s_Data2D.QuadVertexBufferPtr++;		
-		
-		s_Data2D.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f }; // Bottom-Right
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[1]; // Bottom-Right
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
 		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-		s_Data2D.QuadVertexBufferPtr++;		
-		
-		s_Data2D.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f }; // Top-Right
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[2]; // Top-Right
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
 		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-		s_Data2D.QuadVertexBufferPtr++;		
-		
-		s_Data2D.QuadVertexBufferPtr->Position = { position.x, position.y+ size.y, 0.0f }; // Top-Left
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[3]; // Top-Left
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
 		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
@@ -177,19 +186,7 @@ namespace IE
 		s_Data2D.QuadVertexBufferPtr++;
 
 		s_Data2D.QuadIndexCount += 6;
-	
-		//s_Data2D.TextureShader->SetFloat("u_TilingFactor", 1.0f);
-		//s_Data2D.WhiteTexture->Bind();
 
-		/* Calculate the transform matrix */
-		// TODO: Add rotation matrix to the calculation for transform.
-		//glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
-		//s_Data2D.TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
-
-		/* Draw Call */
-		//s_Data2D.QuadVertexArray->Bind();
-		//RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray);
-		
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
@@ -222,28 +219,32 @@ namespace IE
 			s_Data2D.TextureSlotIndex++;
 		}
 
-		s_Data2D.QuadVertexBufferPtr->Position = position; // Bottom-Left
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[0]; // Bottom-Left
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
 		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_Data2D.QuadVertexBufferPtr++;
 
-		s_Data2D.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f }; // Bottom-Right
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[1]; // Bottom-Right
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
 		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_Data2D.QuadVertexBufferPtr++;
 
-		s_Data2D.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f }; // Top-Right
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[2]; // Top-Right
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
 		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_Data2D.QuadVertexBufferPtr++;
 
-		s_Data2D.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, 0.0f }; // Top-Left
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[3]; // Top-Left
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
 		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
@@ -252,18 +253,6 @@ namespace IE
 
 		s_Data2D.QuadIndexCount += 6;
 
-		//s_Data2D.TextureShader->SetFloat4("u_Color", tintColor);
-		//s_Data2D.TextureShader->SetFloat("u_TilingFactor", tilingFactor); 
-		//texture->Bind();
-
-		/* Calculate the transform matrix */
-		// TODO: Add rotation matrix to the calculation for transform.
-		//glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
-		//s_Data2D.TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
-
-		/* Draw Call */
-		//s_Data2D.QuadVertexArray->Bind();
-		//RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray);
 	}
 
 	// Rotation should be in radians.
@@ -278,18 +267,44 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		s_Data2D.TextureShader->SetFloat4("u_Color", color);
-		s_Data2D.TextureShader->SetFloat("u_TilingFactor", 1.0f);
-		s_Data2D.WhiteTexture->Bind();
+		const float textureIndex = 0.0f;
+		const float tilingFactor = 1.0f;
 
-		/* Calculate the transform matrix */
-		// TODO: Add rotation matrix to the calculation for transform.
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
-		s_Data2D.TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
+		//transform = translation * rotation * scale
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		/* Draw Call */
-		s_Data2D.QuadVertexArray->Bind();
-		RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray);
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[0]; // Bottom-Left
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[1]; // Bottom-Right
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[2]; // Top-Right
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[3]; // Top-Left
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadIndexCount += 6;
+
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
@@ -303,17 +318,59 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		s_Data2D.TextureShader->SetFloat4("u_Color", tintColor);
-		s_Data2D.TextureShader->SetFloat("u_TilingFactor", tilingFactor);
-		texture->Bind();
+		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float textureIndex = 0.0f;
 
-		/* Calculate the transform matrix */
-		// TODO: Add rotation matrix to the calculation for transform.
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
-		s_Data2D.TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
+		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
+		{
+			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
 
-		/* Draw Call */
-		s_Data2D.QuadVertexArray->Bind();
-		RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray);
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_Data2D.TextureSlotIndex;
+			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
+			s_Data2D.TextureSlotIndex++;
+		}
+
+		//transform = translation * rotation * scale
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[0]; // Bottom-Left
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[1]; // Bottom-Right
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[2]; // Top-Right
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[3]; // Top-Left
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadIndexCount += 6;
+
 	}
 }
