@@ -17,6 +17,8 @@ namespace IE
 		virtual void SetData(void* data, uint32_t size) = 0;	// Creates pointer to a block in memory that gets uploaded to the GPU.
 
 		virtual void Bind(uint32_t slot = 0) const = 0;
+
+		virtual bool operator==(const Textures& other) const = 0;
 	};
 
 	class Textures2D : public Textures
@@ -24,5 +26,6 @@ namespace IE
 	public:
 		static Ref<Textures2D> Create(uint32_t width, uint32_t height);
 		static Ref<Textures2D> Create(const std::string& path);
+
 	};
 }

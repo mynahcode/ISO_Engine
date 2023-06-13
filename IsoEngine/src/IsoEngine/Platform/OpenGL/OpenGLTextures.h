@@ -20,7 +20,7 @@ namespace IE
 
 		virtual void Bind(uint32_t slot = 0) const override;
 
-
+		virtual bool operator==(const Textures& other) const override { return m_RendererID == ((OpenGLTextures2D&)other).m_RendererID; };
 	private:
 		std::string m_Path;
 		uint32_t m_Width, m_Height;

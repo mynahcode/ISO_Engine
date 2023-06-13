@@ -94,5 +94,4 @@ namespace IE
 
 		glBindTextureUnit(slot, m_RendererID);
 	}
-
 }

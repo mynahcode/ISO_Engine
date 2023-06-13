@@ -14,7 +14,8 @@ namespace IE
 		glm::vec3 Position;
 		glm::vec4 Color;
 		glm::vec2 TextureCoord;
-		// TODO: TextureID
+		float TextureIndex;
+		float TilingFactor;
 	};
 
 	struct Renderer2DStorage
@@ -22,6 +23,7 @@ namespace IE
 		const uint32_t MAXQUADS = 10000;
 		const uint32_t MAXVERTICES = MAXQUADS * 4;
 		const uint32_t MAXINDICES = MAXQUADS * 6;
+		static const uint32_t MAXTEXTURESLOTS = 32; // TODO: RendererCapabilities class.
 
 		Ref<VertexArray> QuadVertexArray;
 		Ref<VertexBuffer> QuadVertexBuffer;
@@ -31,6 +33,9 @@ namespace IE
 		uint32_t QuadIndexCount = 0;
 		QuadVertex* QuadVertexBufferBase = nullptr;
 		QuadVertex* QuadVertexBufferPtr = nullptr;
+
+		std::array<Ref<Textures2D>, MAXTEXTURESLOTS> TextureSlots;
+		uint32_t TextureSlotIndex = 1; // Slot 0 dedicated to white texture.
 	};
 
 	static Renderer2DStorage s_Data2D;
@@ -46,7 +51,9 @@ namespace IE
 		s_Data2D.QuadVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position"},
 			{ ShaderDataType::Float4, "a_Color"},
-			{ ShaderDataType::Float2, "a_TextureCoord"}
+			{ ShaderDataType::Float2, "a_TextureCoord"},
+			{ ShaderDataType::Float, "a_TextureIndex"},
+			{ ShaderDataType::Float, "a_TilingFactor"}
 			});
 		s_Data2D.QuadVertexArray->AddVertexBuffer(s_Data2D.QuadVertexBuffer);
 
@@ -77,9 +84,16 @@ namespace IE
 		uint32_t whiteTextureData = 0xffffffff;
 		s_Data2D.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t)); // 4 bytes
 
+		int32_t samplers[s_Data2D.MAXTEXTURESLOTS];
+		for (uint32_t i = 0; i < s_Data2D.MAXTEXTURESLOTS; i++)
+			samplers[i] = i;
+
 		s_Data2D.TextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_Data2D.TextureShader->Bind();
-		s_Data2D.TextureShader->SetInt("u_Texture", 0);				// Texture slot that sampler samples from is slot 0.
+		s_Data2D.TextureShader->SetIntArray("u_Textures", samplers, s_Data2D.MAXTEXTURESLOTS);				// Texture slot that sampler samples from is slot 0.
+
+		s_Data2D.TextureSlots[0] = s_Data2D.WhiteTexture;
+
 	}
 
 	void Renderer2D::Shutdown()
@@ -96,6 +110,8 @@ namespace IE
 
 		s_Data2D.QuadIndexCount = 0;
 		s_Data2D.QuadVertexBufferPtr = s_Data2D.QuadVertexBufferBase;
+
+		s_Data2D.TextureSlotIndex = 1;
 	}
 
 	void Renderer2D::EndScene()
@@ -110,6 +126,11 @@ namespace IE
 
 	void Renderer2D::Flush()
 	{
+		// Bind Textures
+		for (uint32_t i = 0; i < s_Data2D.TextureSlotIndex; i++)
+		{
+			s_Data2D.TextureSlots[i]->Bind(i);
+		}
 		RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray, s_Data2D.QuadIndexCount);
 	}
 
@@ -124,24 +145,35 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		const float textureIndex = 0.0f;
+		const float tilingFactor = 1.0f;
+
 		s_Data2D.QuadVertexBufferPtr->Position = position; // Bottom-Left
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_Data2D.QuadVertexBufferPtr++;		
 		
 		s_Data2D.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f }; // Bottom-Right
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_Data2D.QuadVertexBufferPtr++;		
 		
 		s_Data2D.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f }; // Top-Right
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_Data2D.QuadVertexBufferPtr++;		
 		
 		s_Data2D.QuadVertexBufferPtr->Position = { position.x, position.y+ size.y, 0.0f }; // Top-Left
 		s_Data2D.QuadVertexBufferPtr->Color = color;
 		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_Data2D.QuadVertexBufferPtr++;
 
 		s_Data2D.QuadIndexCount += 6;
@@ -171,18 +203,67 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		s_Data2D.TextureShader->SetFloat4("u_Color", tintColor);
-		s_Data2D.TextureShader->SetFloat("u_TilingFactor", tilingFactor); 
-		texture->Bind();
+		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float textureIndex = 0.0f;
+
+		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
+		{
+			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_Data2D.TextureSlotIndex;
+			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
+			s_Data2D.TextureSlotIndex++;
+		}
+
+		s_Data2D.QuadVertexBufferPtr->Position = position; // Bottom-Left
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f }; // Bottom-Right
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f }; // Top-Right
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, 0.0f }; // Top-Left
+		s_Data2D.QuadVertexBufferPtr->Color = color;
+		s_Data2D.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
+		s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_Data2D.QuadVertexBufferPtr++;
+
+		s_Data2D.QuadIndexCount += 6;
+
+		//s_Data2D.TextureShader->SetFloat4("u_Color", tintColor);
+		//s_Data2D.TextureShader->SetFloat("u_TilingFactor", tilingFactor); 
+		//texture->Bind();
 
 		/* Calculate the transform matrix */
 		// TODO: Add rotation matrix to the calculation for transform.
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
-		s_Data2D.TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
+		//glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }); // transform matrix = translation matrix * rotation matrix * scale matrix (TRS), scaling done along x and y axes not z.
+		//s_Data2D.TextureShader->SetMat4("u_Transform", transform); // Must be set on a per-draw basis
 
 		/* Draw Call */
-		s_Data2D.QuadVertexArray->Bind();
-		RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray);
+		//s_Data2D.QuadVertexArray->Bind();
+		//RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray);
 	}
 
 	// Rotation should be in radians.
