@@ -20,9 +20,9 @@ namespace IE
 
 	struct Renderer2DStorage
 	{
-		const uint32_t MAXQUADS = 10000;
-		const uint32_t MAXVERTICES = MAXQUADS * 4;
-		const uint32_t MAXINDICES = MAXQUADS * 6;
+		static const uint32_t MAXQUADS = 10000;
+		static const uint32_t MAXVERTICES = MAXQUADS * 4;
+		static const uint32_t MAXINDICES = MAXQUADS * 6;
 		static const uint32_t MAXTEXTURESLOTS = 32; // TODO: RendererCapabilities class.
 
 		Ref<VertexArray> QuadVertexArray;
@@ -38,7 +38,10 @@ namespace IE
 		uint32_t TextureSlotIndex = 1; // Slot 0 dedicated to white texture.
 
 		glm::vec4 QuadVertexPositions[4];
+
+		Renderer2D::Renderer2DStats Stats;
 	};
+
 
 	static Renderer2DStorage s_Data2D;
 
@@ -138,6 +141,18 @@ namespace IE
 			s_Data2D.TextureSlots[i]->Bind(i);
 		}
 		RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray, s_Data2D.QuadIndexCount);
+
+		s_Data2D.Stats.DrawCalls++;
+	}
+
+	void Renderer2D::FlushAndReset()
+	{
+		EndScene();
+
+		s_Data2D.QuadIndexCount = 0;
+		s_Data2D.QuadVertexBufferPtr = s_Data2D.QuadVertexBufferBase;
+
+		s_Data2D.TextureSlotIndex = 1;
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
@@ -150,6 +165,8 @@ namespace IE
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		_IE_PROFILER_FUNCTION();
+
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
 
 		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
@@ -187,6 +204,8 @@ namespace IE
 
 		s_Data2D.QuadIndexCount += 6;
 
+		s_Data2D.Stats.QuadCount++;
+
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
@@ -199,6 +218,8 @@ namespace IE
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		_IE_PROFILER_FUNCTION();
+
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
 
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float textureIndex = 0.0f;
@@ -252,6 +273,8 @@ namespace IE
 		s_Data2D.QuadVertexBufferPtr++;
 
 		s_Data2D.QuadIndexCount += 6;
+
+		s_Data2D.Stats.QuadCount++;
 
 	}
 
@@ -267,6 +290,8 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
+
 		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
 
@@ -305,6 +330,8 @@ namespace IE
 
 		s_Data2D.QuadIndexCount += 6;
 
+		s_Data2D.Stats.QuadCount++;
+
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
@@ -317,6 +344,8 @@ namespace IE
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		_IE_PROFILER_FUNCTION();
+
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
 
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float textureIndex = 0.0f;
@@ -372,5 +401,17 @@ namespace IE
 
 		s_Data2D.QuadIndexCount += 6;
 
+		s_Data2D.Stats.QuadCount++;
+
+	}
+
+	void Renderer2D::ResetStats()
+	{
+		memset(&s_Data2D.Stats, 0, sizeof(Renderer2DStats));
+	}
+
+	Renderer2D::Renderer2DStats Renderer2D::GetStats()
+	{
+		return s_Data2D.Stats;
 	}
 }

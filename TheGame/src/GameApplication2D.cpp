@@ -34,6 +34,7 @@ void TheGame2D::OnUpdate(IE::Timestep timestep)
 
 	/* RENDER */
 	/* Starts scene and contains all information of scene.*/
+	IE::Renderer2D::ResetStats();
 	{
 		_IE_PROFILER_SCOPE("Renderer Preparation Functions");
 		IE::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
@@ -61,17 +62,17 @@ void TheGame2D::OnImGuiRender()
 	_IE_PROFILER_FUNCTION();
 
 	ImGui::Begin("Settings");
+
+	auto stats = IE::Renderer2D::GetStats();
+
+	ImGui::Text("Renderer2D Stats:");
+	ImGui::Text("DrawCalls: %d", stats.DrawCalls);
+	ImGui::Text("Quads: %d", stats.QuadCount);
+	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+	ImGui::Text("Memory Usage: WIP"); // TODO: Add memory usage tracking
+
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
-
-	for (auto& result : m_ProfilerResults)
-	{
-		char profileBuffer[100];
-		strcpy(profileBuffer, " %.3fms ");
-		strcat(profileBuffer, result.ProfilerName);
-		ImGui::Text(profileBuffer, result.ProfilerTime);
-	}
-	m_ProfilerResults.clear();
-
 	ImGui::End();
 }
 
