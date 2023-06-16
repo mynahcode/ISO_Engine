@@ -45,7 +45,7 @@ namespace IE
 		/* Utility Functions */
 
 		// Returns 0 if not in a specific catgegory, 1 if in a specific category
-		inline bool IsInCategory(EventCategory ev_category) { return GetCategoryFlags() & ev_category; }
+		bool IsInCategory(EventCategory ev_category) { return GetCategoryFlags() & ev_category; }
 		
 		/* Var Declarations */
 		bool m_Handled = false;

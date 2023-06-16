@@ -11,12 +11,12 @@ namespace IE
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
 
-		inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode);  } // TODO: Add IsoEngine's own keycodes so it can be platform independent.
+		static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode);  } // TODO: Add IsoEngine's own keycodes so it can be platform independent.
 
-		inline static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
-		inline static std::pair<float, float> GetMousePos() { return s_Instance->GetMousePosImpl(); }
-		inline static float GetMouseX(float xPos) { return s_Instance->GetMouseXImpl(); }
-		inline static float GetMouseY(float yPos) { return s_Instance->GetMouseYImpl(); }
+		static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
+		static std::pair<float, float> GetMousePos() { return s_Instance->GetMousePosImpl(); }
+		static float GetMouseX(float xPos) { return s_Instance->GetMouseXImpl(); }
+		static float GetMouseY(float yPos) { return s_Instance->GetMouseYImpl(); }
 
 	protected:
 		/* Implemented Per - Platform */

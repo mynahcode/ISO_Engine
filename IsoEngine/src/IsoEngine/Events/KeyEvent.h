@@ -7,7 +7,7 @@ namespace IE
 	class KeyEvent : public Event
 	{
 	public:
-		inline int GetKeyCode() const { return m_KeyCode; }
+		int GetKeyCode() const { return m_KeyCode; }
 		
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
