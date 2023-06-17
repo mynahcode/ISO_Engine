@@ -8,9 +8,9 @@ namespace IE
 	class Input
 	{
 	public:
+		virtual ~Input() = default;
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
-
 		static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode);  } // TODO: Add IsoEngine's own keycodes so it can be platform independent.
 
 		static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
