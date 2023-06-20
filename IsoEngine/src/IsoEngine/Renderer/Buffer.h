@@ -88,7 +88,6 @@ namespace IE
 
 		BufferLayout() {}
 
-		// Constructor with const reference to InitializerList for BufferElement
 		BufferLayout(const std::initializer_list<BufferElement>& elements) 
 			: m_Elements(elements)
 		{

@@ -108,6 +108,7 @@ namespace IE
 	void Renderer2D::Shutdown()
 	{
 		_IE_PROFILER_FUNCTION();
+		delete[] s_Data2D.QuadVertexBufferBase;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
