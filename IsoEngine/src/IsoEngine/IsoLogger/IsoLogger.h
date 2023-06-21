@@ -15,7 +15,7 @@ namespace IE
 			INFO		= 2,						// Recording significant events, updates, etc.
 			WARN		= 3,						// Warnings related to exceptions and/or bugs, or edge cases being met.		
 			CRITICAL	= 4,						// Error -- Failure to perform a certain task
-			FATAL		= 5							// Error -- Resulting in crash or termination of program
+			FATAL		= 5							// Fatal -- Resulting in crash or termination of program
 		};
 
 		/* Re-factored to be a Singleton design pattern */
