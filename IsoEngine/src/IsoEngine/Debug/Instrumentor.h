@@ -153,7 +153,7 @@ namespace IE
 			auto endTimepoint = std::chrono::steady_clock::now();
 
 			auto HR_StartTime = FP_MICROSECONDS{ m_StartTimepoint.time_since_epoch() };
-			auto HR_EndTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() - std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch;
+			auto HR_EndTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() - std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch();
 
 			uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
 			Instrumentor::Get().WriteProfile({ m_Name, HR_StartTime, HR_EndTime, threadID });
