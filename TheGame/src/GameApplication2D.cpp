@@ -19,6 +19,10 @@ void TheGame2D::OnAttach()
 
 	m_GrassTexture = IE::Textures2D::Create("assets/textures/grass.jpg");
 	m_SpriteSheet = IE::Textures2D::Create("assets/textures/RPGpack_sheet_2X.png");
+
+	m_TextureStairs = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 7, 6 }, { 128, 128 });
+	m_TextureBarrel = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 8, 2 }, { 128, 128 });
+	m_TextureTree = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 2, 1 }, { 128, 128 }, { 1, 2 });
 }
 
 void TheGame2D::OnDetach()
@@ -50,7 +54,9 @@ void TheGame2D::OnUpdate(IE::Timestep timestep)
 		_IE_PROFILER_SCOPE("Renderer Draw Functions");
 		IE::Renderer2D::BeginScene(m_CameraController.GetCamera()); // parameters should be: lights, environment
 
-		IE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_SpriteSheet, 1.0f, glm::vec4(1.0f));
+		IE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_TextureStairs, 1.0f, glm::vec4(1.0f));
+		IE::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_TextureBarrel, 1.0f, glm::vec4(1.0f));
+		IE::Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.5f }, { 1.0f, 2.0f }, m_TextureTree, 1.0f, glm::vec4(1.0f));
 
 		IE::Renderer2D::EndScene();
 	}

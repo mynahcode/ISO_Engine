@@ -204,9 +204,13 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		constexpr float x = 2.0f, y = 3.0f;
+		constexpr float sheetWidth = 2560.0f, sheetHeight = 1664.0f;
+		constexpr float spriteWidth = 128.0f, spriteHeight = 128.0f;
+
 		constexpr size_t quadVertexCount = 4;
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} }; // { Bottom-Left, Bottom-Right, Top-Right, Top-Left }
+		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 
 		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
 
@@ -245,6 +249,61 @@ namespace IE
 		s_Data2D.QuadIndexCount += 6;
 		s_Data2D.Stats.QuadCount++;
 	}
+
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		DrawQuad({ position.x, position.y, 0.0f }, size, subTexture, tilingFactor, tintColor);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		constexpr size_t quadVertexCount = 4;
+		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		const glm::vec2* textureCoords = subTexture->GetTextureCoords();
+		const Ref<Textures2D> texture = subTexture->GetTexture();
+
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
+
+		float textureIndex = 0.0f;
+
+		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
+		{
+			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_Data2D.TextureSlotIndex;
+			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
+			s_Data2D.TextureSlotIndex++;
+		}
+
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		for (size_t i = 0; i < quadVertexCount; i++)
+		{
+			s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[i];
+			s_Data2D.QuadVertexBufferPtr->Color = color;
+			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
+			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data2D.QuadVertexBufferPtr++;
+		}
+
+		s_Data2D.QuadIndexCount += 6;
+		s_Data2D.Stats.QuadCount++;
+	}
+
 
 	// Rotation should be in radians.
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
@@ -319,6 +378,62 @@ namespace IE
 			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
 			s_Data2D.TextureSlotIndex++;
 		}
+
+		//transform = translation * rotation * scale
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		for (size_t i = 0; i < quadVertexCount; i++)
+		{
+			s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[i];
+			s_Data2D.QuadVertexBufferPtr->Color = color;
+			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
+			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
+			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data2D.QuadVertexBufferPtr++;
+		}
+
+		s_Data2D.QuadIndexCount += 6;
+		s_Data2D.Stats.QuadCount++;
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, subTexture, tilingFactor, tintColor);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		constexpr size_t quadVertexCount = 4;
+		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		const glm::vec2* textureCoords = subTexture->GetTextureCoords();
+		const Ref<Textures2D> texture = subTexture->GetTexture();
+
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
+
+		float textureIndex = 0.0f;
+
+		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
+		{
+			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_Data2D.TextureSlotIndex;
+			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
+			s_Data2D.TextureSlotIndex++;
+		}
+
 
 		//transform = translation * rotation * scale
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)

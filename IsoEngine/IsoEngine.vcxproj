@@ -144,6 +144,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\IsoEngine\Renderer\SubTexture2D.h" />
     <ClInclude Include="Vendor\glm\glm\common.hpp" />
     <ClInclude Include="Vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="Vendor\glm\glm\detail\_fixes.hpp" />
@@ -602,6 +603,7 @@
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\IsoEngine\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />
     <ClCompile Include="src\IsoEngine\Core\Application.cpp" />
