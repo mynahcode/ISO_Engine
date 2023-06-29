@@ -136,6 +136,11 @@ namespace IE
 
 	void Renderer2D::Flush()
 	{
+		if (s_Data2D.QuadIndexCount == 0)
+		{
+			return; // Do nothing
+		}
+
 		// Bind Textures
 		for (uint32_t i = 0; i < s_Data2D.TextureSlotIndex; i++)
 		{
