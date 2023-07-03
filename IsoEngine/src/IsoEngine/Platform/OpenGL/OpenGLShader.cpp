@@ -92,6 +92,13 @@ namespace IE
 		UploadUniformFloat(name, value);
 	}
 
+	void OpenGLShader::SetFloat2(const std::string& name, const glm::vec2& values)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		UploadUniformFloat2(name, values);
+	}
+
 	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& values)
 	{
 		_IE_PROFILER_FUNCTION();
