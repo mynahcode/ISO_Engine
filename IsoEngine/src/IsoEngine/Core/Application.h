@@ -36,6 +36,8 @@ namespace IE
 
 		Window& GetWindow() { return *m_Window; }
 
+		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& ev);
 		bool OnWindowResize(WindowResizeEvent& ev);
