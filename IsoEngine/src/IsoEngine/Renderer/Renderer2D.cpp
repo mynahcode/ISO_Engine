@@ -220,6 +220,24 @@ namespace IE
 		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
 
 		float textureIndex = 0.0f;
+		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
+		{
+			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			if (s_Data2D.TextureSlotIndex >= Renderer2DStorage::MAXTEXTURESLOTS)
+				FlushAndReset();
+
+			textureIndex = (float)s_Data2D.TextureSlotIndex;
+			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
+			s_Data2D.TextureSlotIndex++;
+		}
 
 		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
 		{
@@ -367,6 +385,24 @@ namespace IE
 		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
 
 		float textureIndex = 0.0f;
+		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
+		{
+			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			if (s_Data2D.TextureSlotIndex >= Renderer2DStorage::MAXTEXTURESLOTS)
+				FlushAndReset();
+
+			textureIndex = (float)s_Data2D.TextureSlotIndex;
+			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
+			s_Data2D.TextureSlotIndex++;
+		}
 
 		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
 		{
