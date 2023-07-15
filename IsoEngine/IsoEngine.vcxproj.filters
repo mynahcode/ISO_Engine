@@ -1432,6 +1432,8 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Renderer\SubTexture2D.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Framebuffer.h" />
+    <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLFramebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\stb_image\stb_image.cpp">
@@ -1516,5 +1518,7 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Renderer\SubTexture2D.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Framebuffer.cpp" />
+    <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLFramebuffer.cpp" />
   </ItemGroup>
 </Project>

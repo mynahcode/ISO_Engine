@@ -24,6 +24,7 @@ private:
 	// Temporary 
 	IE::Ref<IE::VertexArray> m_SquareVertexArray;
 	IE::Ref<IE::Shader> m_FlatColorShader;
+	IE::Ref<IE::Framebuffer> m_Framebuffer;
 
 	IE::Ref<IE::Textures2D> m_SpriteSheet;
 	IE::Ref<IE::Textures2D> m_GrassTexture;

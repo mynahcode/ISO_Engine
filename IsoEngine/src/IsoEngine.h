@@ -16,6 +16,7 @@
 
 #include "IsoEngine/Renderer/Buffer.h"
 #include "IsoEngine/Renderer/Shader.h"
+#include "IsoEngine/Renderer/Framebuffer.h"
 #include "IsoEngine/Renderer/Textures.h"
 #include "IsoEngine/Renderer/SubTexture2D.h"
 #include "IsoEngine/Renderer/VertexArray.h"

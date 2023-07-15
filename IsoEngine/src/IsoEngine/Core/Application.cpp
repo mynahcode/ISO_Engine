@@ -109,6 +109,11 @@ namespace IE
 		}
 	}
 
+	void Application::Close()
+	{
+		m_IsRunning = false;
+	}
+
 	bool Application::OnWindowClose(WindowCloseEvent& ev)
 	{
 		m_IsRunning = false;

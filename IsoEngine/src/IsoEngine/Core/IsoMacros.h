@@ -43,15 +43,15 @@
 	#define IE_ENABLE_ASSERTS
 #endif
 
-/*
-#ifdef IE_ENABLE_ASSERTS
+
+//#ifdef IE_ENABLE_ASSERTS
 	#define IE_APPLICATION_ASSERT(x, ...) { if(!(x)) {ISOLOGGER_FATAL(("IsoEngine Application Assertion Failed:", x, __VA_ARGS__); __debugbreak(); } }  // _debugbreak() is Windows OS only.
 	#define IE_ENGINE_ASSERT(x, ...) { if(!(x)) {ISOLOGGER_FATAL(("IsoEngine Core Assertion Failed:", x, __VA_ARGS__); __debugbreak(); } }				// TODO: Implement assertion support for other OS.
-#else
+//#else
 	#define IE_APPLICATION_ASSERT(x, ...)
 	#define IE_ENGINE_ASSERT(x, ...)
-#endif
-*/
+//#endif
+
 
 /* Bit-Field for EventCategory Class*/
 #define BIT(x) (1 << x)
