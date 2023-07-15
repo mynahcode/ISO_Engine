@@ -9,6 +9,14 @@
 
 namespace IE
 {
+	struct OrthographicCameraBounds
+	{
+		float Left, Right, Bottom, Top;
+
+		float GetWidth() { return Right - Left; }
+		float GetHeight() { return Top - Bottom; }
+	};
+
 	class OrthographicCameraController
 	{
 	public:
@@ -20,16 +28,20 @@ namespace IE
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
 
-		void SetZoomLevel(float level) { m_ZoomLevel = level; }
+		void SetZoomLevel(float level) { m_ZoomLevel = level; CalculateCameraView(); }
 		float GetZoomLevel() const { return m_ZoomLevel; }
 
 	private:
+		void CalculateCameraView();
+
 		bool OnMouseScrolled(MouseScrolledEvent& ev);
 		bool OnWindowResized(WindowResizeEvent& ev);
 
 		float m_AspectRatio;
 		float m_ZoomLevel = 1.0f;
+
 		OrthographicCamera m_Camera;
+		OrthographicCameraBounds m_Bounds;
 
 		bool m_Rotation;
 

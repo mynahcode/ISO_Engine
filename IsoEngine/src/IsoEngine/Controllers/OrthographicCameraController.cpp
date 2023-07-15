@@ -50,14 +50,20 @@ namespace IE
 		dispatcher.Dispatch<WindowResizeEvent>(IE_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 	}
 
+	void OrthographicCameraController::CalculateCameraView()
+	{
+		m_Bounds = { -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel };
+		m_Camera.SetProjection(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top);
+
+	}
+
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& ev)
 	{
 		_IE_PROFILER_FUNCTION();
 
 		m_ZoomLevel -= ev.GetYOffset() * 0.25f;
 		m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
-
+		CalculateCameraView();
 		return false;
 	}
 
@@ -67,7 +73,7 @@ namespace IE
 
 		float yScale = ev.GetHeight() / 720.0f;
 		m_AspectRatio = yScale * (float)ev.GetWidth() / ev.GetHeight();
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -yScale * m_ZoomLevel, yScale * m_ZoomLevel);
+		CalculateCameraView();
 
 		return false;
 	}
