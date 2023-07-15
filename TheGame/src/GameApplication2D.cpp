@@ -23,6 +23,8 @@ void TheGame2D::OnAttach()
 	m_TextureStairs = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 7, 6 }, { 128, 128 });
 	m_TextureBarrel = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 8, 2 }, { 128, 128 });
 	m_TextureTree = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 2, 1 }, { 128, 128 }, { 1, 2 });
+
+	//m_CameraController.SetZoomLevel(0.25f);
 }
 
 void TheGame2D::OnDetach()

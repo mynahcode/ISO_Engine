@@ -138,7 +138,7 @@ namespace IE
 	{
 		if (s_Data2D.QuadIndexCount == 0)
 		{
-			return; // Do nothing
+			return;
 		}
 
 		// Bind Textures
@@ -163,8 +163,6 @@ namespace IE
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		_IE_PROFILER_FUNCTION();
-
 		DrawQuad({ position.x, position.y, 0.0f }, size, color);
 	}
 
@@ -200,8 +198,6 @@ namespace IE
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
-		_IE_PROFILER_FUNCTION();
-
 		DrawQuad({ position.x, position.y, 0.0f }, size, texture, tilingFactor, tintColor);
 	}
 
@@ -220,24 +216,6 @@ namespace IE
 		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
 
 		float textureIndex = 0.0f;
-		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
-		{
-			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
-			{
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		if (textureIndex == 0.0f)
-		{
-			if (s_Data2D.TextureSlotIndex >= Renderer2DStorage::MAXTEXTURESLOTS)
-				FlushAndReset();
-
-			textureIndex = (float)s_Data2D.TextureSlotIndex;
-			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
-			s_Data2D.TextureSlotIndex++;
-		}
 
 		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
 		{
@@ -385,24 +363,6 @@ namespace IE
 		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
 
 		float textureIndex = 0.0f;
-		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
-		{
-			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
-			{
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		if (textureIndex == 0.0f)
-		{
-			if (s_Data2D.TextureSlotIndex >= Renderer2DStorage::MAXTEXTURESLOTS)
-				FlushAndReset();
-
-			textureIndex = (float)s_Data2D.TextureSlotIndex;
-			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
-			s_Data2D.TextureSlotIndex++;
-		}
 
 		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
 		{
