@@ -18,7 +18,7 @@ namespace IE
 			return CreateRef<OpenGLFramebuffer>(specs);
 		}
 
-		//IE_CORE_ASSERT(false, "Error: Unknown Renderer API");
+		IE_ENGINE_ASSERT("Error: Unknown Renderer API", false);
 		return nullptr;
 	}
 }

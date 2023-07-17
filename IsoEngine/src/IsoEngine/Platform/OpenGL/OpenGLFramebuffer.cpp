@@ -3,8 +3,7 @@
 
 #include <glad/glad.h>
 
-namespace IE
-{
+namespace IE {
 	OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecs& specs)
 		: m_FramebufferSpecs(specs)
 	{
@@ -19,7 +18,7 @@ namespace IE
 	void OpenGLFramebuffer::Invalidate()
 	{
 		glCreateFramebuffers(1, &m_RendererID);
-		glBindFramebuffer(GL_TEXTURE_2D, m_RendererID);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_ColorAttachment);
 		glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
@@ -33,13 +32,13 @@ namespace IE
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthAttachment);
 		glBindTexture(GL_TEXTURE_2D, m_DepthAttachment);
 
-		//glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height);
+		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment, 0);
 
-		IE_ENGINE_ASSERT((glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE), "FRAMEBUFFER is incomplete!");
+		IE_ENGINE_ASSERT("FRAMEBUFFER is incomplete!", glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}

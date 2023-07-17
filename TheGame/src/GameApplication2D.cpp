@@ -17,12 +17,12 @@ void TheGame2D::OnAttach()
 {
 	_IE_PROFILER_FUNCTION();
 
-	m_GrassTexture = IE::Textures2D::Create("assets/textures/grass.jpg");
+	//m_GrassTexture = IE::Textures2D::Create("assets/textures/grass.jpg");
 	m_SpriteSheet = IE::Textures2D::Create("assets/textures/RPGpack_sheet_2X.png");
 
-	m_TextureStairs = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 7, 6 }, { 128, 128 });
-	m_TextureBarrel = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 8, 2 }, { 128, 128 });
-	m_TextureTree = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 2, 1 }, { 128, 128 }, { 1, 2 });
+	//m_TextureStairs = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 7, 6 }, { 128, 128 });
+	//m_TextureBarrel = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 8, 2 }, { 128, 128 });
+	//m_TextureTree = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 2, 1 }, { 128, 128 }, { 1, 2 });
 
     IE::FramebufferSpecs fbSpecs;
     fbSpecs.Width = 1280;
@@ -63,9 +63,10 @@ void TheGame2D::OnUpdate(IE::Timestep timestep)
 		_IE_PROFILER_SCOPE("Renderer Draw Functions");
 		IE::Renderer2D::BeginScene(m_CameraController.GetCamera()); // parameters should be: lights, environment
 
-		IE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_TextureStairs, 1.0f, glm::vec4(1.0f));
-		IE::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_TextureBarrel, 1.0f, glm::vec4(1.0f));
-		IE::Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.5f }, { 1.0f, 2.0f }, m_TextureTree, 1.0f, glm::vec4(1.0f));
+		//IE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_TextureStairs, 1.0f, glm::vec4(1.0f));
+		//IE::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_TextureBarrel, 1.0f, glm::vec4(1.0f));
+		//IE::Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.5f }, { 1.0f, 2.0f }, m_TextureTree, 1.0f, glm::vec4(1.0f));
+        IE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_SpriteSheet, 1.0f, glm::vec4(1.0f));
 
 		IE::Renderer2D::EndScene();
         m_Framebuffer->UnBind();
@@ -162,7 +163,7 @@ void TheGame2D::OnImGuiRender()
         ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        ImGui::Image((void*)textureID, ImVec2(1280, 720));
+        ImGui::Image((void*)textureID, ImVec2(1280.0f, 720.0f));
         ImGui::End();
 
         ImGui::End();
