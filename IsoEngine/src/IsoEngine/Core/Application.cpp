@@ -15,14 +15,14 @@ namespace IE
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const std::string& name = "IsoEngine Application")
 	{
 		_IE_PROFILER_FUNCTION();
 		/* Create GLFW Window */
 		//IE_CORE_ASSERT(!s_Instance, "Application already created!");
 		s_Instance = this; // Singleton gets set when we construct the IsoEngine Application and should only be one.
 
-		m_Window = std::unique_ptr<Window>(Window::Create());		// explicit constructor
+		m_Window = std::unique_ptr<Window>(Window::Create(WindowProps(name)));		// explicit constructor
 		m_Window->SetEventCallback(IE_BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(true);
 

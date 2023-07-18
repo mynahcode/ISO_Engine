@@ -16,13 +16,15 @@
 
 #include "IsoEngine/Core/Timestep.h"
 
+int main(int argc, char** arv);
+
 namespace IE 
 {
 
 	class Application // export here, in game include.
 	{
 	public:
-		Application();
+		Application(const std::string& name);
 		virtual ~Application(); // will be inherited by Game application
 
 		void Run();

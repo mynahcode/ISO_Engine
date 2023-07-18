@@ -154,3 +154,57 @@ project "TheGame"
 		defines "IE_DIST"
 		runtime "Release"
 		optimize "on"
+
+project "IsoEngineEditor"
+	location "IsoEngineEditor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("obj/" .. outputdir .. "/%{prj.name}") 
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"IsoEngine/src",
+		"%{IncludeDir.glm}",
+		"IsoEngine/Vendor"
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS",
+		"_IE_DEBUG_MODE",
+		--"FMT_HEADER_ONLY"
+	}
+
+	links
+	{
+		"IsoEngine"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		defines "IE_DEBUG"
+		runtime "Debug"
+		symbols "on"
+		
+	filter "configurations:Release"
+		defines "IE_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+		
+	filter "configurations:Dist"
+		defines "IE_DIST"
+		runtime "Release"
+		optimize "on"

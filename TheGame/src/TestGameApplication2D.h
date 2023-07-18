@@ -4,11 +4,11 @@
 
 #include <IsoEngine.h>
 
-class TheGame2D : public IE::Layer
+class TestGame2D : public IE::Layer
 {
 public:
-	TheGame2D();
-	virtual ~TheGame2D() = default;
+	TestGame2D();
+	virtual ~TestGame2D() = default;
 
 	/* IsoEngine Layer Class Functions */
 	virtual void OnAttach() override;
