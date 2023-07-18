@@ -52,9 +52,21 @@ namespace IE
 
 	void OrthographicCameraController::CalculateCameraView()
 	{
+		_IE_PROFILER_FUNCTION();
+
 		m_Bounds = { -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel };
 		m_Camera.SetProjection(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top);
 
+	}
+
+	void OrthographicCameraController::OnResize(float width, float height)
+	{
+		_IE_PROFILER_FUNCTION();
+		float yScale = height / 720.0f;
+		m_AspectRatio = yScale * width / height;
+		//m_AspectRatio = width / height;
+		//m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+		CalculateCameraView();
 	}
 
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& ev)
@@ -71,10 +83,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		float yScale = ev.GetHeight() / 720.0f;
-		m_AspectRatio = yScale * (float)ev.GetWidth() / ev.GetHeight();
-		CalculateCameraView();
-
+		OnResize((float)ev.GetWidth(), (float)ev.GetHeight());
 		return false;
 	}
 }

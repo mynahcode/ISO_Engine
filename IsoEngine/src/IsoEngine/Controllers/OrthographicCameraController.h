@@ -25,6 +25,8 @@ namespace IE
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& ev);
 
+		void OnResize(float width, float height);
+
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
 
