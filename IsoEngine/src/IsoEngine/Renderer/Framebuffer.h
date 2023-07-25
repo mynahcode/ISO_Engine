@@ -4,6 +4,18 @@
 
 namespace IE
 {
+	enum class fbTextureFormats
+	{
+		None = 0,
+		RGBA8,
+		DEPTH24STENCIL8,
+
+		// Default configuration
+		RGB = RGBA8,
+		Depth = DEPTH24STENCIL8
+	};
+
+
 	struct FramebufferSpecs
 	{
 		uint32_t Width, Height;
