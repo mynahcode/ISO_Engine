@@ -12,5 +12,5 @@
 
 # Logging and Instrumentation Outputs
 TheGame/logs/
-TheGame/imgui.ini
+**/imgui.ini
 TheGame/**.json
