@@ -133,7 +133,6 @@ namespace IE
 
 		m_Minimized = false;
 		Renderer::OnWindowResize(ev.GetWidth(), ev.GetHeight());
-		IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::WARN);
 		ISOLOGGER_WARN("Window Resized: (%, %)", ev.GetWidth(), ev.GetWidth());
 		return true;
 	}

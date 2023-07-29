@@ -21,8 +21,6 @@ namespace IE
 		glfwMakeContextCurrent(m_WindowHandle);
 		int glad_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		// IE_CORE_ASSERT(glad_status, "Failed to initialize Glad!");
-
-		IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::INFO);
 		ISOLOGGER_INFO("***OPENGL INFO***");
 		ISOLOGGER_INFO("Vendor: %", glGetString(GL_VENDOR));
 		ISOLOGGER_INFO("Renderer: %", glGetString(GL_RENDERER));

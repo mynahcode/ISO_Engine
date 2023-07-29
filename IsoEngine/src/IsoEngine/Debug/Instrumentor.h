@@ -38,7 +38,6 @@ namespace IE
 			std::lock_guard lock(m_Mutex);
 			if (m_CurrentSession)
 			{
-				IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::CRITICAL);
 				ISOLOGGER_CRITICAL("Instrumentor::BeginSession('{%}') when session {%} already open.", name, m_CurrentSession->Name);
 
 				InternalEndSession();

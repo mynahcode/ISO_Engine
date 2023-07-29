@@ -174,7 +174,6 @@ namespace IE
         }
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        // IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::INFO);
         // ISOLOGGER_INFO("Viewport Panel Size: ( {%}, {%} )", vpPanelSize.x, vpPanelSize.y);
         ImGui::Image((void*)textureID, ImVec2(m_ViewportSize.x, m_ViewportSize.y), ImVec2{ 0, 1 }, ImVec2{ 1,0 });
         ImGui::End();

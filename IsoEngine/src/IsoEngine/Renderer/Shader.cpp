@@ -11,13 +11,11 @@ namespace IE
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::API::None: /* IE_CORE_ASSERT(false, "RendererAPI::None is not supported!"); */
-			return nullptr;
-		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLShader>(filepath);
+		case RendererAPI::API::None: IE_ENGINE_ASSERT(false, "RendererAPI::None is not supported!"); return nullptr;
+		case RendererAPI::API::OpenGL: return CreateRef<OpenGLShader>(filepath);
 		}
 
-		/*IE_CORE_ASSERT(false, "Unknown Renderering API!"); */
+		IE_ENGINE_ASSERT(false, "Unknown Renderering API!");
 		return nullptr;
 	}
 
@@ -25,19 +23,17 @@ namespace IE
 	{
 		switch (Renderer::GetAPI())
 		{
-			case RendererAPI::API::None: /* IE_CORE_ASSERT(false, "RendererAPI::None is not supported!"); */ 
-				return nullptr;
-			case RendererAPI::API::OpenGL: 
-				return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
+			case RendererAPI::API::None: IE_ENGINE_ASSERT(false, "RendererAPI::None is not supported!"); return nullptr;
+			case RendererAPI::API::OpenGL: return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
 		}
 
-		/*IE_CORE_ASSERT(false, "Unknown Renderering API!"); */
+		IE_ENGINE_ASSERT(false, "Unknown Renderering API!"); 
 		return nullptr;
 	}
 
 	void ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader)
 	{
-		// IE_CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end();
+		//IE_ENGINE_ASSERT("%", m_Shaders.find(name) == m_Shaders.end();)
 		m_Shaders[name] = shader;
 	}
 
@@ -64,7 +60,7 @@ namespace IE
 
 	Ref<Shader> ShaderLibrary::Get(const std::string& name)
 	{
-		// IE_CORE_ASSERT(Exists(name), "Shader not found!");
+		//IE_ENGINE_ASSERT(Exists(name), "Shader not found!");
 		return m_Shaders[name];
 	}
 

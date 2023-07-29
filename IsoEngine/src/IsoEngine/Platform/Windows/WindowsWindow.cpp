@@ -43,7 +43,6 @@ namespace IE
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::TRACE);
 		ISOLOGGER_TRACE("Creating Window << % >> with dimensions (%, %).", props.Title.c_str(), props.Width, props.Height);
 
 		if (s_GLFWWindowCount == 0)
