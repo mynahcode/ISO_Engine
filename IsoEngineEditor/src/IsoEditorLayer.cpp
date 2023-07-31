@@ -43,6 +43,17 @@ namespace IE
     {
         _IE_PROFILER_FUNCTION();
 
+        if (IE::FramebufferSpecs spec = m_Framebuffer->GetFramebufferSpecs();
+            m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
+            (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
+        {
+            m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+        }
+
+        // Update
+        if (m_ViewportFocused)
+
         // Hook-in to the methods needed -- UPDATE
         m_CameraController.OnUpdate(timestep);
 
@@ -166,12 +177,7 @@ namespace IE
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
         ImGui::Begin("Viewport");
         ImVec2 vpPanelSize = ImGui::GetContentRegionAvail();
-        if (m_ViewportSize != *((glm::vec2*)&vpPanelSize))
-        {
-            m_Framebuffer->Resize(vpPanelSize.x, vpPanelSize.y);
-            m_ViewportSize = { (uint32_t) vpPanelSize.x, (uint32_t) vpPanelSize.y };
-            m_CameraController.OnResize(vpPanelSize.x, vpPanelSize.y);
-        }
+        m_ViewportSize = { vpPanelSize.x, vpPanelSize.y };
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
         // ISOLOGGER_INFO("Viewport Panel Size: ( {%}, {%} )", vpPanelSize.x, vpPanelSize.y);

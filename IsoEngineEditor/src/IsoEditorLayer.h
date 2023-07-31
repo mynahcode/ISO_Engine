@@ -39,6 +39,8 @@ namespace IE
 
 		glm::vec2 m_ViewportSize;
 
+		bool m_ViewportFocused = false, m_ViewportHovered = false;
+
 		struct ProfilerResult
 		{
 			const char* ProfilerName;
