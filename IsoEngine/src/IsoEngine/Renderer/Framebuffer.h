@@ -27,6 +27,8 @@ namespace IE
 	class Framebuffer
 	{
 	public: 
+		virtual ~Framebuffer() = default;
+
 		virtual const FramebufferSpecs& GetFramebufferSpecs() const = 0;
 		virtual uint32_t GetColorAttachmentRendererID() const = 0;
 
