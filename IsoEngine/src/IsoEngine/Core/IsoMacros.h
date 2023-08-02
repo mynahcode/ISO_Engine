@@ -8,7 +8,7 @@
 	#ifdef _WIN64
 		/* Windows x64 Platforms */
 		#define _IE_PLATFORM_WINDOWS
-
+		#define _IE_DEBUGBREAK() __debugbreak()
 	#else
 		/* Windows x86 Platforms */
 		#error "x86 Platforms are not supported by IsoEngine!"
@@ -31,6 +31,8 @@
 	#error "Android is not yet supported by IsoEngine!"
 #elif defined(__linux__)
 	#define _IE_PLATFORM_LINUX
+	#include <signal.h>
+	#define _IE_DEBUGBREAK()
 	#error "Linux is not yet supported by IsoEngine!"
 #else 
 	#error "Unknown user platform!"
