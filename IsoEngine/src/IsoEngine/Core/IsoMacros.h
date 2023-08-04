@@ -32,7 +32,7 @@
 #elif defined(__linux__)
 	#define _IE_PLATFORM_LINUX
 	#include <signal.h>
-	#define _IE_DEBUGBREAK()
+	#define _IE_DEBUGBREAK() raise(SIGTRAP)
 	#error "Linux is not yet supported by IsoEngine!"
 #else 
 	#error "Unknown user platform!"

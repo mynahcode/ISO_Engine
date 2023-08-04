@@ -52,10 +52,7 @@ namespace IE
         }
 
         // Update
-        if (m_ViewportFocused)
-
-        // Hook-in to the methods needed -- UPDATE
-        m_CameraController.OnUpdate(timestep);
+        if (m_ViewportFocused) m_CameraController.OnUpdate(timestep);
 
         /* RENDER */
         /* Starts scene and contains all information of scene.*/
@@ -176,6 +173,11 @@ namespace IE
         /********************************/
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
         ImGui::Begin("Viewport");
+
+        m_ViewportFocused = ImGui::IsWindowFocused();
+        m_ViewportHovered = ImGui::IsWindowHovered();
+        Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+
         ImVec2 vpPanelSize = ImGui::GetContentRegionAvail();
         m_ViewportSize = { vpPanelSize.x, vpPanelSize.y };
 
