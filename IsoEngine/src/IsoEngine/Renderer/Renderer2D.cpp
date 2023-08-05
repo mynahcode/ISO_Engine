@@ -128,7 +128,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		uint32_t dataSize = (uint8_t*)s_Data2D.QuadVertexBufferPtr - (uint8_t*)s_Data2D.QuadVertexBufferBase;
+		uint32_t dataSize = (uint32_t)((uint8_t*)s_Data2D.QuadVertexBufferPtr - (uint8_t*)s_Data2D.QuadVertexBufferBase);
 		s_Data2D.QuadVertexBuffer->SetData(s_Data2D.QuadVertexBufferBase, dataSize);
 
 		Flush();
