@@ -1,6 +1,8 @@
 #pragma once
 
 #include "IsoEngine/Core/IsoMacros.h"
+#include "IsoEngine/Core/KeyCodes.h"
+#include "IsoEngine/Core/MouseCodes.h"
 
 /* Global Input Polling Manager -- Singleton Instance */
 namespace IE
@@ -11,9 +13,9 @@ namespace IE
 		virtual ~Input() = default;
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
-		static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode);  } // TODO: Add IsoEngine's own keycodes so it can be platform independent.
+		static bool IsKeyPressed(KeyCode key) { return s_Instance->IsKeyPressedImpl(key);  } 
 
-		static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
+		static bool IsMouseButtonPressed(MouseCode button) { return s_Instance->IsMouseButtonPressedImpl(button); }
 		static std::pair<float, float> GetMousePos() { return s_Instance->GetMousePosImpl(); }
 		static float GetMouseX(float xPos) { return s_Instance->GetMouseXImpl(); }
 		static float GetMouseY(float yPos) { return s_Instance->GetMouseYImpl(); }
@@ -21,9 +23,9 @@ namespace IE
 	protected:
 		/* Implemented Per - Platform */
 		Input() = default;
-		virtual bool IsKeyPressedImpl(int keycode) = 0; 
+		virtual bool IsKeyPressedImpl(KeyCode key) = 0;
 
-		virtual bool IsMouseButtonPressedImpl(int button) = 0; 
+		virtual bool IsMouseButtonPressedImpl(MouseCode button) = 0;
 
 		virtual std::pair<float, float> GetMousePosImpl() = 0;
 		virtual float GetMouseXImpl() = 0; 
