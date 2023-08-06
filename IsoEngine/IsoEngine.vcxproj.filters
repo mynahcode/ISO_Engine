@@ -1395,9 +1395,6 @@
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\IsoEngine\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h">
-      <Filter>src\IsoEngine\Platform\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h">
       <Filter>src\IsoEngine\Platform\Windows</Filter>
     </ClInclude>
@@ -1487,9 +1484,6 @@
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\IsoEngine\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp">
-      <Filter>src\IsoEngine\Platform\Windows</Filter>
-    </ClCompile>
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\IsoEngine\Platform\Windows</Filter>
     </ClCompile>
@@ -1532,5 +1526,6 @@
     <ClCompile Include="src\iepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

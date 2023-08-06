@@ -1,29 +1,26 @@
 #include "iepch.h"
+#include "IsoEngine/Core/Input.h"
 
-#include "IsoEngine/Platform/Windows/WindowsInput.h"
 #include "IsoEngine/Core/Application.h"
-
 #include <GLFW/glfw3.h>
 
 namespace IE
 {
-	Scope<Input> Input::s_Instance = CreateScope<WindowsInput>();
-
-	bool WindowsInput::IsKeyPressedImpl(KeyCode key)
+	bool Input::IsKeyPressed(KeyCode key)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetKey(window, static_cast<uint32_t>(key));
 		return state == GLFW_PRESS;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImpl(MouseCode button)
+	bool Input::IsMouseButtonPressed(MouseCode button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetMouseButton(window, static_cast<uint32_t>(button));
 		return state == GLFW_PRESS;
 	}
 
-	std::pair<float, float> WindowsInput::GetMousePosImpl()
+	std::pair<float, float> Input::GetMousePos()
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		double xpos, ypos;
@@ -34,16 +31,16 @@ namespace IE
 
 
 	/* For accessing values of the pair, can do pair.first, pair.second */
-	float WindowsInput::GetMouseXImpl()
+	float Input::GetMouseX()
 	{
-		auto [x, y] = GetMousePosImpl(); // love C++17
+		auto [x, y] = GetMousePos(); // love C++17
 
 		return (float)x;
 	}
 
-	float WindowsInput::GetMouseYImpl()
+	float Input::GetMouseY()
 	{
-		auto [x, y] = GetMousePosImpl();
+		auto [x, y] = GetMousePos();
 
 		return (float)y;
 	}

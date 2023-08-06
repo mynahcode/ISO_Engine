@@ -588,7 +588,6 @@
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLTextures.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\IsoEngine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Framebuffer.h" />
@@ -605,6 +604,7 @@
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />
     <ClCompile Include="src\IsoEngine\Core\Application.cpp" />
@@ -620,7 +620,6 @@
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLTextures.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Framebuffer.cpp" />
