@@ -22,6 +22,7 @@ IncludeDir["GLAD"] = "IsoEngine/Vendor/GLAD/include"
 IncludeDir["GLFW"] = "IsoEngine/Vendor/GLFW/include"
 IncludeDir["ImGui"] = "IsoEngine/Vendor/imgui"
 IncludeDir["glm"] = "IsoEngine/Vendor/glm"
+IncludeDir["entt"] = "IsoEngine/vendor/entt/include"
 IncludeDir["stb_image"] = "IsoEngine/Vendor/stb_image"
 --IncludeDir["fmt"] = "IsoEngine/Vendor/fmt"
 
@@ -58,7 +59,7 @@ project "IsoEngine"
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"GLFW_INCLUDE_NONE",
-		"FMT_HEADER_ONLY",
+		--"FMT_HEADER_ONLY",
 		"_IE_DEBUG_MODE",
 		"IMGUI_API=__declspec(dllexport)" 
 	}
@@ -70,7 +71,8 @@ project "IsoEngine"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 		--"%{IncludeDir.fmt}"
 	}
 
@@ -121,7 +123,8 @@ project "TheGame"
 	{
 		"IsoEngine/src",
 		"%{IncludeDir.glm}",
-		"IsoEngine/Vendor"
+		"IsoEngine/Vendor",
+		"%{IncludeDir.entt}"
 	}
 
 	defines

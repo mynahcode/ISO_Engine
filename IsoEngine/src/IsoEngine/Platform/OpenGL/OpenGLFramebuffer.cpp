@@ -4,6 +4,9 @@
 #include <glad/glad.h>
 
 namespace IE {
+
+	static const uint32_t s_MaxFramebufferSize = 8192;
+
 	OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecs& specs)
 		: m_FramebufferSpecs(specs)
 	{
@@ -55,6 +58,12 @@ namespace IE {
 
 	void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height)
 	{
+		if (width == 0 || height == 0 || width > s_MaxFramebufferSize || height > s_MaxFramebufferSize)
+		{
+			ISOLOGGER_WARN("Attempted to resize framebuffer size to {%}, {%}", width, height)
+			return;
+		}
+
 		m_FramebufferSpecs.Width = width;
 		m_FramebufferSpecs.Height = height;
 
