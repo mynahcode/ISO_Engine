@@ -24,30 +24,22 @@ namespace IE
 
 	private:
 		OrthographicCameraController m_CameraController;
-		// Temporary 
-		Ref<VertexArray> m_SquareVertexArray;
-		Ref<Shader> m_FlatColorShader;
+
+		Ref <Scene> m_ActiveScene;
 		Ref<Framebuffer> m_Framebuffer;
 
 		Ref<Textures2D> m_SpriteSheet;
 		Ref<Textures2D> m_GrassTexture;
 		Ref<SubTexture2D> m_TextureStairs, m_TextureBarrel, m_TextureTree;
 
-		ShaderLibrary m_ShaderLibrary;
+		entt::entity m_SquareEntity;
 
 		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
-
 		glm::vec2 m_ViewportSize;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 
-		struct ProfilerResult
-		{
-			const char* ProfilerName;
-			float ProfilerTime;
-		};
 
-		std::vector<ProfilerResult> m_ProfilerResults;
 	};
 
 }

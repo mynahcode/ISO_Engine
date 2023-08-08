@@ -22,7 +22,7 @@ IncludeDir["GLAD"] = "IsoEngine/Vendor/GLAD/include"
 IncludeDir["GLFW"] = "IsoEngine/Vendor/GLFW/include"
 IncludeDir["ImGui"] = "IsoEngine/Vendor/imgui"
 IncludeDir["glm"] = "IsoEngine/Vendor/glm"
-IncludeDir["entt"] = "IsoEngine/vendor/entt/include"
+IncludeDir["entt"] = "IsoEngine/Vendor/entt/include"
 IncludeDir["stb_image"] = "IsoEngine/Vendor/stb_image"
 --IncludeDir["fmt"] = "IsoEngine/Vendor/fmt"
 
@@ -52,6 +52,7 @@ project "IsoEngine"
 		"%{prj.name}/Vendor/stb_image/**.cpp",
 		"%{prj.name}/Vendor/glm/glm/**.hpp",
 		"%{prj.name}/Vendor/glm/glm/**.inl",
+		"%{prj.name}/Vendor/entt/include/**.hpp",
 		--"%{prj.name}/Vendor/fmt/include/fmt/**.h"
 	}
 
@@ -178,7 +179,8 @@ project "IsoEngineEditor"
 	{
 		"IsoEngine/src",
 		"%{IncludeDir.glm}",
-		"IsoEngine/Vendor"
+		"IsoEngine/Vendor",
+		"%{IncludeDir.entt}"
 	}
 
 	defines

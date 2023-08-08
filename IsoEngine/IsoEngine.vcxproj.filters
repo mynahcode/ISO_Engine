@@ -4,6 +4,12 @@
     <Filter Include="Vendor">
       <UniqueIdentifier>{935FDCD7-7F01-07AE-68BC-1A0254FD8DFE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vendor\entt">
+      <UniqueIdentifier>{BDD8E115-298E-5A0B-B282-54E21E37510F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\entt\include">
+      <UniqueIdentifier>{306DA660-9CCE-836E-253C-CA20919CBA2D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Vendor\glm">
       <UniqueIdentifier>{627B7327-4E33-B574-B73A-8ED0A3115065}</UniqueIdentifier>
     </Filter>
@@ -61,8 +67,14 @@
     <Filter Include="src\IsoEngine\Renderer">
       <UniqueIdentifier>{E3452E54-CF3F-57A6-B8AC-EDB6A445BD12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\IsoEngine\Scene">
+      <UniqueIdentifier>{7A506F88-E6B1-4C96-6F1F-9348DB7F8355}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Vendor\entt\include\entt.hpp">
+      <Filter>Vendor\entt\include</Filter>
+    </ClInclude>
     <ClInclude Include="Vendor\glm\glm\common.hpp">
       <Filter>Vendor\glm\glm</Filter>
     </ClInclude>
@@ -1434,6 +1446,12 @@
     <ClInclude Include="src\IsoEngine\Renderer\VertexArray.h">
       <Filter>src\IsoEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Scene\Components.h">
+      <Filter>src\IsoEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IsoEngine\Scene\Scene.h">
+      <Filter>src\IsoEngine\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\iepch.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1525,6 +1543,9 @@
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Renderer\VertexArray.cpp">
       <Filter>src\IsoEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\Scene\Scene.cpp">
+      <Filter>src\IsoEngine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\iepch.cpp">
       <Filter>src</Filter>

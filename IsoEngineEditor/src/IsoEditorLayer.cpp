@@ -1,10 +1,9 @@
 #include "IsoEditorLayer.h"
-#include <imgui/imgui.h>
 
 #include <chrono>
-
-#include <glm/gtc/matrix_transform.hpp>
+#include <imgui/imgui.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace IE
 {
@@ -18,20 +17,19 @@ namespace IE
     {
         _IE_PROFILER_FUNCTION();
 
-        //m_GrassTexture = IE::Textures2D::Create("assets/textures/grass.jpg");
         m_SpriteSheet = IE::Textures2D::Create("assets/textures/RPGpack_sheet_2X.png");
 
-        //m_TextureStairs = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 7, 6 }, { 128, 128 });
-        //m_TextureBarrel = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 8, 2 }, { 128, 128 });
-        //m_TextureTree = IE::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 2, 1 }, { 128, 128 }, { 1, 2 });
 
-        IE::FramebufferSpecs fbSpecs;
+        FramebufferSpecs fbSpecs;
         fbSpecs.Width = 1280;
         fbSpecs.Height = 720;
+        m_Framebuffer = Framebuffer::Create(fbSpecs);
 
-        m_Framebuffer = IE::Framebuffer::Create(fbSpecs);
+        m_ActiveScene = CreateRef<Scene>();
 
-        //m_CameraController.SetZoomLevel(0.25f);
+        m_SquareEntity = m_ActiveScene->CreateEntity();
+        m_ActiveScene->Reg().emplace<TransformComponent>(m_SquareEntity);
+        m_ActiveScene->Reg().emplace<SpriteRendererComponent>(m_SquareEntity, m_SquareColor);
     }
 
     void IsoEditorLayer::OnDetach()
@@ -43,7 +41,7 @@ namespace IE
     {
         _IE_PROFILER_FUNCTION();
 
-        if (IE::FramebufferSpecs spec = m_Framebuffer->GetFramebufferSpecs();
+        if (FramebufferSpecs spec = m_Framebuffer->GetFramebufferSpecs();
             m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
             (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
         {
@@ -52,32 +50,31 @@ namespace IE
         }
 
         // Update
-        if (m_ViewportFocused) m_CameraController.OnUpdate(timestep);
+        if (m_ViewportFocused) 
+            m_CameraController.OnUpdate(timestep);
+
 
         /* RENDER */
         /* Starts scene and contains all information of scene.*/
-        IE::Renderer2D::ResetStats();
+        Renderer2D::ResetStats();
         {
-            _IE_PROFILER_SCOPE("Renderer Preparation Functions");
+            _IE_PROFILER_SCOPE("Scene Editor Renderer Preparation Functions");
             m_Framebuffer->Bind();
-            IE::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
-            IE::RenderCommand::Clear();
+            RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
+            RenderCommand::Clear();
         }
 
         /* Renderer Flow */
         {
-            static float rotation = 0.0f;
-            rotation += timestep * 15.0f;
 
-            _IE_PROFILER_SCOPE("Renderer Draw Functions");
-            IE::Renderer2D::BeginScene(m_CameraController.GetCamera()); // parameters should be: lights, environment
+            _IE_PROFILER_SCOPE("Scene Editor Draw Functions");
+            Renderer2D::BeginScene(m_CameraController.GetCamera()); // parameters should be: lights, environment
 
-            //IE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_TextureStairs, 1.0f, glm::vec4(1.0f));
-            //IE::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_TextureBarrel, 1.0f, glm::vec4(1.0f));
-            //IE::Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.5f }, { 1.0f, 2.0f }, m_TextureTree, 1.0f, glm::vec4(1.0f));
-            IE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.5f }, { 1.0f, 1.0f }, m_SpriteSheet, 1.0f, glm::vec4(1.0f));
+            //Update Scene
+            m_ActiveScene->OnUpdate(timestep);
 
-            IE::Renderer2D::EndScene();
+            Renderer2D::EndScene();
+
             m_Framebuffer->UnBind();
         }
     }
@@ -158,7 +155,7 @@ namespace IE
 
         ImGui::Begin("Settings");
 
-        auto stats = IE::Renderer2D::GetStats();
+        auto stats = Renderer2D::GetStats();
 
         ImGui::Text("Renderer2D Stats:");
         ImGui::Text("DrawCalls: %d", stats.DrawCalls);
@@ -167,7 +164,8 @@ namespace IE
         ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
         ImGui::Text("Memory Usage: WIP"); // TODO: Add memory usage tracking
 
-        ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+        auto& squareColor = m_ActiveScene->Reg().get<SpriteRendererComponent>(m_SquareEntity).Color;
+        ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
 
         ImGui::End();
         /********************************/
@@ -190,7 +188,7 @@ namespace IE
         ImGui::End();
 }
 
-    void IsoEditorLayer::OnEvent(IE::Event& ev)
+    void IsoEditorLayer::OnEvent(Event& ev)
     {
         _IE_PROFILER_FUNCTION();
         m_CameraController.OnEvent(ev);

@@ -27,6 +27,10 @@
 /* Timestep Helper */
 #include "IsoEngine/Core/Timestep.h"
 
+/* Scene and Entity Component System */
+#include "IsoEngine/Scene/Scene.h"
+#include "IsoEngine/Scene/Components.h"
+
 /* IsoEngine's Input Polling Manager */
 #include "IsoEngine/Core/Input.h"
 

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "entt.hpp"
+#include "IsoEngine/Core/Timestep.h"
+
+#include <entt.hpp>
 
 namespace IE
 {
@@ -9,6 +11,12 @@ namespace IE
 	public:
 		Scene();
 		~Scene();
+
+		entt::entity CreateEntity();
+		// Temporary
+		entt::registry& Reg() { return m_Registry; }
+
+		void OnUpdate(Timestep ts);
 
 	private:
 		entt::registry m_Registry; // Contains entity component data and entity IDs --> Container that contains entity "context"
