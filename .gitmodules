@@ -10,3 +10,6 @@
 	path = IsoEngine/Vendor/glm
 	url = https://github.com/g-truc/glm
 	branch = master
+[submodule "IsoEngine/Vendor/fmt"]
+	path = IsoEngine/Vendor/fmt
+	url = https://github.com/mynahcode/fmt.git

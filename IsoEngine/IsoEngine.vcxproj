@@ -76,8 +76,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>iepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;_IE_DEBUG_MODE;IMGUI_API=__declspec(dllexport);IE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;Vendor\glm;Vendor\stb_image;Vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;FMT_HEADER_ONLY;_IE_DEBUG_MODE;IMGUI_API=__declspec(dllexport);IE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;Vendor\glm;Vendor\stb_image;Vendor\entt\include;Vendor\fmt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -98,8 +98,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>iepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;_IE_DEBUG_MODE;IMGUI_API=__declspec(dllexport);IE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;Vendor\glm;Vendor\stb_image;Vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;FMT_HEADER_ONLY;_IE_DEBUG_MODE;IMGUI_API=__declspec(dllexport);IE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;Vendor\glm;Vendor\stb_image;Vendor\entt\include;Vendor\fmt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -123,8 +123,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>iepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;_IE_DEBUG_MODE;IMGUI_API=__declspec(dllexport);IE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;Vendor\glm;Vendor\stb_image;Vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;FMT_HEADER_ONLY;_IE_DEBUG_MODE;IMGUI_API=__declspec(dllexport);IE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;Vendor\GLAD\include;Vendor\GLFW\include;Vendor\imgui;Vendor\glm;Vendor\stb_image;Vendor\entt\include;Vendor\fmt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -145,6 +145,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Vendor\entt\include\entt.hpp" />
+    <ClInclude Include="Vendor\fmt\include\fmt\core.h" />
+    <ClInclude Include="Vendor\fmt\include\fmt\format-inl.h" />
+    <ClInclude Include="Vendor\fmt\include\fmt\format.h" />
     <ClInclude Include="Vendor\glm\glm\common.hpp" />
     <ClInclude Include="Vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="Vendor\glm\glm\detail\_fixes.hpp" />
@@ -607,6 +610,7 @@
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Vendor\fmt\src\format.cc" />
     <ClCompile Include="Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />
     <ClCompile Include="src\IsoEngine\Core\Application.cpp" />

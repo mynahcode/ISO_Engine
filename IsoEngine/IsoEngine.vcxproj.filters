@@ -10,6 +10,18 @@
     <Filter Include="Vendor\entt\include">
       <UniqueIdentifier>{306DA660-9CCE-836E-253C-CA20919CBA2D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vendor\fmt">
+      <UniqueIdentifier>{49777327-352F-B574-9E36-8ED08A0D5065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\fmt\include">
+      <UniqueIdentifier>{BCD703F5-A8BB-C44A-111C-BF9DFD1EAFCC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\fmt\include\fmt">
+      <UniqueIdentifier>{F2DB7CFE-DED5-A550-C742-3C61B3DB0BBD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\fmt\src">
+      <UniqueIdentifier>{E0B19B17-CC7F-8F1D-B513-0044A1806B82}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Vendor\glm">
       <UniqueIdentifier>{627B7327-4E33-B574-B73A-8ED0A3115065}</UniqueIdentifier>
     </Filter>
@@ -74,6 +86,15 @@
   <ItemGroup>
     <ClInclude Include="Vendor\entt\include\entt.hpp">
       <Filter>Vendor\entt\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Vendor\fmt\include\fmt\core.h">
+      <Filter>Vendor\fmt\include\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="Vendor\fmt\include\fmt\format-inl.h">
+      <Filter>Vendor\fmt\include\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="Vendor\fmt\include\fmt\format.h">
+      <Filter>Vendor\fmt\include\fmt</Filter>
     </ClInclude>
     <ClInclude Include="Vendor\glm\glm\common.hpp">
       <Filter>Vendor\glm\glm</Filter>
@@ -1457,6 +1478,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Vendor\fmt\src\format.cc">
+      <Filter>Vendor\fmt\src</Filter>
+    </ClCompile>
     <ClCompile Include="Vendor\stb_image\stb_image.cpp">
       <Filter>Vendor\stb_image</Filter>
     </ClCompile>

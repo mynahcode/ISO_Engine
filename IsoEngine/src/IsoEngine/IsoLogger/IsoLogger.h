@@ -1,9 +1,15 @@
 #pragma once
 
 #include <string>
+#include <include/fmt/core.h>
+#include <include/fmt/format.h>
+#include <include/fmt/format-inl.h>
+#include <include/fmt/ranges.h>
+#include <include/fmt/chrono.h>
+
 #include "IsoLoggerFormatter.h"
 
-// TODO: Refactor IsoLogger to add support for formatting __VA_ARGS__ vars into a string to output to console as part of log message.
+// TODO: Refactor IsoLogger to integrate fmt library functionality/printing for logger console and file outputs.
 namespace IE
 {
 	namespace IELogger

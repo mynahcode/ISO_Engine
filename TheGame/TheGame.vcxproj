@@ -78,8 +78,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_IE_DEBUG_MODE;IE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\IsoEngine\src;..\IsoEngine\Vendor\glm;..\IsoEngine\Vendor;..\IsoEngine\Vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_IE_DEBUG_MODE;FMT_HEADER_ONLY;IE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\IsoEngine\src;..\IsoEngine\Vendor\glm;..\IsoEngine\Vendor;..\IsoEngine\Vendor\entt\include;..\IsoEngine\Vendor\fmt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -96,8 +96,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_IE_DEBUG_MODE;IE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\IsoEngine\src;..\IsoEngine\Vendor\glm;..\IsoEngine\Vendor;..\IsoEngine\Vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_IE_DEBUG_MODE;FMT_HEADER_ONLY;IE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\IsoEngine\src;..\IsoEngine\Vendor\glm;..\IsoEngine\Vendor;..\IsoEngine\Vendor\entt\include;..\IsoEngine\Vendor\fmt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -117,8 +117,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_IE_DEBUG_MODE;IE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\IsoEngine\src;..\IsoEngine\Vendor\glm;..\IsoEngine\Vendor;..\IsoEngine\Vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_IE_DEBUG_MODE;FMT_HEADER_ONLY;IE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\IsoEngine\src;..\IsoEngine\Vendor\glm;..\IsoEngine\Vendor;..\IsoEngine\Vendor\entt\include;..\IsoEngine\Vendor\fmt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

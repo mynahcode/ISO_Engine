@@ -24,7 +24,7 @@ IncludeDir["ImGui"] = "IsoEngine/Vendor/imgui"
 IncludeDir["glm"] = "IsoEngine/Vendor/glm"
 IncludeDir["entt"] = "IsoEngine/Vendor/entt/include"
 IncludeDir["stb_image"] = "IsoEngine/Vendor/stb_image"
---IncludeDir["fmt"] = "IsoEngine/Vendor/fmt"
+IncludeDir["fmt"] = "IsoEngine/Vendor/fmt"
 
 
 include "IsoEngine/Vendor/GLAD"
@@ -53,14 +53,17 @@ project "IsoEngine"
 		"%{prj.name}/Vendor/glm/glm/**.hpp",
 		"%{prj.name}/Vendor/glm/glm/**.inl",
 		"%{prj.name}/Vendor/entt/include/**.hpp",
-		--"%{prj.name}/Vendor/fmt/include/fmt/**.h"
+		"%{prj.name}/Vendor/fmt/include/fmt/core.h",
+		"%{prj.name}/Vendor/fmt/include/fmt/format.h",
+		"%{prj.name}/Vendor/fmt/include/fmt/format-inl.h",
+		"%{prj.name}/Vendor/fmt/src/format.cc"
 	}
 
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"GLFW_INCLUDE_NONE",
-		--"FMT_HEADER_ONLY",
+		"FMT_HEADER_ONLY",
 		"_IE_DEBUG_MODE",
 		"IMGUI_API=__declspec(dllexport)" 
 	}
@@ -73,8 +76,8 @@ project "IsoEngine"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}"
-		--"%{IncludeDir.fmt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.fmt}"
 	}
 
 	links
@@ -125,14 +128,15 @@ project "TheGame"
 		"IsoEngine/src",
 		"%{IncludeDir.glm}",
 		"IsoEngine/Vendor",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.fmt}"
 	}
 
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"_IE_DEBUG_MODE",
-		--"FMT_HEADER_ONLY"
+		"FMT_HEADER_ONLY"
 	}
 
 	links
@@ -180,14 +184,15 @@ project "IsoEngineEditor"
 		"IsoEngine/src",
 		"%{IncludeDir.glm}",
 		"IsoEngine/Vendor",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.fmt}"
 	}
 
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"_IE_DEBUG_MODE",
-		--"FMT_HEADER_ONLY"
+		"FMT_HEADER_ONLY"
 	}
 
 	links
