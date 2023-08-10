@@ -3,11 +3,15 @@
 #include <string>
 #include <include/fmt/core.h>
 #include <include/fmt/format.h>
+#include <include/fmt/args.h>
 #include <include/fmt/format-inl.h>
 #include <include/fmt/ranges.h>
 #include <include/fmt/chrono.h>
+#include <include/fmt/color.h>
+#include <include/fmt/os.h>
+#include <include/fmt/ostream.h>
 
-#include "IsoLoggerFormatter.h"
+using namespace std::literals::chrono_literals;
 
 // TODO: Refactor IsoLogger to integrate fmt library functionality/printing for logger console and file outputs.
 namespace IE
@@ -24,7 +28,6 @@ namespace IE
 			FATAL		= 5							// Fatal -- Resulting in crash or termination of program
 		};
 
-		/* Re-factored to be a Singleton design pattern */
 		class IsoLogger
 		{
 
@@ -48,116 +51,26 @@ namespace IE
 				return iso_logger;
 			}
 
-			template<typename... Args>
-			void IsoLog(IELogger_Priority msg_priority, const char* msg_priority_str, const char* msg, Args&&... args)
+			void vLog(const char* file, int line, fmt::string_view format, fmt::format_args args)
 			{
-				if (priority_level <= msg_priority)
-				{
-
-					std::scoped_lock lock(logger_mutex);
-
-					errno_t err;
-					struct tm curr_time;
-					__time64_t long_time;
-					char buffer[26];
-					char am_pm[] = "AM";
-
-					_time64(&long_time);
-
-					err = _localtime64_s(&curr_time, &long_time);
-
-					if (err)
-					{
-						printf("Invalid argument to _localtime64_s.");
-					}
-
-					if (curr_time.tm_hour > 12)								// Set up extension
-						strcpy_s(am_pm, sizeof(am_pm), "PM");
-					if (curr_time.tm_hour >= 12)							// Convert from 24-hour time
-						curr_time.tm_hour -= 12;							// to 12 hour time
-					if (curr_time.tm_hour == 0)								// Set hour to 12 if curr_time.tm_hour - 12 == 0 (midnight)
-						curr_time.tm_hour = 12;
-
-					// Convert to an ASCII representation
-					err = asctime_s(buffer, 26, &curr_time);
-					if (err)
-					{
-						printf("Invalid argument to asctime_s");
-					}
-
-					printf("[%.19s %s] ", buffer, am_pm);
-					std::cout << msg_priority_str;
-					/*
-					printf(msg, args...);
-					printf(" On Line %d in %s", line_num, src_file);
-					printf("\n");
-					*/
-					std::ostringstream log_out;
-					IsoLoggerFormatter::IsoLoggerRecursive(log_out, msg, std::forward<Args>(args)...);
-					std::cout << log_out.str() << std::endl;
-
-					/*
-					// TODO: Fix IsoLoggers file output for logging.
-					// Enable File-Logging Check
-					if (file)
-					{
-						fprintf(file, "%.19s %s", buffer, am_pm);
-						fprintf(file, msg_priority_str);
-						fprintf(file, msg, args...);
-						fprintf(file, "\n");
-					}
-					*/
-				}
+				fmt::print("{}: {}:", file, line);
+				fmt::vprint(format, args);
 			}
 
-			template<typename... Args>
-			void IsoLog(int line_num, const char* src_file, IELogger_Priority msg_priority, const char* msg_priority_str, const char* msg, Args&&... args)
+			void IsoLog(int line_num, const char* src_file, IELogger_Priority msg_priority, const char* priority, fmt::string_view format, fmt::format_args args)
 			{
 				if (priority_level <= msg_priority)
 				{
 
 					std::scoped_lock lock(logger_mutex);
+					std::time_t tp = std::time(nullptr);
+					auto const curr_time = fmt::localtime(tp);
 
-					errno_t err;
-					struct tm curr_time;
-					__time64_t long_time;
-					char buffer[26];
-					char am_pm[] = "AM";
+					fmt::print("[{:%F %r}]  ", curr_time);
+					//fmt::print("{}", msg_priority_str);
+					//fmt::print("{}: {}:", file, line_num);
+					fmt::vprint(format, args);
 
-					_time64(&long_time);
-
-					err = _localtime64_s(&curr_time, &long_time);
-
-					if (err)
-					{
-						printf("Invalid argument to _localtime64_s.");
-					}
-					
-					if (curr_time.tm_hour > 12)								// Set up extension
-						strcpy_s(am_pm, sizeof(am_pm), "PM");
-					if (curr_time.tm_hour >= 12)							// Convert from 24-hour time
-						curr_time.tm_hour -= 12;							// to 12 hour time
-					if (curr_time.tm_hour == 0)								// Set hour to 12 if curr_time.tm_hour - 12 == 0 (midnight)
-						curr_time.tm_hour = 12;
-
-					// Convert to an ASCII representation
-					err = asctime_s(buffer, 26, &curr_time);
-					if (err)
-					{
-						printf("Invalid argument to asctime_s");
-					}
-
-					printf("[%.19s %s] ", buffer, am_pm);
-					std::cout << msg_priority_str << "In " << src_file << " (Line " << line_num << "): ";
-					/*
-					printf(msg, args...);
-					printf(" On Line %d in %s", line_num, src_file);
-					printf("\n");
-					*/
-					std::ostringstream log_out;
-					IsoLoggerFormatter::IsoLoggerRecursive(log_out, msg, std::forward<Args>(args)...);
-					std::cout << log_out.str() << std::endl;
-					//std::cout << msg_priority_str << iso_out << endl;
 					// Enable File-Logging Check
 					/*
 					if (file)
@@ -219,41 +132,40 @@ namespace IE
 				//isologger_instance.enable_IsoFileOut();
 			}
 
-			template<typename... Args>
-			static void Trace(int line_num, const char* src_file, const char* message, Args&&... args)
+			template<typename... T>
+			static void Trace(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
-
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::TRACE, "[TRACE]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::TRACE, "[TRACE]: ", format, fmt::make_format_args(args...));
 			}
 
-			template<typename... Args>
-			static void Debug(int line_num, const char* src_file, const char* message, Args&&... args)
+			template<typename... T>
+			static void Debug(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::DEBUG, "[DEBUG]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::DEBUG, "[DEBUG]: ", format, fmt::make_format_args(args...));
 			}
 
-			template<typename... Args>
-			static void Info(int line_num, const char* src_file, const char* message, Args&&... args)
+			template<typename... T>
+			static void Info(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::INFO, "[INFO]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::INFO, "[INFO]: ", format, fmt::make_format_args(args...));
 			}
 
-			template<typename... Args>
-			static void Warn(int line_num, const char* src_file, const char* message, Args&&... args)
+			template<typename... T>
+			static void Warn(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::WARN, "[WARN]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::WARN, "[WARN]: ", format, fmt::make_format_args(args...));
 			}
 
-			template<typename... Args>
-			static void Critical(int line_num, const char* src_file, const char* message, Args&&... args)
+			template<typename... T>
+			static void Critical(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::CRITICAL, "[CRITICAL]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::CRITICAL, "[CRITICAL]: ", format, fmt::make_format_args(args...));
 			}
 
-			template<typename... Args>
-			static void Fatal(int line_num, const char* src_file, const char* message, Args&&... args)
+			template<typename... T>
+			static void Fatal(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
-				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::FATAL, "[FATAL]: ", message, args...);
+				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::FATAL, "[FATAL]: ", format, fmt::make_format_args(args...));
 			}
 
 		};
@@ -270,5 +182,5 @@ namespace IE
 
 //#ifdef IE_ENABLE_ASSERTS
 //#define IE_APPLICATION_ASSERT(x, ...) { if(!(x)) {ISOLOGGER_FATAL(("IsoEngine Application Assertion Failed:", x, __VA_ARGS__); __debugbreak(); }  // _debugbreak() is Windows OS only.
-#define IE_ENGINE_ASSERT(Message, x, ...) { if(!(x)) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); ISOLOGGER_FATAL(Message, x, __VA_ARGS__); _IE_DEBUGBREAK(); } }		// TODO: Implement assertion support for other OS.
+//#define //IE_ENGINE_ASSERT(Message, x, ...) { if(!(x)) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); ISOLOGGER_FATAL(Message, x, __VA_ARGS__); _IE_DEBUGBREAK(); } }		// TODO: Implement assertion support for other OS.
 //#endif

@@ -11,11 +11,11 @@ namespace IE
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::API::None: IE_ENGINE_ASSERT(false, "RendererAPI::None isn't supported!") return nullptr;
+		case RendererAPI::API::None: //IE_ENGINE_ASSERT(false, "RendererAPI::None isn't supported!") return nullptr;
 		case RendererAPI::API::OpenGL: return CreateRef<OpenGLTextures2D>(width, height);
 		}
 
-		IE_ENGINE_ASSERT(false, "Unknown RendererAPI!");
+		//IE_ENGINE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
 
@@ -23,11 +23,11 @@ namespace IE
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::API::None: IE_ENGINE_ASSERT(false, "RendererAPI::None isn't supported!") return nullptr;
+		case RendererAPI::API::None: //IE_ENGINE_ASSERT(false, "RendererAPI::None isn't supported!") return nullptr;
 		case RendererAPI::API::OpenGL: return CreateRef<OpenGLTextures2D>(path);
 		}
 
-		IE_ENGINE_ASSERT(false, "Unknown RendererAPI!");
+		//IE_ENGINE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
 }

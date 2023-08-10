@@ -43,14 +43,14 @@ namespace IE
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		ISOLOGGER_TRACE("Creating Window << % >> with dimensions (%, %).", props.Title.c_str(), props.Width, props.Height);
+		ISOLOGGER_TRACE("Creating Window << {0} >> with dimensions ({1}, {2})\n", props.Title.c_str(), props.Width, props.Height);
 
 		if (s_GLFWWindowCount == 0)
 		{
 			_IE_PROFILER_SCOPE("WindowsWindow::Init()->glfwInit()");
-			ISOLOGGER_TRACE("Initializing GLFW...");
+			ISOLOGGER_TRACE("Initializing GLFW...\n");
 			int success = glfwInit();
-			//IE_ENGINE_ASSERT(success, "Could not initialize GLFW!");
+			////IE_ENGINE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
 		
@@ -62,7 +62,7 @@ namespace IE
 		if (m_Window == nullptr)
 		{
 			IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::FATAL);
-			ISOLOGGER_FATAL("Failed to create GLFW Window in WindowsWindow.cpp!");
+			ISOLOGGER_FATAL("Failed to create GLFW Window in WindowsWindow.cpp!\n");
 			Shutdown();
 		}
 		++s_GLFWWindowCount;

@@ -38,7 +38,7 @@ namespace IE
 			std::lock_guard lock(m_Mutex);
 			if (m_CurrentSession)
 			{
-				ISOLOGGER_CRITICAL("Instrumentor::BeginSession('{%}') when session {%} already open.", name, m_CurrentSession->Name);
+				ISOLOGGER_CRITICAL("Instrumentor::BeginSession('{0}') when session {1} already open.", name, m_CurrentSession->Name);
 
 				InternalEndSession();
 			}
@@ -52,7 +52,7 @@ namespace IE
 			else
 			{
 				IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::CRITICAL);
-				ISOLOGGER_CRITICAL("Instrumentor could not open results file {%}", filepath);
+				ISOLOGGER_CRITICAL("Instrumentor could not open results file {0}", filepath);
 			}
 		}
 

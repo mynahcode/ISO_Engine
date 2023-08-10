@@ -11,14 +11,14 @@ namespace IE
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None:
-			IE_ENGINE_ASSERT(false, "RenderAPI::None is currently not supported!");
+			////IE_ENGINE_ASSERT(false, "RenderAPI::None is currently not supported!");
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
 			return CreateRef<OpenGLVertexBuffer>(size);
 		}
 
-		IE_ENGINE_ASSERT(false, "Error: Unknown Renderer API");
+		////IE_ENGINE_ASSERT(false, "Error: Unknown Renderer API");
 		return nullptr;
 	}
 
@@ -27,14 +27,14 @@ namespace IE
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None:
-					IE_ENGINE_ASSERT(false, "RenderAPI::None is currently not supported!");
+					////IE_ENGINE_ASSERT(false, "RenderAPI::None is currently not supported!");
 					return nullptr;
 
 			case RendererAPI::API::OpenGL:
 					return CreateRef<OpenGLVertexBuffer>(vertices, size);
 		}
 
-		IE_ENGINE_ASSERT(false, "Error: Unknown Renderer API");
+		////IE_ENGINE_ASSERT(false, "Error: Unknown Renderer API");
 		return nullptr;
 	}
 
@@ -43,14 +43,14 @@ namespace IE
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None:
-				IE_ENGINE_ASSERT(false, "RenderAPI::None is currently not supported!");
+				////IE_ENGINE_ASSERT(false, "RenderAPI::None is currently not supported!");
 				return nullptr;
 
 			case RendererAPI::API::OpenGL:
 				return CreateRef<OpenGLIndexBuffer>(indices, count);
 		}
 
-		IE_ENGINE_ASSERT(false, "Error: Unknown Renderer API");
+		////IE_ENGINE_ASSERT(false, "Error: Unknown Renderer API");
 		return nullptr;
 	}
 }

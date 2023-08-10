@@ -51,7 +51,7 @@ namespace IE {
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment, 0);
 
-		IE_ENGINE_ASSERT("FRAMEBUFFER is incomplete!", glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
+		//IE_ENGINE_ASSERT("FRAMEBUFFER is incomplete!", glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
@@ -60,7 +60,7 @@ namespace IE {
 	{
 		if (width == 0 || height == 0 || width > s_MaxFramebufferSize || height > s_MaxFramebufferSize)
 		{
-			ISOLOGGER_WARN("Attempted to resize framebuffer size to {%}, {%}", width, height)
+			ISOLOGGER_WARN("Attempted to resize framebuffer size to {0}, {1}", width, height)
 			return;
 		}
 

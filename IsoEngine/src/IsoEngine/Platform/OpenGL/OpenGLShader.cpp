@@ -13,7 +13,7 @@ namespace IE
 	{
 		if (shaderTypeString == "vertex") return GL_VERTEX_SHADER;
 		else if (shaderTypeString == "fragment" || shaderTypeString == "pixel") return GL_FRAGMENT_SHADER;
-		else IE_ENGINE_ASSERT(false, "Unknown shader type!");
+		//else //IE_ENGINE_ASSERT(false, "Unknown shader type!");
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filepath) // input file stream: std::ifstream

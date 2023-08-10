@@ -96,7 +96,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		//ISOLOGGER_INFO("%", ev);
+		//ISOLOGGER_INFO("{}", ev.ToString());
 		EventDispatcher dispatcher(ev);
 		dispatcher.Dispatch<WindowCloseEvent>(IE_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(IE_BIND_EVENT_FN(Application::OnWindowResize));
@@ -133,7 +133,7 @@ namespace IE
 
 		m_Minimized = false;
 		Renderer::OnWindowResize(ev.GetWidth(), ev.GetHeight());
-		ISOLOGGER_WARN("Window Resized: (%, %)", ev.GetWidth(), ev.GetWidth());
+		ISOLOGGER_WARN("Window Resized: ({0}, {1})", ev.GetWidth(), ev.GetWidth());
 		return true;
 	}
 }

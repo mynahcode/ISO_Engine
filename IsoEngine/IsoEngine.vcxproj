@@ -584,7 +584,6 @@
     <ClInclude Include="src\IsoEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\IsoEngine\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h" />
-    <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerFormatter.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLFramebuffer.h" />

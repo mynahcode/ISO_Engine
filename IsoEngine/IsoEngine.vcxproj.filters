@@ -1404,9 +1404,6 @@
     <ClInclude Include="src\IsoEngine\IsoLogger\IsoLogger.h">
       <Filter>src\IsoEngine\IsoLogger</Filter>
     </ClInclude>
-    <ClInclude Include="src\IsoEngine\IsoLogger\IsoLoggerFormatter.h">
-      <Filter>src\IsoEngine\IsoLogger</Filter>
-    </ClInclude>
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\IsoEngine\Platform\OpenGL</Filter>
     </ClInclude>
