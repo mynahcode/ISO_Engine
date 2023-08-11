@@ -51,7 +51,7 @@ namespace IE
 			}
 
 			template<typename... T>
-			void IsoLog(int line_num, fmt::string_view src_file, IELogger_Priority msg_priority, const char* priority, fmt::string_view format, fmt::format_args args)
+			void IsoLog(int line_num, const char* src_file, IELogger_Priority msg_priority, const char* priority, fmt::string_view format, fmt::format_args args)
 			{
 				if (priority_level <= msg_priority)
 				{
@@ -60,7 +60,6 @@ namespace IE
 						std::scoped_lock lock(logger_mutex);
 						std::time_t tp = std::time(nullptr);
 						auto const curr_time = fmt::localtime(tp);
-
 						fmt::print("[{:%F %r}]  ", curr_time);
 
 						switch (msg_priority)
@@ -128,37 +127,37 @@ namespace IE
 			}
 
 			template<typename... T>
-			static void Trace(int line_num, fmt::format_string<T...> src_file, fmt::format_string<T...> format, T&&... args)
+			static void Trace(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
 				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::TRACE, "[TRACE]:", format, fmt::make_format_args(args...));
 			}
 
 			template<typename... T>
-			static void Debug(int line_num, fmt::format_string<T...> src_file, fmt::format_string<T...> format, T&&... args)
+			static void Debug(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
 				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::DEBUG, "[DEBUG]:", format, fmt::make_format_args(args...));
 			}
 
 			template<typename... T>
-			static void Info(int line_num, fmt::format_string<T...> src_file, fmt::format_string<T...> format, T&&... args)
+			static void Info(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
 				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::INFO, "[INFO]:", format, fmt::make_format_args(args...));
 			}
 
 			template<typename... T>
-			static void Warn(int line_num, fmt::format_string<T...> src_file, fmt::format_string<T...> format, T&&... args)
+			static void Warn(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
 				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::WARN, "[WARN]:", format, fmt::make_format_args(args...));
 			}
 
 			template<typename... T>
-			static void Critical(int line_num, fmt::format_string<T...> src_file, fmt::format_string<T...> format, T&&... args)
+			static void Critical(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
 				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::CRITICAL, "[CRITICAL]:", format, fmt::make_format_args(args...));
 			}
 
 			template<typename... T>
-			static void Fatal(int line_num, fmt::format_string<T...> src_file, fmt::format_string<T...> format, T&&... args)
+			static void Fatal(int line_num, const char* src_file, fmt::format_string<T...> format, T&&... args)
 			{
 				get_InstanceIsoLogger().IsoLog(line_num, src_file, IELogger_Priority::FATAL, "[FATAL]:", format, fmt::make_format_args(args...));
 			}
