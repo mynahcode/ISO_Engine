@@ -1,2 +1,0 @@
-Wed Apr 26 11:27:47 PM[INFO]:	Hello User On Line 20 in E:\dev\IsoEngine\src\IsoEngine\EntryPoint.h
-Wed Apr 26 11:28:13 PM[INFO]:	Hello User On Line 20 in E:\dev\IsoEngine\src\IsoEngine\EntryPoint.h
