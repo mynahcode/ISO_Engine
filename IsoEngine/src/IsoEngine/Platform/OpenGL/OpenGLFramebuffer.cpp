@@ -51,7 +51,7 @@ namespace IE {
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment, 0);
 
-		//IE_ENGINE_ASSERT("FRAMEBUFFER is incomplete!", glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
+		IE_ENGINE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "FRAMEBUFFER is incomplete!");
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}

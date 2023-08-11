@@ -11,14 +11,14 @@ namespace IE
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None:
-			//IE_CORE_ASSERT(false, "RenderAPI::None is currently not supported!");
+			IE_ENGINE_ASSERT(false, "RenderAPI::None is currently not supported!");
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
 			return CreateRef<OpenGLFramebuffer>(specs);
 		}
 
-		//IE_ENGINE_ASSERT("Error: Unknown Renderer API", false);
+		IE_ENGINE_ASSERT(false, "Error: Unknown Renderer API");
 		return nullptr;
 	}
 }

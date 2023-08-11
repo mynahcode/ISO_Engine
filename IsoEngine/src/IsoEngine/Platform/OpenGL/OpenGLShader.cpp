@@ -13,7 +13,7 @@ namespace IE
 	{
 		if (shaderTypeString == "vertex") return GL_VERTEX_SHADER;
 		else if (shaderTypeString == "fragment" || shaderTypeString == "pixel") return GL_FRAGMENT_SHADER;
-		//else //IE_ENGINE_ASSERT(false, "Unknown shader type!");
+		else IE_ENGINE_ASSERT(false, "Unknown shader type!");
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filepath) // input file stream: std::ifstream
@@ -26,17 +26,6 @@ namespace IE
 
 		std::filesystem::path path = filepath;
 		m_Name = path.stem().string(); // Returns the file's name stripped of the extension.
-
-		/*
-		// Extracting name from filepath
-		auto lastSlash = filepath.find_last_of("/\\");
-		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
-
-		auto lastDot = filepath.rfind('.');
-		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
-		m_Name = filepath.substr(lastSlash, count);
-		*/
-
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
@@ -194,7 +183,7 @@ namespace IE
 		}
 		else
 		{
-			//IE_CORE_ERROR("Could not open Shader file %", filepath);
+			ISOLOGGER_CRITICAL("Could not open Shader file {}", filepath);
 		}
 
 		return result;
@@ -212,10 +201,10 @@ namespace IE
 		while (pos != std::string::npos)
 		{
 			size_t eol = src.find_first_of("\r\n", pos);
-			//IE_CORE_ASSERT(eol != std::string::npos, "Syntax error in preprocessing shader src");
+			IE_ENGINE_ASSERT(eol != std::string::npos, "Syntax error in preprocessing shader src");
 			size_t begin = pos + typeTokenLen + 1; // TODO: Implement whitespace trimming
 			std::string type = src.substr(begin, eol - begin);
-			//IE_CORE_ASSERT(StringToShaderType(type), "Invalid shader type specified!");
+			IE_ENGINE_ASSERT(StringToShaderType(type), "Invalid shader type specified!");
 
 			size_t nextLinePos = src.find_first_not_of("\r\n", eol);
 			pos = src.find(typeToken, nextLinePos);
@@ -267,9 +256,8 @@ namespace IE
 				// We don't need the shader anymore.
 				glDeleteShader(shader);
 
-				//IE_CORE_ERROR("%", infoLog.data());
-				//IE_CORE_ASSERT(false, "Fragment Shader Compilation Failure!");
-
+				ISOLOGGER_FATAL("(GL) Failed to compile shader: {}", infoLog.data());
+				IE_ENGINE_ASSERT(false, "Shader Compilation Failed!");
 				break;
 			}
 
@@ -277,8 +265,6 @@ namespace IE
 			glAttachShader(program, shader);
 			glShaderIDs[glShaderIDIndex++] = shader;
 		}
-
-		// Maybe a bad spot for this \/
 		
 		// Link our program
 		glLinkProgram(program);
@@ -301,8 +287,8 @@ namespace IE
 			for (auto id : glShaderIDs)
 				glDeleteShader(id);
 
-			//IE_CORE_ERROR("%", infoLog.data());
-			//IE_CORE_ASSERT(false, "Shader Link Compilation Failure!");
+			ISOLOGGER_FATAL("(GL) Failed to link shader to program: {}", infoLog.data());
+			IE_ENGINE_ASSERT(false, "Shader Link Compilation Failure!");
 			return;
 		}
 

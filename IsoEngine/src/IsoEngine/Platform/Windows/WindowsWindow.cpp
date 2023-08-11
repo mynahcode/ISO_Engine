@@ -50,7 +50,7 @@ namespace IE
 			_IE_PROFILER_SCOPE("WindowsWindow::Init()->glfwInit()");
 			ISOLOGGER_TRACE("Initializing GLFW...\n");
 			int success = glfwInit();
-			////IE_ENGINE_ASSERT(success, "Could not initialize GLFW!");
+			IE_ENGINE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
 		
