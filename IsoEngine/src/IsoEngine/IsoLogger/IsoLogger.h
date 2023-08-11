@@ -50,7 +50,6 @@ namespace IE
 				return iso_logger;
 			}
 
-			template<typename... T>
 			void IsoLog(int line_num, const char* src_file, IELogger_Priority msg_priority, const char* priority, fmt::string_view format, fmt::format_args args)
 			{
 				if (priority_level <= msg_priority)
