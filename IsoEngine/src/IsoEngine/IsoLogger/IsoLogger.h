@@ -13,7 +13,6 @@
 
 using namespace std::literals::chrono_literals;
 
-// TODO: Refactor IsoLogger to integrate fmt library functionality/printing for logger console and file outputs.
 namespace IE
 {
 	namespace IELogger
@@ -41,15 +40,16 @@ namespace IE
 			IsoLogger() = default;
 			IsoLogger(const IsoLogger&) = delete;							// Copy-Constructor
 			IsoLogger& operator = (const IsoLogger&) = delete;				// Assignment Constructor
-			~IsoLogger() { free_File(); }
+			~IsoLogger() = default;
 
 			/* Getter Function to get instance of IsoLogger */
 			static IsoLogger& get_InstanceIsoLogger()
 			{
-				static IsoLogger iso_logger;								// Global variable accessed inside of the function -- initialized only once
+				static IsoLogger iso_logger;
 				return iso_logger;
 			}
 
+			/* TODO: Refactor logger to not have switch case for Logger priority and make it so IsoLogger outputs for Engine, Editor, and Application separately. */
 			void IsoLog(int line_num, const char* src_file, IELogger_Priority msg_priority, const char* priority, fmt::string_view format, fmt::format_args args)
 			{
 				if (priority_level <= msg_priority)
@@ -90,11 +90,10 @@ namespace IE
 						fmt::print(" in {} ({:d})  ", src_file, line_num);
 						fmt::vprint(format, args);
 					}
-					// TODO: Fix file logging and refactor for supporting unique log files for the engine, the editor, and the application
+
 					else
 					{
 						std::scoped_lock lock(logger_mutex);
-						//fmt::ostream out = fmt::output_file("./TheGame/logs/log.txt", fmt::file::WRONLY | fmt::file::CREATE | fmt::file::APPEND);
 						FILE* file = std::fopen("log.txt", "w");
 						std::time_t tp = std::time(nullptr);
 						auto const curr_time = fmt::localtime(tp);
@@ -106,12 +105,6 @@ namespace IE
 				}
 			}
 
-			void free_File()
-			{
-				//fclose(file);
-				//file = 0;
-			}
-
 		public:
 			inline static void SetPriority(IELogger_Priority priority) 
 			{ 
@@ -121,8 +114,6 @@ namespace IE
 			static void EnableIsoFileOut(const char* new_filepath)
 			{
 				IsoLogger& isologger_instance = get_InstanceIsoLogger();
-				//isologger_instance.filepath = new_filepath;
-				//isologger_instance.enable_IsoFileOut();
 			}
 
 			template<typename... T>
@@ -174,6 +165,7 @@ namespace IE
 #define ISOLOGGER_FATAL(Message,...) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); (::IE::IELogger::IsoLogger::Fatal(__LINE__, __FILE__, Message, __VA_ARGS__)); }
 
 //#ifdef IE_ENABLE_ASSERTS
+	// #define IE_Editor_ASSERT(cond, Message, ...) { if(!(cond)) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); ISOLOGGER_FATAL(Message, __VA_ARGS__); _IE_DEBUGBREAK(); }
 	//#define IE_APPLICATION_ASSERT(cond, Message, ...) { if(!(cond)) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); ISOLOGGER_FATAL(Message, __VA_ARGS__); _IE_DEBUGBREAK(); }  // _debugbreak() is Windows OS only.
 #define IE_ENGINE_ASSERT(cond, Message, ...) { if(!(cond)) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); ISOLOGGER_FATAL(Message, __VA_ARGS__); _IE_DEBUGBREAK(); } }		// TODO: Implement assertion support for other OS.
 //#endif
