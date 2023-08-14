@@ -20,5 +20,6 @@ namespace IE
 
 	private:
 		entt::registry m_Registry; // Contains entity component data and entity IDs --> Container that contains entity "context"
+		friend class Entity;
 	};
 }
