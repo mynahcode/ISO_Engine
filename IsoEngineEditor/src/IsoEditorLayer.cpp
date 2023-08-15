@@ -29,11 +29,9 @@ namespace IE
 
         auto m_SquareEntity = m_ActiveScene->CreateEntity();
 
-
-
         Entity squareEntity = { m_SquareEntity, m_ActiveScene.get() };
 
-        squareEntity.HasComponent<TransformComponent>();
+        squareEntity.hasComponent<TransformComponent>();
 
         m_ActiveScene->Reg().emplace<TransformComponent>(m_SquareEntity);
         m_ActiveScene->Reg().emplace<SpriteRendererComponent>(m_SquareEntity, m_SquareColor);

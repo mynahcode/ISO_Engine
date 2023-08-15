@@ -29,6 +29,7 @@
 
 /* Scene and Entity Component System */
 #include "IsoEngine/Scene/Scene.h"
+#include "IsoEngine/Scene/Entity.h"
 #include "IsoEngine/Scene/Components.h"
 
 /* IsoEngine's Input Polling Manager */
