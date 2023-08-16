@@ -68,7 +68,7 @@ namespace IE
         {
 
             _IE_PROFILER_SCOPE("Scene Editor Draw Functions");
-            Renderer2D::BeginScene(m_CameraController.GetCamera()); // parameters should be: lights, environment
+            Renderer2D::BeginScene(m_CameraController.GetCamera()); 
 
             //Update Scene
             m_ActiveScene->OnUpdate(timestep);

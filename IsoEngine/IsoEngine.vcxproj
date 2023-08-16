@@ -144,6 +144,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\IsoEngine\Controllers\IsometricCameraController.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\IsometricCamera.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Camera.h" />
     <ClInclude Include="src\IsoEngine\Scene\Entity.h" />
     <ClInclude Include="Vendor\entt\include\entt.hpp" />
     <ClInclude Include="Vendor\fmt\include\fmt\core.h" />
@@ -610,6 +613,9 @@
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\IsoEngine\Controllers\IsometricCameraController.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\IsometricCamera.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Camera.cpp" />
     <ClCompile Include="src\IsoEngine\Scene\Entity.cpp" />
     <ClCompile Include="Vendor\fmt\src\format.cc" />
     <ClCompile Include="Vendor\stb_image\stb_image.cpp" />

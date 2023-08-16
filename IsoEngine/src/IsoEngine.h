@@ -23,6 +23,8 @@
 
 #include "IsoEngine/Renderer/OrthographicCamera.h"
 #include "IsoEngine/Controllers/OrthographicCameraController.h"
+#include "IsoEngine/Renderer/IsometricCamera.h"
+#include "IsoEngine/Controllers/IsometricCameraController.h"
 
 /* Timestep Helper */
 #include "IsoEngine/Core/Timestep.h"

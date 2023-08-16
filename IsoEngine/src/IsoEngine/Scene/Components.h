@@ -2,6 +2,8 @@
 
 #include <glm/glm.hpp>
 
+#include "IsoEngine/Renderer/Camera.h"
+
 namespace IE
 {
 	struct TagComponent
@@ -36,4 +38,13 @@ namespace IE
 			: Color(color) {}
 	};
 
+	struct CameraComponent
+	{
+		Camera Camera;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+		CameraComponent(const glm::mat4& projection)
+			: Camera(projection) {}
+	};
 }

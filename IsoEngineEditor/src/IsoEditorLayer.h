@@ -23,7 +23,7 @@ namespace IE
 		void OnEvent(Event& ev) override;
 
 	private:
-		OrthographicCameraController m_CameraController;
+		IsometricCameraController m_CameraController;
 
 		Ref <Scene> m_ActiveScene;
 		Ref<Framebuffer> m_Framebuffer;
