@@ -10,18 +10,42 @@ namespace IE
 	class Entity
 	{
 	public:
+		Entity() = default;
 		Entity(entt::entity e_Handle, Scene* scene);
 		Entity(const Entity& other) = default;
 
-		template<typename T>
-		bool hasComponent()
+		template<typename T, typename ...Args>
+		T& AddComponent(Args&&... args)
 		{
-			return m_Scene->m_Registry.has<T>(m_EntityHandle);
+			IE_ENGINE_ASSERT(!HasComponent<T>(), "Entity already has component!")
+			return m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
 		}
 
+		template<typename T>
+		T& GetComponent()
+		{
+			IE_ENGINE_ASSERT(HasComponent<T>(), "Entity does not have component on GetComponent call!")
+			return m_Scene->m_Registry.get<T>(m_EntityHandle);
+		}
+
+		template<typename T>
+		void RemoveComponent()
+		{
+			IE_ENGINE_ASSERT(HasComponent<T>(), "Entity does not have component already on RemoveComponent call!")
+			m_Scene->m_Registry.remove<T>(m_EntityHandle);
+		}
+
+		template<typename T>
+		bool HasComponent()
+		{
+			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
+		}
+
+		operator bool() const { return m_EntityHandle != entt::null; }
+
 	private:
-		entt::entity m_EntityHandle;
+		entt::entity m_EntityHandle = { entt::null }; // entt::null and entt 0 are not the same.
 		//std::weak_ref<Scene> m_Scene; // TODO: Refence counting.
-		Scene* m_Scene; 
+		Scene* m_Scene = nullptr; 
 	};
 }

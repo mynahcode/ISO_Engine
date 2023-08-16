@@ -144,6 +144,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\IsoEngine\Scene\Entity.h" />
     <ClInclude Include="Vendor\entt\include\entt.hpp" />
     <ClInclude Include="Vendor\fmt\include\fmt\core.h" />
     <ClInclude Include="Vendor\fmt\include\fmt\format-inl.h" />
@@ -609,6 +610,7 @@
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\IsoEngine\Scene\Entity.cpp" />
     <ClCompile Include="Vendor\fmt\src\format.cc" />
     <ClCompile Include="Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />

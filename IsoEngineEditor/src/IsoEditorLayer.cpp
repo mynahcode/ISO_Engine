@@ -27,14 +27,9 @@ namespace IE
 
         m_ActiveScene = CreateRef<Scene>();
 
-        auto m_SquareEntity = m_ActiveScene->CreateEntity();
-
-        Entity squareEntity = { m_SquareEntity, m_ActiveScene.get() };
-
-        squareEntity.hasComponent<TransformComponent>();
-
-        m_ActiveScene->Reg().emplace<TransformComponent>(m_SquareEntity);
-        m_ActiveScene->Reg().emplace<SpriteRendererComponent>(m_SquareEntity, m_SquareColor);
+        auto square = m_ActiveScene->CreateEntity("Square");
+        square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+        m_SquareEntity = square;
     }
 
     void IsoEditorLayer::OnDetach()
@@ -168,10 +163,15 @@ namespace IE
         ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
         ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
         ImGui::Text("Memory Usage: WIP"); // TODO: Add memory usage tracking
-
-        auto& squareColor = m_ActiveScene->Reg().get<SpriteRendererComponent>(m_SquareEntity).Color;
-        ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-
+        IE_ENGINE_ASSERT(m_SquareEntity, "Square Entity is null!");
+        if(m_SquareEntity)
+        {
+            ImGui::Separator();
+            ImGui::Text("%s", m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
+            auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
+            ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+            ImGui::Separator();
+        }
         ImGui::End();
         /********************************/
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });

@@ -1,3 +1,5 @@
+#include "iepch.h"
+
 #include "Entity.h"
 
 namespace IE

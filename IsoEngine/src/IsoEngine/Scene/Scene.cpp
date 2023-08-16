@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Components.h"
 #include "IsoEngine/Renderer/Renderer2D.h"
+#include "Entity.h"
 
 #include <glm/glm.hpp>
 
@@ -39,9 +40,13 @@ namespace IE
 	{
 	}
 
-	entt::entity Scene::CreateEntity()
+	Entity Scene::CreateEntity(const std::string& name)
 	{
-		return  m_Registry.create();
+		Entity entity = { m_Registry.create(), this };
+		entity.AddComponent<TransformComponent>(); // ALL entties must have a TransformComponent.
+		auto& entity_tag = entity.AddComponent<TagComponent>();
+		entity_tag.Tag = name.empty() ? "Unnamed Entity" : name;
+		return entity;
 	}
 
 	void Scene::OnUpdate(Timestep ts)

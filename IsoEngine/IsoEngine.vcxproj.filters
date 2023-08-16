@@ -1473,6 +1473,7 @@
     <ClInclude Include="src\iepch.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Scene\Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\fmt\src\format.cc">
@@ -1571,5 +1572,6 @@
     <ClCompile Include="src\iepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\Scene\Entity.cpp" />
   </ItemGroup>
 </Project>

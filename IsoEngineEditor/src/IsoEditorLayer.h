@@ -32,14 +32,11 @@ namespace IE
 		Ref<Textures2D> m_GrassTexture;
 		Ref<SubTexture2D> m_TextureStairs, m_TextureBarrel, m_TextureTree;
 
-		entt::entity m_SquareEntity;
+		Entity m_SquareEntity;
 
-		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+		/* ImGui DockingSpace */
 		glm::vec2 m_ViewportSize;
-
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
-
-
 	};
 
 }
