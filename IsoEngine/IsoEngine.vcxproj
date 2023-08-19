@@ -570,7 +570,6 @@
     <ClInclude Include="Vendor\glm\glm\vector_relational.hpp" />
     <ClInclude Include="Vendor\stb_image\stb_image.h" />
     <ClInclude Include="src\IsoEngine.h" />
-    <ClInclude Include="src\IsoEngine\Controllers\OrthographicCameraController.h" />
     <ClInclude Include="src\IsoEngine\Core\Application.h" />
     <ClInclude Include="src\IsoEngine\Core\EntryPoint.h" />
     <ClInclude Include="src\IsoEngine\Core\Input.h" />
@@ -599,7 +598,6 @@
     <ClInclude Include="src\IsoEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\IsoEngine\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\IsoEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\IsoEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Renderer.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Renderer2D.h" />
@@ -619,7 +617,6 @@
     <ClCompile Include="src\IsoEngine\Scene\Entity.cpp" />
     <ClCompile Include="Vendor\fmt\src\format.cc" />
     <ClCompile Include="Vendor\stb_image\stb_image.cpp" />
-    <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />
     <ClCompile Include="src\IsoEngine\Core\Application.cpp" />
     <ClCompile Include="src\IsoEngine\Core\Layer.cpp" />
     <ClCompile Include="src\IsoEngine\Core\LayerStack.cpp" />
@@ -638,7 +635,6 @@
     <ClCompile Include="src\IsoEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\GraphicsContext.cpp" />
-    <ClCompile Include="src\IsoEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Renderer2D.cpp" />

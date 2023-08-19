@@ -12,7 +12,7 @@
 #include "IsoEngine/Renderer/Buffer.h"
 #include "IsoEngine/Renderer/VertexArray.h"
 
-#include "IsoEngine/Renderer/OrthographicCamera.h"
+#include "IsoEngine/Renderer/IsometricCamera.h"
 
 #include "IsoEngine/Core/Timestep.h"
 

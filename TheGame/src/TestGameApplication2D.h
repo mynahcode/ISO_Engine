@@ -20,7 +20,7 @@ public:
 	void OnEvent(IE::Event& ev) override;
 
 private:
-	IE::OrthographicCameraController m_CameraController;
+	IE::IsometricCameraController m_CameraController;
 	// Temporary 
 	IE::Ref<IE::VertexArray> m_SquareVertexArray;
 	IE::Ref<IE::Shader> m_FlatColorShader;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "IsoEngine/Renderer/OrthographicCamera.h"
 #include "IsoEngine/Renderer/IsometricCamera.h"
 #include "IsoEngine/Renderer/Textures.h"
 #include "IsoEngine/Renderer/SubTexture2D.h"
@@ -14,7 +13,6 @@ namespace IE
 		static void Shutdown();
 
 		static void BeginScene(const IsometricCamera& camera);
-		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
 		static void Flush();
 

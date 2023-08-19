@@ -1,8 +1,7 @@
 #pragma once
 
 #include "IsoEngine/Renderer/RenderCommand.h"
-
-#include "IsoEngine/Renderer/OrthographicCamera.h"
+#include "IsoEngine/Renderer/IsometricCamera.h"
 #include "IsoEngine/Renderer/Shader.h"
 
 namespace IE
@@ -15,7 +14,7 @@ namespace IE
 
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
-		static void BeginScene(OrthographicCamera& camera); // TODO: Add scene parameters: lighting, environment
+		static void BeginScene(IsometricCamera& camera); // TODO: Add scene parameters: lighting, environment
 		static void EndScene();
 
 		static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));
