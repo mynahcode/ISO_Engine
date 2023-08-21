@@ -6,6 +6,9 @@
 
 namespace IE
 {
+	/* Name component for entities, if none is given upon instantiation of the TagComponent a default will be given.
+	 * Not the same as the entity's ID component which will be added.
+	*/
 	struct TagComponent
 	{
 		std::string Tag;
@@ -41,6 +44,7 @@ namespace IE
 	struct CameraComponent
 	{
 		Camera Camera;
+		bool isPrimary = true;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;

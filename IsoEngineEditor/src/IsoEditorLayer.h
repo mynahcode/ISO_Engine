@@ -33,6 +33,7 @@ namespace IE
 		Ref<SubTexture2D> m_TextureStairs, m_TextureBarrel, m_TextureTree;
 
 		Entity m_SquareEntity;
+		Entity m_CameraEntity;
 
 		/* ImGui DockingSpace */
 		glm::vec2 m_ViewportSize;

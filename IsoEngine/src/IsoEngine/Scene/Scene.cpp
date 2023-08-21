@@ -51,6 +51,26 @@ namespace IE
 
 	void Scene::OnUpdate(Timestep ts)
 	{
+		// Render sprites
+		Camera* mainCamera = nullptr;
+		{
+			auto group = m_Registry.view<TransformComponent, CameraComponent>();
+			for (auto entity : group)
+			{
+				auto& [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
+
+				if (camera.isPrimary)
+				{
+					mainCamera = &camera.Camera;
+					break;
+				}
+			}
+		}
+
+		if (mainCamera)
+		{
+
+		}
 		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>); // Or a sprite 2D
 		for (auto entity : group)
 		{
