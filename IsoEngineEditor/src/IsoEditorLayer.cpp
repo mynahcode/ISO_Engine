@@ -31,13 +31,15 @@ namespace IE
         square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
         m_SquareEntity = square;
 
+        //m_CameraController.GetCamera().SetIsometricView(true);
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
-        m_CameraEntity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+        m_CameraEntity.AddComponent<CameraComponent>();
 
+        /*
         m_SecondCameraEntity = m_ActiveScene->CreateEntity("Clip-Space Camera");
-        auto& cc = m_SecondCameraEntity.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
-        cc.isPrimary = false;
-
+        auto& cc2 = m_SecondCameraEntity.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+        cc2.isPrimary = false;
+        */
     }
 
     void IsoEditorLayer::OnDetach()
@@ -55,6 +57,7 @@ namespace IE
         {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
             m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+            m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         }
 
         // Update
@@ -65,26 +68,15 @@ namespace IE
         /* RENDER 2D/Sprites*/
         /* Starts scene and contains all information of scene.*/
         Renderer2D::ResetStats();
-        {
-            _IE_PROFILER_SCOPE("Scene Editor Renderer Preparation Functions");
-            m_Framebuffer->Bind();
-            RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
-            RenderCommand::Clear();
-        }
+        m_Framebuffer->Bind();
+        RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
+        RenderCommand::Clear();
 
-        /* Renderer Flow */
-        {
 
-            _IE_PROFILER_SCOPE("Scene Editor Draw Functions");
-            //Renderer2D::BeginScene(m_CameraController.GetCamera()); 
+        //Update Scene
+        m_ActiveScene->OnUpdate(timestep);
 
-            //Update Scene
-            m_ActiveScene->OnUpdate(timestep);
-
-            //Renderer2D::EndScene();
-
-            m_Framebuffer->UnBind();
-        }
+        m_Framebuffer->UnBind();
     }
 
     void IsoEditorLayer::OnImGuiRender()
@@ -185,10 +177,9 @@ namespace IE
         if(ImGui::Checkbox("Camera A", &m_PrimaryCamera))
         {
             m_CameraEntity.GetComponent<CameraComponent>().isPrimary = m_PrimaryCamera;
-            m_SecondCameraEntity.GetComponent<CameraComponent>().isPrimary = !m_PrimaryCamera;
+            //m_SecondCameraEntity.GetComponent<CameraComponent>().isPrimary = !m_PrimaryCamera;
 
         }
-
         ImGui::End();
         /********************************/
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });

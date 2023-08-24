@@ -21,14 +21,15 @@
 #include "IsoEngine/Renderer/SubTexture2D.h"
 #include "IsoEngine/Renderer/VertexArray.h"
 
-#include "IsoEngine/Renderer/IsometricCamera.h"
-#include "IsoEngine/Controllers/IsometricCameraController.h"
+#include "IsoEngine/Renderer/OrthographicCamera.h"
+#include "IsoEngine/Controllers/OrthographicCameraController.h"
 
 /* Timestep Helper */
 #include "IsoEngine/Core/Timestep.h"
 
 /* Scene and Entity Component System */
 #include "IsoEngine/Scene/Scene.h"
+#include "IsoEngine/Scene/SceneCamera.h"
 #include "IsoEngine/Scene/Entity.h"
 #include "IsoEngine/Scene/Components.h"
 

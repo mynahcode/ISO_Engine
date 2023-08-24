@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-#include "IsoEngine/Renderer/Camera.h"
+#include "SceneCamera.h"
 
 namespace IE
 {
@@ -43,12 +43,12 @@ namespace IE
 
 	struct CameraComponent
 	{
-		IE::Camera Camera;
+		SceneCamera Camera;
 		bool isPrimary = true;
+		bool fixedAspectRatio = false;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
-		CameraComponent(const glm::mat4& projection)
-			: Camera(projection) {}
+
 	};
 }

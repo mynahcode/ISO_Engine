@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IsoEngine/Renderer/IsometricCamera.h"
+#include "IsoEngine/Renderer/OrthographicCamera.h"
 #include "IsoEngine/Core/Timestep.h"
 
 #include "IsoEngine/Events/ApplicationEvent.h" // Resize
@@ -9,7 +9,7 @@
 
 namespace IE
 {
-	struct IsometricCameraBounds
+	struct OrthographicCameraBounds
 	{
 		float Left, Right, Bottom, Top;
 
@@ -17,18 +17,18 @@ namespace IE
 		float GetHeight() { return Top - Bottom; }
 	};
 
-	class IsometricCameraController
+	class OrthographicCameraController
 	{
 	public:
-		IsometricCameraController(float aspectRatio, bool rotation = false); // Default: aspectratio * 2 units of space regardless of resolution and adjust accordingly to zoom in/zoom out
+		OrthographicCameraController(float aspectRatio, bool rotation = false); // Default: aspectratio * 2 units of space regardless of resolution and adjust accordingly to zoom in/zoom out
 
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& ev);
 
 		void OnResize(float width, float height);
 
-		IsometricCamera& GetCamera() { return m_Camera; }
-		const IsometricCamera& GetCamera() const { return m_Camera; }
+		OrthographicCamera& GetCamera() { return m_Camera; }
+		const OrthographicCamera& GetCamera() const { return m_Camera; }
 
 		void SetZoomLevel(float level) { m_ZoomLevel = level; CalculateCameraView(); }
 		float GetZoomLevel() const { return m_ZoomLevel; }
@@ -42,8 +42,8 @@ namespace IE
 		float m_AspectRatio;
 		float m_ZoomLevel = 1.0f;
 
-		IsometricCamera m_Camera;
-		IsometricCameraBounds m_Bounds;
+		OrthographicCamera m_Camera;
+		OrthographicCameraBounds m_Bounds;
 
 		bool m_Rotation;
 

@@ -126,7 +126,7 @@ namespace IE
 		s_Data2D.TextureSlotIndex = 1;
 	}
 
-	void Renderer2D::BeginScene(const IsometricCamera& camera)
+	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
 		_IE_PROFILER_FUNCTION();
 

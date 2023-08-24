@@ -4,12 +4,15 @@
 
 namespace IE
 {
-	class IsometricCamera
+	class OrthographicCamera
 	{
 	public:
-		IsometricCamera(float left, float right, float bottom, float top); // Parameters: The bounds of an orthographic matrix, using -1 for near and 1 for far for distance.
+		OrthographicCamera(float left, float right, float bottom, float top); // Parameters: The bounds of an orthographic matrix, using -1 for near and 1 for far for distance.
+
 
 		void SetProjection(float left, float right, float bottom, float top);
+
+		//void SetIsometricView(const bool& isIsometric) { isometricView = isIsometric; }
 
 		void SetProjectionMatrix(const glm::mat4& projectionMatrix) { m_ProjectionMatrix = projectionMatrix; }
 		const glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; }
@@ -35,6 +38,8 @@ namespace IE
 
 		glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
 		
+		bool isometricView = true;
+
 		float m_Rotation = 0.0f;
 	};
 

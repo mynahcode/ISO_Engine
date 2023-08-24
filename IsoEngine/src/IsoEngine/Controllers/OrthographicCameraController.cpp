@@ -1,19 +1,18 @@
 #include "iepch.h"
 #include "IsoEngine/Core/IsoMacros.h"
-#include "IsoEngine/Controllers/IsometricCameraController.h"
+#include "IsoEngine/Controllers/OrthographicCameraController.h"
 
 #include "IsoEngine/Core/Input.h"
 #include "IsoEngine/Core/KeyCodes.h"
 
 namespace IE
 {
-	IsometricCameraController::IsometricCameraController(float aspectRatio, bool rotation)
+	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
 		: m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio* m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(rotation)
 	{
-
 	}
 
-	void IsometricCameraController::OnUpdate(Timestep ts)
+	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
 		_IE_PROFILER_FUNCTION();
 
@@ -41,16 +40,16 @@ namespace IE
 		m_CameraTranslationSpeed = m_ZoomLevel;
 	}
 
-	void IsometricCameraController::OnEvent(Event& ev)
+	void OrthographicCameraController::OnEvent(Event& ev)
 	{
 		_IE_PROFILER_FUNCTION();
 
 		EventDispatcher dispatcher(ev);
-		dispatcher.Dispatch<MouseScrolledEvent>(IE_BIND_EVENT_FN(IsometricCameraController::OnMouseScrolled));
-		dispatcher.Dispatch<WindowResizeEvent>(IE_BIND_EVENT_FN(IsometricCameraController::OnWindowResized));
+		dispatcher.Dispatch<MouseScrolledEvent>(IE_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
+		dispatcher.Dispatch<WindowResizeEvent>(IE_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 	}
 
-	void IsometricCameraController::CalculateCameraView()
+	void OrthographicCameraController::CalculateCameraView()
 	{
 		_IE_PROFILER_FUNCTION();
 
@@ -59,7 +58,7 @@ namespace IE
 
 	}
 
-	void IsometricCameraController::OnResize(float width, float height)
+	void OrthographicCameraController::OnResize(float width, float height)
 	{
 		_IE_PROFILER_FUNCTION();
 		float yScale = height / 720.0f;
@@ -67,7 +66,7 @@ namespace IE
 		CalculateCameraView();
 	}
 
-	bool IsometricCameraController::OnMouseScrolled(MouseScrolledEvent& ev)
+	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& ev)
 	{
 		_IE_PROFILER_FUNCTION();
 
@@ -77,7 +76,7 @@ namespace IE
 		return false;
 	}
 
-	bool IsometricCameraController::OnWindowResized(WindowResizeEvent& ev)
+	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& ev)
 	{
 		_IE_PROFILER_FUNCTION();
 

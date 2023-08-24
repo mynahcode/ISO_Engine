@@ -1468,9 +1468,10 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\IsoEngine\Scene\Entity.h" />
-    <ClInclude Include="src\IsoEngine\Renderer\IsometricCamera.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Camera.h" />
-    <ClInclude Include="src\IsoEngine\Controllers\IsometricCameraController.h" />
+    <ClInclude Include="src\IsoEngine\Controllers\OrthographicCameraController.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\IsoEngine\Scene\SceneCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\fmt\src\format.cc">
@@ -1564,8 +1565,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Scene\Entity.cpp" />
-    <ClCompile Include="src\IsoEngine\Renderer\IsometricCamera.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Camera.cpp" />
-    <ClCompile Include="src\IsoEngine\Controllers\IsometricCameraController.cpp" />
+    <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="src\IsoEngine\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>
