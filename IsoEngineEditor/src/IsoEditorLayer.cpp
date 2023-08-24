@@ -33,6 +33,11 @@ namespace IE
 
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
         m_CameraEntity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+
+        m_SecondCameraEntity = m_ActiveScene->CreateEntity("Clip-Space Camera");
+        auto& cc = m_SecondCameraEntity.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+        cc.isPrimary = false;
+
     }
 
     void IsoEditorLayer::OnDetach()
@@ -71,12 +76,12 @@ namespace IE
         {
 
             _IE_PROFILER_SCOPE("Scene Editor Draw Functions");
-            Renderer2D::BeginScene(m_CameraController.GetCamera()); 
+            //Renderer2D::BeginScene(m_CameraController.GetCamera()); 
 
             //Update Scene
             m_ActiveScene->OnUpdate(timestep);
 
-            Renderer2D::EndScene();
+            //Renderer2D::EndScene();
 
             m_Framebuffer->UnBind();
         }
@@ -175,6 +180,15 @@ namespace IE
             ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
             ImGui::Separator();
         }
+
+        ImGui::DragFloat3("Camera Transform", glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]));
+        if(ImGui::Checkbox("Camera A", &m_PrimaryCamera))
+        {
+            m_CameraEntity.GetComponent<CameraComponent>().isPrimary = m_PrimaryCamera;
+            m_SecondCameraEntity.GetComponent<CameraComponent>().isPrimary = !m_PrimaryCamera;
+
+        }
+
         ImGui::End();
         /********************************/
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });

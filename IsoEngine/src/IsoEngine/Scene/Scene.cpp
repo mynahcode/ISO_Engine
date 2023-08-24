@@ -51,8 +51,9 @@ namespace IE
 
 	void Scene::OnUpdate(Timestep ts)
 	{
-		// Render sprites
+		// Render 2D
 		Camera* mainCamera = nullptr;
+		glm::mat4* cameraTransform = nullptr;
 		{
 			auto group = m_Registry.view<TransformComponent, CameraComponent>();
 			for (auto entity : group)
@@ -62,6 +63,7 @@ namespace IE
 				if (camera.isPrimary)
 				{
 					mainCamera = &camera.Camera;
+					cameraTransform = &transform.Transform;
 					break;
 				}
 			}
@@ -69,14 +71,17 @@ namespace IE
 
 		if (mainCamera)
 		{
+			Renderer2D::BeginScene(mainCamera->GetProjection(), *cameraTransform);
 
-		}
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>); // Or a sprite 2D
-		for (auto entity : group)
-		{
-			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>); // Or a sprite 2D
+			for (auto entity : group)
+			{
+				auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-			Renderer2D::DrawQuad(transform, sprite.Color);
+				Renderer2D::DrawQuad(transform, sprite.Color);
+			}
+
+			Renderer2D::EndScene();
 		}
 	}
 }

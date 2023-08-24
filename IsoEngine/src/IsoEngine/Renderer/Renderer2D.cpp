@@ -111,6 +111,21 @@ namespace IE
 		delete[] s_Data2D.QuadVertexBufferBase;
 	}
 
+	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		glm::mat4 viewProjection = camera.GetProjection() * glm::inverse(transform);
+
+		s_Data2D.TextureShader->Bind();
+		s_Data2D.TextureShader->SetMat4("u_ViewProjection", viewProjection); // API agnostic call, in OpenGL its a Uniform, in DX it is setconstantbuffer
+
+		s_Data2D.QuadIndexCount = 0;
+		s_Data2D.QuadVertexBufferPtr = s_Data2D.QuadVertexBufferBase;
+
+		s_Data2D.TextureSlotIndex = 1;
+	}
+
 	void Renderer2D::BeginScene(const IsometricCamera& camera)
 	{
 		_IE_PROFILER_FUNCTION();

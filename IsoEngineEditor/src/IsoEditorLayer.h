@@ -34,6 +34,9 @@ namespace IE
 
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
+		Entity m_SecondCameraEntity;
+		
+		bool m_PrimaryCamera = false;
 
 		/* ImGui DockingSpace */
 		glm::vec2 m_ViewportSize;

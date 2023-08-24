@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IsoEngine/Renderer/IsometricCamera.h"
+#include "IsoEngine/Renderer/Camera.h"
 #include "IsoEngine/Renderer/Textures.h"
 #include "IsoEngine/Renderer/SubTexture2D.h"
 
@@ -12,7 +13,8 @@ namespace IE
 		static void Init();
 		static void Shutdown();
 
-		static void BeginScene(const IsometricCamera& camera);
+		static void BeginScene(const Camera& camera, const glm::mat4& transform);
+		static void BeginScene(const IsometricCamera& camera); // TODO: Remove
 		static void EndScene();
 		static void Flush();
 
