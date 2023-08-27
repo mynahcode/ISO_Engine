@@ -25,16 +25,21 @@ namespace IE
 		IsoVector3D& operator+(const IsoVector3D& vec) const;
 		IsoVector3D& operator-(const IsoVector3D& vec) const; 
 		IsoVector3D& operator*(const float scalar) const; // Scalar (float) multiplication for vectors.
-		IsoVector3D& operator/(const float scalar) const;
+		IsoVector3D& operator/(const float scalar) const; // Scalar (float) division for vectors.
 
 		// Dot-Product Operator & Function -- mainly used to determine the angle between vectors.
 		float operator*(const IsoVector3D& vec) const;
-		float dot(const IsoVector3D& vec) const;
+		float Dot(const IsoVector3D& vec) const;
 
 		// Cross-Product Operator & Function -- two vectors produce a plane; cross-products of two vectors produces a vector perpendicular to two given vectors.
-		IsoVector3D cross(const IsoVector3D& vec) const;
+		IsoVector3D Cross(const IsoVector3D& vec) const;
 		IsoVector3D operator%(const IsoVector3D& vec) const;
 		void operator%=(const IsoVector3D& vec);
+
+		// Methods for obtaining information/operating on just the vector itself.
+		float Magnitude(); // Determining the length of a vector
+		void Normalize(); // For normalizing a vector -- obtaining a unit vector.
+
 
 		float x, y, z;
 	};

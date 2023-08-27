@@ -145,6 +145,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\IsoEngine\Controllers\OrthographicCameraController.h" />
+    <ClInclude Include="src\IsoEngine\Math\Matrix.h" />
+    <ClInclude Include="src\IsoEngine\Math\Vector.h" />
     <ClInclude Include="src\IsoEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Camera.h" />
     <ClInclude Include="src\IsoEngine\Scene\Entity.h" />
@@ -613,6 +615,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />
+    <ClCompile Include="src\IsoEngine\Math\Matrix.cpp" />
+    <ClCompile Include="src\IsoEngine\Math\Vector.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Camera.cpp" />
     <ClCompile Include="src\IsoEngine\Scene\Entity.cpp" />
