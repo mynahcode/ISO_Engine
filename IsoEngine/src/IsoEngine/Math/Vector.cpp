@@ -134,4 +134,9 @@ namespace IE
 			z *= normMag;
 		}
 	}
+
+	void IsoVector3D::Print()
+	{
+		std::cout << "[" << x << "," << y << "," << z << "]" << std::endl;
+	}
 }

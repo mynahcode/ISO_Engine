@@ -20,6 +20,19 @@ namespace IE
 		// Copy Constructors
 		IsoMatrix3D& operator=(const IsoMatrix3D& matrix);
 
+		// Operator Overloads
+		IsoMatrix3D& operator+=(const IsoMatrix3D& matrix);
+		IsoMatrix3D& operator-=(const IsoMatrix3D& matrix);
+		IsoMatrix3D& operator*=(const float scalar); // Scalar Multiplication
+		IsoMatrix3D& operator/=(const float scalar); // Scalar Division
+
+		IsoMatrix3D& operator+(const IsoMatrix3D& matrix) const;
+		IsoMatrix3D& operator-(const IsoMatrix3D& matrix) const;
+		IsoMatrix3D& operator*(const float scalar) const; // Scalar Multiplication
+		IsoMatrix3D& operator/(const float scalar) const; // Scalar Division
+
+		void Print();
+
 		float matrixData[9] = { 0.0f };
 	};
 }

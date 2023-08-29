@@ -39,7 +39,7 @@ namespace IE
 		// Methods for obtaining information/operating on just the vector itself.
 		float Magnitude(); // Determining the length of a vector
 		void Normalize(); // For normalizing a vector -- obtaining a unit vector.
-
+		void Print(); // Output the vector
 
 		float x, y, z;
 	};
