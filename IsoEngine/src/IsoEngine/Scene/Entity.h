@@ -38,7 +38,7 @@ namespace IE
 		template<typename T>
 		bool HasComponent()
 		{
-			return m_Scene->m_Registry.any_of<T>(m_EntityHandle);
+			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
 		}
 
 		operator bool() const { return m_EntityHandle != entt::null; }

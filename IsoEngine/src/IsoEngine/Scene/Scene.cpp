@@ -56,7 +56,7 @@ namespace IE
 		{
 			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
 			{
-				if (nsc.Instance)
+				if (!nsc.Instance)
 				{
 					nsc.InstantiateFunc();
 					nsc.Instance->m_Entity = Entity{ entity, this };
