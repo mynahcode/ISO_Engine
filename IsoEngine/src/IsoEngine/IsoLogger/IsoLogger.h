@@ -167,5 +167,5 @@ namespace IE
 //#ifdef IE_ENABLE_ASSERTS
 	// #define IE_Editor_ASSERT(cond, Message, ...) { if(!(cond)) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); ISOLOGGER_FATAL(Message, __VA_ARGS__); _IE_DEBUGBREAK(); }
 	//#define IE_APPLICATION_ASSERT(cond, Message, ...) { if(!(cond)) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); ISOLOGGER_FATAL(Message, __VA_ARGS__); _IE_DEBUGBREAK(); }  // _debugbreak() is Windows OS only.
-#define IE_ENGINE_ASSERT(cond, Message, ...) { if(!(cond)) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); ISOLOGGER_FATAL(Message, __VA_ARGS__); _IE_DEBUGBREAK(); } }		// TODO: Implement assertion support for other OS.
+#define IE_ENGINE_ASSERT(cond, Message, ...) { if(!(cond)) { IE::IELogger::IsoLogger::SetPriority(IE::IELogger::IELogger_Priority::FATAL); ISOLOGGER_FATAL(Message, __VA_ARGS__); } }		// TODO: Implement assertion support for other OS.
 //#endif

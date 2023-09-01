@@ -35,11 +35,52 @@ namespace IE
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
         m_CameraEntity.AddComponent<CameraComponent>();
 
-        /*
+        
         m_SecondCameraEntity = m_ActiveScene->CreateEntity("Clip-Space Camera");
-        auto& cc2 = m_SecondCameraEntity.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+        auto& cc2 = m_SecondCameraEntity.AddComponent<CameraComponent>();
         cc2.isPrimary = false;
-        */
+
+        class CameraController : public ScriptableEntity
+        {
+        public:
+            void OnCreate()
+            {
+                ISOLOGGER_TRACE("OnCreate() Called for Camera Controller \n");
+            }
+
+            void OnDestroy()
+            {
+
+            }
+
+            void OnUpdate(Timestep ts)
+            {
+                auto& transform = GetComponent<TransformComponent>().Transform;
+                float speed = 5.0f;
+
+                if (Input::IsKeyPressed(Key::A))
+                {
+                    transform[3][0] -= speed * ts;
+                }
+
+                if (Input::IsKeyPressed(Key::D))
+                {
+                    transform[3][0] += speed * ts;
+                }
+
+                if (Input::IsKeyPressed(Key::W))
+                {
+                    transform[3][1] += speed * ts;
+                }
+
+                if (Input::IsKeyPressed(Key::S))
+                {
+                    transform[3][1] -= speed * ts;
+                }
+            }
+        };
+        
+        m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
     }
 
     void IsoEditorLayer::OnDetach()
@@ -177,8 +218,7 @@ namespace IE
         if(ImGui::Checkbox("Camera A", &m_PrimaryCamera))
         {
             m_CameraEntity.GetComponent<CameraComponent>().isPrimary = m_PrimaryCamera;
-            //m_SecondCameraEntity.GetComponent<CameraComponent>().isPrimary = !m_PrimaryCamera;
-
+            m_SecondCameraEntity.GetComponent<CameraComponent>().isPrimary = !m_PrimaryCamera;
         }
         ImGui::End();
         /********************************/

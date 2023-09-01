@@ -151,6 +151,7 @@
     <ClInclude Include="src\IsoEngine\Renderer\Camera.h" />
     <ClInclude Include="src\IsoEngine\Scene\Entity.h" />
     <ClInclude Include="src\IsoEngine\Scene\SceneCamera.h" />
+    <ClInclude Include="src\IsoEngine\Scene\ScriptableEntity.h" />
     <ClInclude Include="Vendor\entt\include\entt.hpp" />
     <ClInclude Include="Vendor\fmt\include\fmt\core.h" />
     <ClInclude Include="Vendor\fmt\include\fmt\format-inl.h" />

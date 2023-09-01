@@ -31,6 +31,7 @@
 #include "IsoEngine/Scene/Scene.h"
 #include "IsoEngine/Scene/SceneCamera.h"
 #include "IsoEngine/Scene/Entity.h"
+#include "IsoEngine/Scene/ScriptableEntity.h"
 #include "IsoEngine/Scene/Components.h"
 
 /* IsoEngine's Input Polling Manager */

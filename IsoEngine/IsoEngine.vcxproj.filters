@@ -1474,6 +1474,7 @@
     <ClInclude Include="src\IsoEngine\Scene\SceneCamera.h" />
     <ClInclude Include="src\IsoEngine\Math\Vector.h" />
     <ClInclude Include="src\IsoEngine\Math\Matrix.h" />
+    <ClInclude Include="src\IsoEngine\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\fmt\src\format.cc">
