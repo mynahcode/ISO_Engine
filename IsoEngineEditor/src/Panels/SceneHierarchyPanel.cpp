@@ -87,17 +87,74 @@ namespace IE
 
 		if (entity.HasComponent<SpriteRendererComponent>())
 		{
-			auto& sprite = entity.GetComponent<SpriteRendererComponent>().Color;
+			//auto& sprite = entity.GetComponent<SpriteRendererComponent>().Color;
 		}
 
 		if (entity.HasComponent<CameraComponent>())
 		{
-			auto& camera = entity.GetComponent<CameraComponent>().Camera;
+			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+			{
+				auto& camera = entity.GetComponent<CameraComponent>().Camera;
+
+				const char* projectionTypeStrings[] = { "Perspective", "Orthographic", "Isometric" };
+				const char* currentProjectionType = projectionTypeStrings[(int)camera.GetProjectionType()];
+				if (ImGui::BeginCombo("Projection", currentProjectionType))
+				{
+					for (int i = 0; i < 3; i++)
+					{
+						bool isSelected = currentProjectionType == projectionTypeStrings[i];
+						if (ImGui::Selectable(projectionTypeStrings[i], isSelected))
+						{
+							currentProjectionType = projectionTypeStrings[i];
+							camera.SetProjectionType((SceneCamera::ProjectionType)i);
+						}
+
+						if (isSelected)
+							ImGui::SetItemDefaultFocus();
+					}
+
+					ImGui::EndCombo();
+				}
+
+				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
+				{
+
+				}
+
+				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic)
+				{
+					float orthoSize = camera.GetOrthographicSize();
+					float orthoNear = camera.GetOrthographicNearClip();
+					float orthoFar = camera.GetOrthographicFarClip();
+
+					if (ImGui::DragFloat("Size", &orthoSize))
+					{
+						camera.SetOrthographicSize(orthoSize);
+					}
+
+					if (ImGui::DragFloat("Near", &orthoNear))
+					{
+						camera.SetOrthographicNearClip(orthoNear);
+					}
+
+					if (ImGui::DragFloat("Far", &orthoFar))
+					{
+						camera.SetOrthographicFarClip(orthoFar);
+					}
+				}
+
+				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Isometric)
+				{
+
+				}
+
+				ImGui::TreePop();
+			}
 		}
 
 		if (entity.HasComponent<NativeScriptComponent>())
 		{
-			auto& nsc = entity.GetComponent<NativeScriptComponent>().Instance;
+			//auto& nsc = entity.GetComponent<NativeScriptComponent>().Instance;
 		}
 	}
 }

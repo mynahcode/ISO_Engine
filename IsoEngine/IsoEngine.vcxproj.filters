@@ -1568,7 +1568,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Scene\Entity.cpp" />
-    <ClCompile Include="src\IsoEngine\Renderer\Camera.cpp" />
     <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\IsoEngine\Scene\SceneCamera.cpp" />
