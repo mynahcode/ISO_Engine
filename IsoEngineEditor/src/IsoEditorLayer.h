@@ -3,6 +3,7 @@
 #include <vector>
 
 #include <IsoEngine.h>
+#include "Panels/SceneHierarchyPanel.h"
 
 namespace IE
 {
@@ -41,6 +42,9 @@ namespace IE
 		/* ImGui DockingSpace */
 		glm::vec2 m_ViewportSize;
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
+
+		/* Panels */
+		SceneHierarchyPanel m_SceneHierarchy;
 	};
 
 }

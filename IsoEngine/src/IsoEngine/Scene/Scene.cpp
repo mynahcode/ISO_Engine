@@ -9,32 +9,8 @@
 
 namespace IE
 {
-	/*
-	static void OnTransformConstruct(entt::registry& registry, entt::entity entity) // takes in reference to registry as well as entity component created on
-	{
-
-	}
-	*/
 	Scene::Scene()
 	{
-		/* Example Code ECS
-		entt::entity entity = m_Registry.create();
-
-		m_Registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
-
-		m_Registry.on_construct<TransformComponent>().connect<&OnTransformConstruct>();
-
-		
-		if(m_Registry.any_of<TransformComponent>(entity))
-			TransformComponent& transform = m_Registry.get<TransformComponent>(entity);
-
-		// Iterate
-		auto view = m_Registry.view<TransformComponent>();
-		for (auto entity : view)
-		{
-			TransformComponent& transform = m_Registry.get<TransformComponent>(entity);
-		}
-		*/
 	}
 
 	Scene::~Scene()
@@ -56,14 +32,16 @@ namespace IE
 		{
 			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
 			{
+				// TODO: Move to Scene::OnScenePlay and Scene::OnSceneStop -> calls OnDestroy()
 				if (!nsc.Instance)
 				{
-					nsc.InstantiateFunc();
+					nsc.Instance = nsc.InstantiateScript();
 					nsc.Instance->m_Entity = Entity{ entity, this };
-					nsc.OnCreateFunc(nsc.Instance);
+
+					nsc.Instance->OnCreate();
 				}
 
-				nsc.OnUpdateFunc(nsc.Instance, ts);
+				nsc.Instance->OnUpdate(ts);
 			});
 		}
 
@@ -74,7 +52,7 @@ namespace IE
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
 			for (auto entity : view)
 			{
-				auto& [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 
 				if (camera.isPrimary)
 				{
@@ -92,7 +70,7 @@ namespace IE
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>); // Or a sprite 2D
 			for (auto entity : group)
 			{
-				auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
 				Renderer2D::DrawQuad(transform, sprite.Color);
 			}

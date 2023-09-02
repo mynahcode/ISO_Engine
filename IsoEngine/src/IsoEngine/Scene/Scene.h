@@ -23,6 +23,8 @@ namespace IE
 	private:
 		entt::registry m_Registry; // Contains entity component data and entity IDs --> Container that contains entity "context"
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
+
 		friend class Entity;
+		friend class SceneHierarchyPanel;
 	};
 }

@@ -57,21 +57,14 @@ namespace IE
 	{
 		ScriptableEntity* Instance = nullptr;
 
-		std::function<void()> InstantiateFunc;
-		std::function<void()> DestroyInstanceFunc;
-		std::function<void(ScriptableEntity*)> OnCreateFunc;
-		std::function<void(ScriptableEntity*)> OnDestroyFunc;
-		std::function<void(ScriptableEntity*, Timestep)> OnUpdateFunc;
+		ScriptableEntity*(*InstantiateScript)(); // func pointer
+		void (*DestroyScript)(NativeScriptComponent*);
 
 		template<typename T>
 		void Bind()
 		{
-			InstantiateFunc = [&]() { Instance = new T(); };
-			DestroyInstanceFunc = [&]() { delete (T*)Instance; Instance = nullptr; };
-
-			OnCreateFunc = [](ScriptableEntity* instance) { ((T*)instance)->OnCreate(); };
-			OnDestroyFunc = [](ScriptableEntity* instance) { ((T*)instance)->OnDestroy(); };
-			OnUpdateFunc = [](ScriptableEntity* instance, Timestep ts) { ((T*)instance)->OnUpdate(ts); };
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); }; // Capturing lambdas
+			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 		}
 	};
 }

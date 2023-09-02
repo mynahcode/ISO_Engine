@@ -81,6 +81,9 @@ namespace IE
         };
         
         m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+        m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+        m_SceneHierarchy.SetContext(m_ActiveScene);
     }
 
     void IsoEditorLayer::OnDetach()
@@ -161,7 +164,7 @@ namespace IE
         if (!opt_padding)
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
-        ImGui::Begin("DockSpace Demo", &dockingSpaceView, window_flags);
+        ImGui::Begin("IsoEngine Dockspace", &dockingSpaceView, window_flags);
         if (!opt_padding)
             ImGui::PopStyleVar();
 
@@ -193,6 +196,10 @@ namespace IE
             ImGui::EndMenuBar();
         }
         /* Additions to the ImGui Dockspace for IsoEngine go below*/
+
+        m_SceneHierarchy.OnImGuiRender();
+        
+        //ImGui::ShowDemoWindow(); // IMGUI DEMO WINDOW
 
         ImGui::Begin("Settings");
 
@@ -234,7 +241,7 @@ namespace IE
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
         //ISOLOGGER_INFO("Viewport Panel Size: ( {%}, {%} )", vpPanelSize.x, vpPanelSize.y);
-        ImGui::Image((void*)textureID, ImVec2(m_ViewportSize.x, m_ViewportSize.y), ImVec2{ 0, 1 }, ImVec2{ 1,0 });
+        ImGui::Image((void*)textureID, ImVec2(m_ViewportSize.x, m_ViewportSize.y), ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::End();
         ImGui::PopStyleVar();
 
