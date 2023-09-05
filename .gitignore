@@ -11,6 +11,6 @@
 **/obj/
 
 # Logging and Instrumentation Outputs
-./TheGame/**
+TheGame/**
 **/imgui.ini
 TheGame/**.json
