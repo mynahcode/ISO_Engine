@@ -14,7 +14,6 @@ public:
 	TestGame()
 		: Application("TestGame")
 	{
-		//PushLayer(new TestLayer());
 		PushLayer(new TestGame2D());
 	}
 
