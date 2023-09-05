@@ -1,9 +1,9 @@
 # Visual Studio files and folders
 .vs/
-**.sln
-**.vcxproj
-**.vcxproj.filters
-**.vcxproj.user
+**/**.sln
+**/**.vcxproj
+**/**.vcxproj.filters
+**/**.vcxproj.user
 
 # Project Binaries
 **/bin/
@@ -11,6 +11,5 @@
 **/obj/
 
 # Logging and Instrumentation Outputs
-TheGame/**
+**/TheGame/
 **/imgui.ini
-TheGame/**.json
