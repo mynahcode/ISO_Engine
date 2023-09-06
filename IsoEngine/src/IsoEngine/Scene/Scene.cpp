@@ -47,7 +47,7 @@ namespace IE
 
 		// Render 2D
 		Camera* mainCamera = nullptr;
-		glm::mat4* cameraTransform = nullptr;
+		glm::mat4 cameraTransform;
 		{
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
 			for (auto entity : view)
@@ -57,7 +57,7 @@ namespace IE
 				if (camera.isPrimary)
 				{
 					mainCamera = &camera.Camera;
-					cameraTransform = &transform.Transform;
+					cameraTransform = transform.GetTransform();
 					break;
 				}
 			}
@@ -65,14 +65,15 @@ namespace IE
 
 		if (mainCamera)
 		{
-			Renderer2D::BeginScene(mainCamera->GetProjection(), *cameraTransform);
+			Renderer2D::BeginScene(mainCamera->GetProjection(), cameraTransform);
 
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>); // Or a sprite 2D
 			for (auto entity : group)
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-
-				Renderer2D::DrawQuad(transform, sprite.Color);
+				// TODO: Check if color or texture or both
+				//Renderer2D::DrawQuad(transform, sprite.Texture, 1, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
 			}
 
 			Renderer2D::EndScene();

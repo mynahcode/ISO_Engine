@@ -78,16 +78,11 @@ namespace IE
 		{
 			if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
 			{
-				auto& transform = entity.GetComponent<TransformComponent>().Transform;
-				ImGui::DragFloat3("Position", glm::value_ptr(transform[3]), 0.1f);
+				auto& tc = entity.GetComponent<TransformComponent>();
+				ImGui::DragFloat3("Position", glm::value_ptr(tc.Translation), 0.1f);
 
 				ImGui::TreePop();
 			}
-		}
-
-		if (entity.HasComponent<SpriteRendererComponent>())
-		{
-			//auto& sprite = entity.GetComponent<SpriteRendererComponent>().Color;
 		}
 
 		if (entity.HasComponent<CameraComponent>())
@@ -189,6 +184,16 @@ namespace IE
 					ImGui::Checkbox("Fixed Aspect Ratio", &cameraComponent.fixedAspectRatio);
 				}
 
+				ImGui::TreePop();
+			}
+		}
+
+		if (entity.HasComponent<SpriteRendererComponent>())
+		{
+			if (ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Renderer"))
+			{
+				auto& src = entity.GetComponent<SpriteRendererComponent>().Color;
+				ImGui::ColorEdit4("Color", glm::value_ptr(src));
 				ImGui::TreePop();
 			}
 		}
