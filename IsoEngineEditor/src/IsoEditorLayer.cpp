@@ -17,9 +17,6 @@ namespace IE
     {
         _IE_PROFILER_FUNCTION();
 
-        m_SpriteSheet = Textures2D::Create("assets/textures/RPGpack_sheet_2X.png");
-
-
         FramebufferSpecs fbSpecs;
         fbSpecs.Width = 1280;
         fbSpecs.Height = 720;

@@ -47,7 +47,7 @@ namespace IE
 
 		// Render 2D
 		Camera* mainCamera = nullptr;
-		glm::mat4 cameraTransform;
+		glm::mat4* cameraTransform = nullptr;
 		{
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
 			for (auto entity : view)
@@ -57,7 +57,7 @@ namespace IE
 				if (camera.isPrimary)
 				{
 					mainCamera = &camera.Camera;
-					cameraTransform = transform.GetTransform();
+					cameraTransform = &transform.GetTransform();
 					break;
 				}
 			}
@@ -65,7 +65,7 @@ namespace IE
 
 		if (mainCamera)
 		{
-			Renderer2D::BeginScene(mainCamera->GetProjection(), cameraTransform);
+			Renderer2D::BeginScene(mainCamera->GetProjection(), *cameraTransform);
 
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>); // Or a sprite 2D
 			for (auto entity : group)

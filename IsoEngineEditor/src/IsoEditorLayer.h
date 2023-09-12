@@ -29,10 +29,6 @@ namespace IE
 		Ref <Scene> m_ActiveScene;
 		Ref<Framebuffer> m_Framebuffer;
 
-		Ref<Textures2D> m_SpriteSheet;
-		Ref<Textures2D> m_GrassTexture;
-		Ref<SubTexture2D> m_TextureStairs, m_TextureBarrel, m_TextureTree;
-
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
 		Entity m_SecondCameraEntity;
