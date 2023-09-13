@@ -188,7 +188,8 @@ namespace IE
 
 		if (entity.HasComponent<TransformComponent>())
 		{
-			if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), treeNodeFlags, "Transform"))
+			bool open = ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), treeNodeFlags, "Transform");
+			if (open)
 			{
 				auto& tc = entity.GetComponent<TransformComponent>();
 				DrawVec3Control("Translation", tc.Translation);
@@ -199,11 +200,28 @@ namespace IE
 
 				ImGui::TreePop();
 			}
+
 		}
 
+		// TODO: FIX CAMERA REMOVE/ADD COMPONENT
 		if (entity.HasComponent<CameraComponent>())
 		{
-			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), treeNodeFlags, "Camera"))
+			bool open = ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), treeNodeFlags, "Camera");
+			ImGui::SameLine();
+			if (ImGui::Button("+"))
+			{
+				ImGui::OpenPopup("ComponentSettings");
+			}
+
+			bool removeComponent = false;
+			if (ImGui::BeginPopup("ComponentSettings"))
+			{
+				if (ImGui::MenuItem("Remove Component"))
+					removeComponent = true;
+				ImGui::EndPopup();
+			}
+
+			if (open)
 			{
 				auto& cameraComponent = entity.GetComponent<CameraComponent>();
 				auto& camera = cameraComponent.Camera;
@@ -302,16 +320,39 @@ namespace IE
 
 				ImGui::TreePop();
 			}
+
+
+			if (removeComponent)
+				entity.RemoveComponent<SpriteRendererComponent>();
 		}
 
 		if (entity.HasComponent<SpriteRendererComponent>())
 		{
-			if (ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), treeNodeFlags, "Sprite Renderer"))
+			bool open = ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), treeNodeFlags, "Sprite Renderer");
+			ImGui::SameLine();
+			if (ImGui::Button("+"))
 			{
+				ImGui::OpenPopup("ComponentSettings");
+			}
+
+			bool removeComponent = false;
+			if (ImGui::BeginPopup("ComponentSettings"))
+			{
+				if (ImGui::MenuItem("Remove Component"))
+					removeComponent = true;
+				ImGui::EndPopup();
+			}
+
+			if (open)
+			{
+
 				auto& src = entity.GetComponent<SpriteRendererComponent>().Color;
 				ImGui::ColorEdit4("Color", glm::value_ptr(src));
 				ImGui::TreePop();
 			}
+
+			if (removeComponent)
+				entity.RemoveComponent<SpriteRendererComponent>();
 		}
 
 		if (entity.HasComponent<NativeScriptComponent>())

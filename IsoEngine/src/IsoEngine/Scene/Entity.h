@@ -17,21 +17,23 @@ namespace IE
 		template<typename T, typename ...Args>
 		T& AddComponent(Args&&... args)
 		{
-			IE_ENGINE_ASSERT(!HasComponent<T>(), "Entity already has component!")
-			return m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+			IE_ENGINE_ASSERT(!HasComponent<T>(), "Entity already has component!");
+			T& component = m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+			m_Scene->OnComponentAdded<T>(*this, component);
+			return component;
 		}
 
 		template<typename T>
 		T& GetComponent()
 		{
-			IE_ENGINE_ASSERT(HasComponent<T>(), "Entity does not have component on GetComponent call!")
+			IE_ENGINE_ASSERT(HasComponent<T>(), "Entity does not have component on GetComponent call!");
 			return m_Scene->m_Registry.get<T>(m_EntityHandle);
 		}
 
 		template<typename T>
 		void RemoveComponent()
 		{
-			IE_ENGINE_ASSERT(HasComponent<T>(), "Entity does not have component already on RemoveComponent call!")
+			IE_ENGINE_ASSERT(HasComponent<T>(), "Entity does not have component already on RemoveComponent call!");
 			m_Scene->m_Registry.remove<T>(m_EntityHandle);
 		}
 

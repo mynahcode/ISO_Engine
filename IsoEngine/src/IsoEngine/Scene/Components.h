@@ -84,19 +84,4 @@ namespace IE
 			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 		}
 	};
-
-	/* Temporary maybe */
-	struct HealthComponent
-	{
-		int Health;
-		int Armor;
-
-		HealthComponent()
-			: Health(3), Armor(5) {}
-		HealthComponent(int health, int armor)
-			: Health(health), Armor(armor) {}
-		HealthComponent(const HealthComponent&) = default;
-		HealthComponent(const int& health, const int& armor)
-			: Health(health), Armor(armor) {}
-	};
 }
