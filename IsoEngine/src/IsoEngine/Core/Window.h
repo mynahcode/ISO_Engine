@@ -12,8 +12,8 @@ namespace IE
 		uint32_t Height;
 
 		WindowProps(const std::string& window_title = "IsoEngine",
-			uint32_t width = 1280,
-			uint32_t height = 720)
+			uint32_t width = 1920,
+			uint32_t height = 1080)
 			: Title(window_title), Width(width), Height(height)
 		{
 		}

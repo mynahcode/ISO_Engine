@@ -120,10 +120,7 @@ namespace IE
 		s_Data2D.TextureShader->Bind();
 		s_Data2D.TextureShader->SetMat4("u_ViewProjection", viewProjection); // API agnostic call, in OpenGL its a Uniform, in DX it is setconstantbuffer
 
-		s_Data2D.QuadIndexCount = 0;
-		s_Data2D.QuadVertexBufferPtr = s_Data2D.QuadVertexBufferBase;
-
-		s_Data2D.TextureSlotIndex = 1;
+		StartBatch();
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
@@ -132,7 +129,12 @@ namespace IE
 
 		s_Data2D.TextureShader->Bind();
 		s_Data2D.TextureShader->SetMat4("u_ViewProjection", camera.GetVPMatrix()); // API agnostic call, in OpenGL its a Uniform, in DX it is setconstantbuffer
+		
+		StartBatch();
+	}
 
+	void Renderer2D::StartBatch()
+	{
 		s_Data2D.QuadIndexCount = 0;
 		s_Data2D.QuadVertexBufferPtr = s_Data2D.QuadVertexBufferBase;
 
@@ -143,18 +145,16 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		uint32_t dataSize = (uint32_t)((uint8_t*)s_Data2D.QuadVertexBufferPtr - (uint8_t*)s_Data2D.QuadVertexBufferBase);
-		s_Data2D.QuadVertexBuffer->SetData(s_Data2D.QuadVertexBufferBase, dataSize);
-
 		Flush();
 	}
 
 	void Renderer2D::Flush()
 	{
 		if (s_Data2D.QuadIndexCount == 0)
-		{
 			return;
-		}
+
+		uint32_t dataSize = (uint32_t)((uint8_t*)s_Data2D.QuadVertexBufferPtr - (uint8_t*)s_Data2D.QuadVertexBufferBase);
+		s_Data2D.QuadVertexBuffer->SetData(s_Data2D.QuadVertexBufferBase, dataSize);
 
 		// Bind Textures
 		for (uint32_t i = 0; i < s_Data2D.TextureSlotIndex; i++)
@@ -166,14 +166,10 @@ namespace IE
 		s_Data2D.Stats.DrawCalls++;
 	}
 
-	void Renderer2D::FlushAndReset()
+	void Renderer2D::NextBatch()
 	{
-		EndScene();
-
-		s_Data2D.QuadIndexCount = 0;
-		s_Data2D.QuadVertexBufferPtr = s_Data2D.QuadVertexBufferBase;
-
-		s_Data2D.TextureSlotIndex = 1;
+		Flush();
+		StartBatch();
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
@@ -230,7 +226,7 @@ namespace IE
 		constexpr size_t quadVertexCount = 4;
 		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} }; // { Bottom-Left, Bottom-Right, Top-Right, Top-Left }
 
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
@@ -256,7 +252,7 @@ namespace IE
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
 
 		float textureIndex = 0.0f;
 
@@ -297,7 +293,7 @@ namespace IE
 		const glm::vec2* textureCoords = subTexture->GetTextureCoords();
 		const Ref<Textures2D> texture = subTexture->GetTexture();
 
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
 
 		float textureIndex = 0.0f;
 
@@ -344,7 +340,7 @@ namespace IE
 		constexpr size_t quadVertexCount = 4;
 		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} }; // { Bottom-Left, Bottom-Right, Top-Right, Top-Left }
 
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
 
 		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
@@ -383,7 +379,7 @@ namespace IE
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} }; // { Bottom-Left, Bottom-Right, Top-Right, Top-Left }
 
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
 
 		float textureIndex = 0.0f;
 
@@ -438,7 +434,7 @@ namespace IE
 		const glm::vec2* textureCoords = subTexture->GetTextureCoords();
 		const Ref<Textures2D> texture = subTexture->GetTexture();
 
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) FlushAndReset();
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
 
 		float textureIndex = 0.0f;
 

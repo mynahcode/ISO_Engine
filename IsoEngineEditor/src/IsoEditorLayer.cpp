@@ -8,7 +8,7 @@
 namespace IE
 {
     IsoEditorLayer::IsoEditorLayer()
-        : Layer("IsoEngine Editor"), m_CameraController(1280.0f / 720.0f)
+        : Layer("IsoEngine Editor"), m_CameraController(1920.0f / 1080.0f)
     {
         _IE_PROFILER_FUNCTION();
     }
@@ -18,8 +18,8 @@ namespace IE
         _IE_PROFILER_FUNCTION();
 
         FramebufferSpecs fbSpecs;
-        fbSpecs.Width = 1280;
-        fbSpecs.Height = 720;
+        fbSpecs.Width = 1920;
+        fbSpecs.Height = 1080;
         m_Framebuffer = Framebuffer::Create(fbSpecs);
 
         m_ActiveScene = CreateRef<Scene>();
