@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IsoEngine/Core/Timestep.h"
+#include "IsoEngine/Renderer/OrthographicCamera.h"
 
 #include <entt.hpp>
 
