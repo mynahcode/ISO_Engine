@@ -26,7 +26,7 @@ namespace IE
 	private:
 		OrthographicCameraController m_CameraController;
 
-		Ref <Scene> m_ActiveScene;
+		Ref<Scene> m_ActiveScene;
 		Ref<Framebuffer> m_Framebuffer;
 
 		Entity m_SquareEntity;

@@ -25,11 +25,13 @@ IncludeDir["glm"] = "IsoEngine/Vendor/glm"
 IncludeDir["entt"] = "IsoEngine/Vendor/entt/include"
 IncludeDir["stb_image"] = "IsoEngine/Vendor/stb_image"
 IncludeDir["fmt"] = "IsoEngine/Vendor/fmt"
+IncludeDir["yaml_cpp"] = "IsoEngine/Vendor/yaml-cpp/include"
 
 
 include "IsoEngine/Vendor/GLAD"
 include "IsoEngine/Vendor/GLFW"
 include "IsoEngine/Vendor/ImGui"
+include "IsoEngine/Vendor/yaml-cpp"
 
 project "IsoEngine"
 	location "IsoEngine"
@@ -65,7 +67,7 @@ project "IsoEngine"
 		"GLFW_INCLUDE_NONE",
 		"FMT_HEADER_ONLY",
 		"_IE_DEBUG_MODE",
-		"IMGUI_API=__declspec(dllexport)" 
+		"IMGUI_API=__declspec(dllexport)"
 	}
 
 	includedirs
@@ -77,7 +79,8 @@ project "IsoEngine"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.fmt}"
+		"%{IncludeDir.fmt}",
+		"%{IncludeDir.yaml_cpp}"
 	}
 
 	links
@@ -85,6 +88,7 @@ project "IsoEngine"
 		"GLAD",
 		"GLFW",
 		"ImGui",
+		"yaml-cpp",
 		"opengl32.lib"
 	}
 
@@ -129,7 +133,8 @@ project "TheGame"
 		"%{IncludeDir.glm}",
 		"IsoEngine/Vendor",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.fmt}"
+		"%{IncludeDir.fmt}",
+		"%{IncludeDir.yaml_cpp}"
 	}
 
 	defines

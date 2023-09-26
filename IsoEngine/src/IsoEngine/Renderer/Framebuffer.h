@@ -11,10 +11,27 @@ namespace IE
 		DEPTH24STENCIL8,
 
 		// Default configuration
-		RGB = RGBA8,
 		Depth = DEPTH24STENCIL8
 	};
 
+	struct FramebufferTextureSpecs
+	{
+		FramebufferTextureSpecs() = default;
+		FramebufferTextureSpecs(fbTextureFormats format)
+			: TextureFormat(format) {}
+
+		fbTextureFormats TextureFormat = fbTextureFormats::None;
+
+	};
+
+	struct FramebufferAttachmentSpecs
+	{
+		FramebufferAttachmentSpecs() = default;
+		FramebufferAttachmentSpecs(std::initializer_list<FramebufferTextureSpecs> attachments)
+			: Attachments(attachments) {}
+
+		std::vector<FramebufferTextureSpecs> Attachments;
+	};
 
 	struct FramebufferSpecs
 	{
@@ -22,6 +39,8 @@ namespace IE
 		uint32_t Samples = 1;
 
 		bool SwapChainTarget = false; // glBindBuffer(0)
+
+		FramebufferAttachmentSpecs Attachments;
 	};
 
 	class Framebuffer
@@ -30,7 +49,7 @@ namespace IE
 		virtual ~Framebuffer() = default;
 
 		virtual const FramebufferSpecs& GetFramebufferSpecs() const = 0;
-		virtual uint32_t GetColorAttachmentRendererID() const = 0;
+		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const = 0;
 
 		virtual void Resize(uint32_t width, uint32_t height) = 0;
 

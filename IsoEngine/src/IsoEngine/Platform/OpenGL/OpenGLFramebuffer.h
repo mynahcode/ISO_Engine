@@ -18,11 +18,19 @@ namespace IE
 		virtual void UnBind() override;
 
 		virtual const FramebufferSpecs& GetFramebufferSpecs() const override { return m_FramebufferSpecs; }
-		virtual uint32_t GetColorAttachmentRendererID() const override { return m_ColorAttachment; }
+
+		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override 
+		{ //IE_ENGINE_ASSERT(index < m_ColorAttachments.size()); 
+			return m_ColorAttachments[index]; }
 
 	private:
 		uint32_t m_RendererID = 0;
-		uint32_t m_ColorAttachment = 0, m_DepthAttachment = 0;
 		FramebufferSpecs m_FramebufferSpecs;
+
+		std::vector<FramebufferTextureSpecs> m_ColorAttachmentSpecifications;
+		FramebufferTextureSpecs m_DepthAttachmentSpecification = fbTextureFormats::None;
+
+		std::vector<uint32_t> m_ColorAttachments;
+		uint32_t m_DepthAttachment = 0;
 	};
 }

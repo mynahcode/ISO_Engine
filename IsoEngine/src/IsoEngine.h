@@ -33,6 +33,7 @@
 #include "IsoEngine/Scene/Entity.h"
 #include "IsoEngine/Scene/ScriptableEntity.h"
 #include "IsoEngine/Scene/Components.h"
+#include "IsoEngine/Scene/SceneSerializer.h"
 
 /* IsoEngine's Input Polling Manager */
 #include "IsoEngine/Core/Input.h"

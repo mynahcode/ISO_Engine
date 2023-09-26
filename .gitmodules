@@ -13,3 +13,6 @@
 [submodule "IsoEngine/Vendor/fmt"]
 	path = IsoEngine/Vendor/fmt
 	url = https://github.com/mynahcode/fmt.git
+[submodule "IsoEngine/Vendor/yaml-cpp"]
+	path = IsoEngine/Vendor/yaml-cpp
+	url = https://github.com/mynahcode/yaml-cpp

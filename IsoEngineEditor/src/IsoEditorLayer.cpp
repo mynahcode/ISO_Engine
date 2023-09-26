@@ -20,6 +20,7 @@ namespace IE
         FramebufferSpecs fbSpecs;
         fbSpecs.Width = 1920;
         fbSpecs.Height = 1080;
+        fbSpecs.Attachments = { fbTextureFormats::RGBA8 };
         m_Framebuffer = Framebuffer::Create(fbSpecs);
 
         m_ActiveScene = CreateRef<Scene>();
@@ -180,10 +181,24 @@ namespace IE
         {
             if (ImGui::BeginMenu("File"))
             {
-        // Disabling fullscreen would allow the window to be moved to the front of other windows,
-        // which we can't undo at the moment without finer window depth/z control.
-                ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
-                ImGui::MenuItem("Padding", NULL, &opt_padding);
+
+                if (ImGui::MenuItem("Options"))
+                {
+                    ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
+                    ImGui::MenuItem("Padding", NULL, &opt_padding);
+                }
+
+                if (ImGui::MenuItem("Serialize"))
+                {
+                    //SceneSerializer serializer(m_ActiveScene);
+                    //serializer.Serialize("Assets/scenes/Example.isoe");
+                }
+
+                if (ImGui::MenuItem("Deserialize"))
+                {
+                    //SceneSerializer serializer(m_ActiveScene);
+                    //serializer.Deserialize("Assets/scenes/Example.isoe");
+                }
 
                 if (ImGui::MenuItem("Exit")) IE::Application::Get().Close();
 
