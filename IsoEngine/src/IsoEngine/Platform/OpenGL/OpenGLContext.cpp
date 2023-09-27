@@ -11,7 +11,7 @@ namespace IE
 	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
 		: m_WindowHandle(windowHandle)
 	{
-		//IE_CORE_ASSERT(windowHandle, "windowHandle is null!");
+		IE_ENGINE_ASSERT(windowHandle, "windowHandle is null!");
 	}
 
 	void OpenGLContext::Init()

@@ -58,7 +58,6 @@ namespace IE
 			for (auto entity : view)
 			{
 				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
-
 				if (camera.isPrimary)
 				{
 					mainCamera = &camera.Camera;
@@ -108,8 +107,6 @@ namespace IE
 	}
 
 	// Template specialization
-
-
 	template<>
 	void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component)
 	{

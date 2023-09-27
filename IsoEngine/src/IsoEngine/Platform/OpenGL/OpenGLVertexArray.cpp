@@ -61,7 +61,7 @@ namespace IE
 		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
 
-		//IE_CORE_ASSET(vertexBuffer->GetLayout().GetElements().size(), "Error: Vertex Buffer has no Layout!")
+		IE_ENGINE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Error: Vertex Buffer has no Layout!")
 
 		/* Iterate through every element in layout */
 		uint32_t vb_Index = 0;

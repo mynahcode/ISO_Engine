@@ -15,6 +15,7 @@ namespace IE
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
+			ISOLOGGER_TRACE("Creating OpenGLFramebuffer... \n");
 			return CreateRef<OpenGLFramebuffer>(specs);
 		}
 

@@ -82,6 +82,7 @@ namespace IE {
 	OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecs& specs)
 		: m_FramebufferSpecs(specs)
 	{
+		ISOLOGGER_TRACE("OpenGLFramebuffer Constructor Called...\n");
 		for (auto specs : m_FramebufferSpecs.Attachments.Attachments)
 		{
 			if (!Utils::IsDepthFormat(specs.TextureFormat))
@@ -95,6 +96,7 @@ namespace IE {
 
 	OpenGLFramebuffer::~OpenGLFramebuffer()
 	{
+		ISOLOGGER_TRACE("OpenGLFramebuffer deconstructor called...\n");
 		glDeleteFramebuffers(1, &m_RendererID);
 		glDeleteTextures(m_ColorAttachments.size(), m_ColorAttachments.data());
 		glDeleteTextures(1, &m_DepthAttachment);
@@ -102,7 +104,7 @@ namespace IE {
 
 	void OpenGLFramebuffer::Invalidate()
 	{
-
+		ISOLOGGER_TRACE("Invalidate() called...\n");
 		if (m_RendererID)
 		{
 			glDeleteFramebuffers(1, &m_RendererID);
@@ -121,6 +123,7 @@ namespace IE {
 		// Attachments
 		if (m_ColorAttachmentSpecifications.size())
 		{
+			ISOLOGGER_TRACE("Color Attachments check...\n");
 			m_ColorAttachments.resize(m_ColorAttachmentSpecifications.size());
 			Utils::CreateTextures(multisample, m_ColorAttachments.data(), m_ColorAttachments.size());
 
@@ -130,6 +133,7 @@ namespace IE {
 				switch (m_ColorAttachmentSpecifications[i].TextureFormat)
 				{
 				case fbTextureFormats::RGBA8:
+					ISOLOGGER_TRACE("RGBA8 color attachment determined...\n");
 					Utils::AttachColorTexture(m_ColorAttachments[i], m_FramebufferSpecs.Samples, GL_RGBA8, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height, i);
 					break;
 				}
@@ -143,6 +147,7 @@ namespace IE {
 			switch (m_DepthAttachmentSpecification.TextureFormat)
 			{
 			case fbTextureFormats::DEPTH24STENCIL8:
+				ISOLOGGER_TRACE("Depth24Stencil8 Depth Attachment texture format determined...\n")
 				Utils::AttachDepthTexture(m_DepthAttachment, m_FramebufferSpecs.Samples, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height);
 				break;
 			}
@@ -160,7 +165,7 @@ namespace IE {
 			glDrawBuffer(GL_NONE);
 		}
 
-		//IE_ENGINE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete!");
+		IE_ENGINE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete! \n");
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
@@ -169,7 +174,7 @@ namespace IE {
 	{
 		if (width == 0 || height == 0 || width > s_MaxFramebufferSize || height > s_MaxFramebufferSize)
 		{
-			ISOLOGGER_WARN("Attempted to resize framebuffer size to {0}, {1}", width, height)
+			ISOLOGGER_WARN("Attempted to resize framebuffer size to {0}, {1}... \n", width, height)
 			return;
 		}
 

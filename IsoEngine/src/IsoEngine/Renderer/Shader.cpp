@@ -9,6 +9,7 @@ namespace IE
 {
 	Ref<Shader> Shader::Create(const std::string& filepath)
 	{
+		ISOLOGGER_TRACE("Creating Texture shader from filepath: {0}... \n", filepath);
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None: IE_ENGINE_ASSERT(false, "RendererAPI::None is not supported!"); return nullptr;
@@ -21,6 +22,7 @@ namespace IE
 
 	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 	{
+		ISOLOGGER_TRACE("Creating Texture shader: < {0}, {1}, {2} > \n", name, vertexSrc, fragmentSrc);
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: IE_ENGINE_ASSERT(false, "RendererAPI::None is not supported!"); return nullptr;

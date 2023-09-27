@@ -17,12 +17,14 @@ namespace IE
     {
         _IE_PROFILER_FUNCTION();
 
+        ISOLOGGER_WARN("Creating Framebuffer object...\n");
         FramebufferSpecs fbSpecs;
         fbSpecs.Width = 1920;
         fbSpecs.Height = 1080;
         fbSpecs.Attachments = { fbTextureFormats::RGBA8 };
         m_Framebuffer = Framebuffer::Create(fbSpecs);
 
+        ISOLOGGER_INFO("Creating reference object to Scene...\n");
         m_ActiveScene = CreateRef<Scene>();
 
         auto square = m_ActiveScene->CreateEntity("Square");
@@ -43,7 +45,7 @@ namespace IE
         public:
             void OnCreate()
             {
-                ISOLOGGER_TRACE("OnCreate() Called for Camera Controller \n");
+                //ISOLOGGER_TRACE("OnCreate() Called for Camera Controller \n");
             }
 
             void OnDestroy()
@@ -98,14 +100,8 @@ namespace IE
             (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
         {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-            m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
             m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         }
-
-        // Update
-        if (m_ViewportFocused) 
-            m_CameraController.OnUpdate(timestep);
-
 
         /* RENDER 2D/Sprites*/
         /* Starts scene and contains all information of scene.*/
@@ -124,7 +120,6 @@ namespace IE
     void IsoEditorLayer::OnImGuiRender()
     {
         _IE_PROFILER_FUNCTION();
-        
         static bool dockingSpaceView = true;
         static bool opt_fullscreen = true;
         static bool opt_padding = false;
@@ -237,7 +232,6 @@ namespace IE
         m_ViewportSize = { vpPanelSize.x, vpPanelSize.y };
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        //ISOLOGGER_INFO("Viewport Panel Size: ( {%}, {%} )", vpPanelSize.x, vpPanelSize.y);
         ImGui::Image((void*)textureID, ImVec2(m_ViewportSize.x, m_ViewportSize.y), ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::End();
         ImGui::PopStyleVar();

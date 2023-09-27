@@ -9,6 +9,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		ISOLOGGER_TRACE("OpenGLVertexBuffer(size) called... \n");
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
@@ -19,6 +20,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		ISOLOGGER_TRACE("OpenGLVertexBuffer(vertices, size) called... \n");
 		/* Upload data to GPU from CPU */
 		glCreateBuffers(1, &m_RendererID);	
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);

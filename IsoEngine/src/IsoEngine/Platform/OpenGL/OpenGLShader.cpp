@@ -20,6 +20,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		ISOLOGGER_TRACE("Creating OpenGLTexture shader from file: {0}... \n", filepath);
 		std::string src = ReadShaderFile(filepath);
 		auto shaderSrc = PreProcessShaderSrc(src);
 		CompileGLShader(shaderSrc);
@@ -33,6 +34,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		ISOLOGGER_TRACE("Creating Texture shader: < {0}, {1}, {2} > \n", name, vertexSrc, fragmentSrc);
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -105,7 +107,7 @@ namespace IE
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& values)
 	{
 		_IE_PROFILER_FUNCTION();
-
+		//ISOLOGGER_TRACE("(OpenGL Shader) Setting mat4: {0} \n", name);
 		UploadUniformMat4(name, values);
 	}
 
@@ -256,8 +258,8 @@ namespace IE
 				// We don't need the shader anymore.
 				glDeleteShader(shader);
 
-				ISOLOGGER_FATAL("(GL) Failed to compile shader: {}", infoLog.data());
-				IE_ENGINE_ASSERT(false, "Shader Compilation Failed!");
+				ISOLOGGER_FATAL("(GL) Failed to compile shader: {0} \n", infoLog.data());
+				IE_ENGINE_ASSERT(false, "Shader Compilation Failed! \n");
 				break;
 			}
 
