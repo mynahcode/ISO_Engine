@@ -17,4 +17,5 @@ namespace IE
 	private:
 		GLFWwindow* m_WindowHandle;
 	};
+
 }

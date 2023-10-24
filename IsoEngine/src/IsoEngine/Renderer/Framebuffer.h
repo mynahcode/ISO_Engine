@@ -8,8 +8,8 @@ namespace IE
 	{
 		None = 0,
 		RGBA8,
+		RED_INTEGER,
 		DEPTH24STENCIL8,
-
 		// Default configuration
 		Depth = DEPTH24STENCIL8
 	};
@@ -55,6 +55,9 @@ namespace IE
 
 		virtual void Bind() = 0;
 		virtual void UnBind() = 0;
+
+		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) = 0;
+		virtual void ClearAttachment(uint32_t attachmentIndex, int value) = 0;
 
 		static Ref<Framebuffer> Create(const FramebufferSpecs& specs);
 

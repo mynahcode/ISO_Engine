@@ -24,6 +24,24 @@ namespace IE
 
 	}
 
+	OpenGLTextures2D::OpenGLTextures2D(uint32_t width, uint32_t height, uint32_t renderID)
+		: m_Width(width), m_Height(height), m_RendererID(renderID)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		m_InternalFormat = GL_RGBA8;
+		m_DataFormat = GL_RGBA;
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);		// TODO: Parameterize texture creation to make textures more dynamic.
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);		// GL_LINEAR may be best for image textures with lots of different colors.
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);			// Handles wrapping textures, default is GL_REPEAT
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);			// GL_REPEAT ensures the textures is TILED
+	}
+
 	OpenGLTextures2D::OpenGLTextures2D(const std::string& path)
 		: m_Path(path)
 	{

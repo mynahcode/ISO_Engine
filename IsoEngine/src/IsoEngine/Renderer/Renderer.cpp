@@ -10,7 +10,7 @@ namespace IE
 	void Renderer::Init()
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_TRACE("Renderer::Init() called... \n");
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}
@@ -42,6 +42,7 @@ namespace IE
 		shader->SetMat4("u_Transform", transform);								// needs to be done PER OBJECT
 
 		vertexArray->Bind();
+		ISOLOGGER_DEBUG("Submitting shader and vertex array")
 		RenderCommand::DrawIndexed(vertexArray);
 	}
 

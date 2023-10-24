@@ -1,6 +1,6 @@
 #include "iepch.h"
 #include "OpenGLFramebuffer.h"
-
+#include "IsoEngine/Renderer/RenderCommand.h"
 #include <glad/glad.h>
 
 namespace IE {
@@ -42,7 +42,6 @@ namespace IE {
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			}
-
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, TextureTarget(multisampled), id, 0);
 		}
 
@@ -63,7 +62,6 @@ namespace IE {
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			}
-
 			glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, TextureTarget(multisampled), id, 0);
 		}
 
@@ -77,12 +75,26 @@ namespace IE {
 			return false;
 		}
 
+		static GLenum IEFramebufferTextureFormatToGL(fbTextureFormats format)
+		{
+			switch (format)
+			{
+				case fbTextureFormats::RGBA8:
+					return GL_RGBA8;
+
+				case fbTextureFormats::RED_INTEGER:
+					return GL_RED_INTEGER;
+			}
+			IE_ENGINE_ASSERT(false, "No framebuffertextureformat given!");
+			return 0;
+		}
 	}
 
 	OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecs& specs)
 		: m_FramebufferSpecs(specs)
 	{
 		ISOLOGGER_TRACE("OpenGLFramebuffer Constructor Called...\n");
+
 		for (auto specs : m_FramebufferSpecs.Attachments.Attachments)
 		{
 			if (!Utils::IsDepthFormat(specs.TextureFormat))
@@ -91,12 +103,14 @@ namespace IE {
 				m_DepthAttachmentSpecification = specs;
 		}
 
+		multisample = m_FramebufferSpecs.Samples > 1;
 		Invalidate();
 	}
 
 	OpenGLFramebuffer::~OpenGLFramebuffer()
 	{
 		ISOLOGGER_TRACE("OpenGLFramebuffer deconstructor called...\n");
+
 		glDeleteFramebuffers(1, &m_RendererID);
 		glDeleteTextures(m_ColorAttachments.size(), m_ColorAttachments.data());
 		glDeleteTextures(1, &m_DepthAttachment);
@@ -104,7 +118,8 @@ namespace IE {
 
 	void OpenGLFramebuffer::Invalidate()
 	{
-		ISOLOGGER_TRACE("Invalidate() called...\n");
+		ISOLOGGER_TRACE("Framebuffer::Invalidate() called...\n");
+
 		if (m_RendererID)
 		{
 			glDeleteFramebuffers(1, &m_RendererID);
@@ -115,8 +130,9 @@ namespace IE {
 			m_DepthAttachment = 0;
 		}
 
-		glCreateFramebuffers(1, &m_RendererID);
+		glGenFramebuffers(1, &m_RendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
+		//RenderCommand::Clear();
 
 		bool multisample = m_FramebufferSpecs.Samples > 1;
 
@@ -153,10 +169,13 @@ namespace IE {
 			}
 		}
 
-		if (m_ColorAttachments.size() > 1)
+		Utils::BindTexture(multisample, 0);
+
+		ISOLOGGER_WARN("Color attachment size: {0} \n", m_ColorAttachments.size());
+		GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+		if (m_ColorAttachments.size() >= 1)
 		{
-			//IE_ENGINE_ASSERT(m_ColorAttachments.size() <= 4);
-			GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+			IE_ENGINE_ASSERT((m_ColorAttachments.size() <= 4), "Error, too many color attachments\n");
 			glDrawBuffers(m_ColorAttachments.size(), buffers);
 		}
 		else if (m_ColorAttachments.empty())
@@ -165,8 +184,7 @@ namespace IE {
 			glDrawBuffer(GL_NONE);
 		}
 
-		IE_ENGINE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete! \n");
-
+		IE_ENGINE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == (GL_FRAMEBUFFER_COMPLETE), "Framebuffer is incomplete! \n");
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
@@ -186,12 +204,40 @@ namespace IE {
 
 	void OpenGLFramebuffer::Bind()
 	{
+		ISOLOGGER_WARN("(GL) OpenGLFramebuffer::Bind() called.\n");
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 		glViewport(0, 0, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height);
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		RenderCommand::Clear();
 	}
 
 	void OpenGLFramebuffer::UnBind()
 	{
+		ISOLOGGER_WARN("(GL) OpenGLFramebuffer::UnBind() called.\n");
+		//glViewport(0, 0, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height);
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		RenderCommand::Clear();
+	}
+
+	int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
+	{
+		IE_ENGINE_ASSERT(attachmentIndex >= m_ColorAttachments.size(), "Error attachment index out of range.");
+
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
+		int pixelData;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
+		return pixelData;
+
+	}
+
+	void OpenGLFramebuffer::ClearAttachment(uint32_t attachmentIndex, int value)
+	{
+		IE_ENGINE_ASSERT(attachmentIndex < m_ColorAttachments.size(), "AttachmentIndex > m_ColorAttachments max index");
+
+		auto& spec = m_ColorAttachmentSpecifications[attachmentIndex];
+		glClearTexImage(m_ColorAttachments[attachmentIndex], 0,
+		Utils::IEFramebufferTextureFormatToGL(spec.TextureFormat), GL_INT, &value);
+
 	}
 }

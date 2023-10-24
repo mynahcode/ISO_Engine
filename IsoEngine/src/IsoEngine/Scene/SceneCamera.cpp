@@ -6,9 +6,24 @@
 
 namespace IE
 {
-	SceneCamera::SceneCamera()
+	SceneCamera::SceneCamera(uint32_t width, uint32_t height, ProjectionType projType)
+		: m_ProjectionType(projType)
 	{
-		RecalculateProjection();
+		SetViewportSize(width, height);
+
+		switch (m_ProjectionType)
+		{
+		case ProjectionType::Isometric:
+			SetIsometric(m_OrthographicSize, m_OrthographicNear, m_OrthographicFar);
+			break;
+
+		case ProjectionType::Orthographic:
+			SetOrthographic(m_OrthographicSize, m_OrthographicNear, m_OrthographicFar);
+			break;
+		case ProjectionType::Perspective:
+			SetPerspective(m_PerspectiveFOV, m_PerspectiveNear, m_PerspectiveFar);
+			break;
+		}
 	}
 
 	void SceneCamera::SetOrthographic(float size, float nearClip, float farClip)

@@ -9,7 +9,7 @@ namespace IE
 	public:
 		enum class ProjectionType { Perspective = 0, Orthographic = 1, Isometric = 2 };
 
-		SceneCamera();
+		SceneCamera(uint32_t width, uint32_t height, ProjectionType projType);
 		virtual ~SceneCamera() = default;
 
 		void SetOrthographic(float size, float nearClip, float farClip);
@@ -40,7 +40,7 @@ namespace IE
 	private:
 		void RecalculateProjection();
 
-		ProjectionType m_ProjectionType = ProjectionType::Orthographic;
+		ProjectionType m_ProjectionType;
 
 		float m_OrthographicSize = 10.0f;
 		float m_OrthographicNear = -1.0f, m_OrthographicFar = 1.0f;

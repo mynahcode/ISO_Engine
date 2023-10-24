@@ -16,7 +16,7 @@ namespace IE
 			uint32_t height = 1080)
 			: Title(window_title), Width(width), Height(height)
 		{
-			ISOLOGGER_WARN("Window Created: {0}", window_title);
+			ISOLOGGER_WARN("Window Created: {0} \n", window_title);
 		}
 	};
 

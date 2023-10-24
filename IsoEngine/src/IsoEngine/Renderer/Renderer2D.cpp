@@ -4,8 +4,10 @@
 #include "IsoEngine/Renderer/VertexArray.h"
 #include "IsoEngine/Renderer/Shader.h"
 #include "IsoEngine/Renderer/RenderCommand.h"
+#include "IsoEngine/Renderer/UniformBuffer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glad/glad.h>
 
 namespace IE
 {
@@ -25,8 +27,8 @@ namespace IE
 		static const uint32_t MAXINDICES = MAXQUADS * 6;
 		static const uint32_t MAXTEXTURESLOTS = 32; // TODO: RendererCapabilities class.
 
-		Ref<VertexArray> QuadVertexArray;
-		Ref<VertexBuffer> QuadVertexBuffer;
+		Ref<VertexArray> QuadVertexArray; // VAO
+		Ref<VertexBuffer> QuadVertexBuffer; // VBO
 		Ref<Shader> TextureShader;
 		Ref<Textures2D> WhiteTexture;
 
@@ -40,6 +42,14 @@ namespace IE
 		glm::vec4 QuadVertexPositions[4];
 
 		Renderer2D::Renderer2DStats Stats;
+
+
+		struct CameraData
+		{
+			glm::mat4 ViewProjection;
+		};
+		CameraData CameraBuffer;
+		Ref<UniformBuffer> CameraUniformBuffer;
 	};
 
 
@@ -49,15 +59,15 @@ namespace IE
 	{
 		// TODO: Add reference counting system to ensure objects are only deleted AFTER all classes done using them.
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_DEBUG("Renderer2D::Init() called.\n")
 		s_Data2D.QuadVertexArray = VertexArray::Create();
 
 		s_Data2D.QuadVertexBuffer = VertexBuffer::Create(s_Data2D.MAXVERTICES * sizeof(QuadVertex));
 		s_Data2D.QuadVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position"},
 			{ ShaderDataType::Float4, "a_Color"},
-			{ ShaderDataType::Float2, "a_TextureCoord"},
-			{ ShaderDataType::Float, "a_TextureIndex"},
+			{ ShaderDataType::Float2, "a_TexCoord"},
+			{ ShaderDataType::Float, "a_TexIndex"},
 			{ ShaderDataType::Float, "a_TilingFactor"}
 			});
 		s_Data2D.QuadVertexArray->AddVertexBuffer(s_Data2D.QuadVertexBuffer);
@@ -98,16 +108,19 @@ namespace IE
 		s_Data2D.TextureShader->SetIntArray("u_Textures", samplers, s_Data2D.MAXTEXTURESLOTS);				// Texture slot that sampler samples from is slot 0.
 
 		s_Data2D.TextureSlots[0] = s_Data2D.WhiteTexture;
+
 		s_Data2D.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data2D.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data2D.QuadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
 		s_Data2D.QuadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
 
+		s_Data2D.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DStorage::CameraData), 0);
 	}
 
 	void Renderer2D::Shutdown()
 	{
 		_IE_PROFILER_FUNCTION();
+
 		delete[] s_Data2D.QuadVertexBufferBase;
 	}
 
@@ -115,12 +128,14 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		//ISOLOGGER_TRACE("Renderer2D::BeginScene() with a Camera Component... \n");
+		ISOLOGGER_TRACE("Renderer2D::BeginScene() with a Camera Component... \n");
+
+		s_Data2D.CameraBuffer.ViewProjection = camera.GetProjection() * glm::inverse(transform);
+		s_Data2D.CameraUniformBuffer->SetData(&s_Data2D.CameraBuffer, sizeof(Renderer2DStorage::CameraData));
+
 		glm::mat4 viewProjection = camera.GetProjection() * glm::inverse(transform);
 
-		s_Data2D.TextureShader->Bind();
 		s_Data2D.TextureShader->SetMat4("u_ViewProjection", viewProjection); // API agnostic call, in OpenGL its a Uniform, in DX it is setconstantbuffer
-
 		StartBatch();
 	}
 
@@ -146,8 +161,16 @@ namespace IE
 	void Renderer2D::EndScene()
 	{
 		_IE_PROFILER_FUNCTION();
-
 		Flush();
+	}
+
+	void Renderer2D::Draw(uint32_t attachmentID)
+	{
+		s_Data2D.TextureShader->Bind();
+		GLint location = glGetUniformLocation(s_Data2D.TextureShader->GetShaderID(), "u_Textures");
+		glBindSampler(attachmentID, location);
+		RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray, s_Data2D.QuadIndexCount);
+		s_Data2D.Stats.DrawCalls++;
 	}
 
 	void Renderer2D::Flush()
@@ -160,16 +183,18 @@ namespace IE
 
 		// Bind Textures
 		for (uint32_t i = 0; i < s_Data2D.TextureSlotIndex; i++)
-		{
 			s_Data2D.TextureSlots[i]->Bind(i);
-		}
-		RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray, s_Data2D.QuadIndexCount);
 
+		RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray, s_Data2D.QuadIndexCount);
 		s_Data2D.Stats.DrawCalls++;
+
+		s_Data2D.TextureShader->UnBind();
 	}
 
 	void Renderer2D::NextBatch()
 	{
+		ISOLOGGER_INFO("Renderer2D::NextBatch() called.\n")
+
 		Flush();
 		StartBatch();
 	}
@@ -246,18 +271,18 @@ namespace IE
 
 	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
-		constexpr float x = 2.0f, y = 3.0f;
-		constexpr float sheetWidth = 2560.0f, sheetHeight = 1664.0f;
-		constexpr float spriteWidth = 128.0f, spriteHeight = 128.0f;
+		//constexpr float x = 2.0f, y = 3.0f;
+		//constexpr float sheetWidth = 2560.0f, sheetHeight = 1664.0f;
+		//constexpr float spriteWidth = 128.0f, spriteHeight = 128.0f;
 
 		constexpr size_t quadVertexCount = 4;
-		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		//constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
+		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) 
+			NextBatch();
 
 		float textureIndex = 0.0f;
-
 		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
 		{
 			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
@@ -277,7 +302,7 @@ namespace IE
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
 			s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[i];
-			s_Data2D.QuadVertexBufferPtr->Color = color;
+			s_Data2D.QuadVertexBufferPtr->Color = tintColor;
 			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
 			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;

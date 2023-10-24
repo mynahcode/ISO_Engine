@@ -4,12 +4,17 @@
 #include "Components.h"
 #include "IsoEngine/Renderer/Renderer2D.h"
 #include "Entity.h"
-
 #include <glm/glm.hpp>
 
 namespace IE
 {
 	Scene::Scene()
+	{
+
+	}
+
+	Scene::Scene(Ref<OrthographicCameraController> camera)
+		: m_CameraController(camera)
 	{
 	}
 
@@ -70,7 +75,6 @@ namespace IE
 		if (mainCamera)
 		{
 			Renderer2D::BeginScene(mainCamera->GetProjection(), *cameraTransform);
-
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>); // Or a sprite 2D
 			for (auto entity : group)
 			{
@@ -79,9 +83,9 @@ namespace IE
 				//Renderer2D::DrawQuad(transform, sprite.Texture, 1, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
 				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
 			}
-
 			Renderer2D::EndScene();
 		}
+
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)
@@ -98,6 +102,20 @@ namespace IE
 				cameraComponent.Camera.SetViewportSize(width, height);
 		}
 
+	}
+
+	void Scene::RenderScene(Ref<Framebuffer> fb)
+	{
+		uint32_t fbTextureColor = fb->GetColorAttachmentRendererID();
+		auto screenview = m_Registry.view<ScreenQuadComponent>();
+		for (auto ent : screenview)
+		{
+			auto& screenQuad = screenview.get<ScreenQuadComponent>(ent);
+			screenQuad.ScreenTexture = Textures2D::Create(screenQuad.Width, screenQuad.Height, fbTextureColor);
+			Renderer2D::DrawQuad(glm::vec3{ 0.0f, 0.0f, 0.0f }, glm::vec2{ screenQuad.Width, screenQuad.Height },
+				screenQuad.ScreenTexture, 1.0f, glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f });
+		}
+		Renderer2D::Draw(fbTextureColor);
 	}
 
 	template<typename T>
@@ -133,6 +151,12 @@ namespace IE
 
 	template<>
 	void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component)
+	{
+
+	}
+
+	template<>
+	void Scene::OnComponentAdded<ScreenQuadComponent>(Entity entity, ScreenQuadComponent& component)
 	{
 
 	}

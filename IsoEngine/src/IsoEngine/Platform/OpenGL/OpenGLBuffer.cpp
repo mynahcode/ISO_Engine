@@ -9,7 +9,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		ISOLOGGER_TRACE("OpenGLVertexBuffer(size) called... \n");
+		ISOLOGGER_TRACE("OpenGLVertexBuffer(size) Constructor Called... \n");
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
@@ -20,7 +20,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		ISOLOGGER_TRACE("OpenGLVertexBuffer(vertices, size) called... \n");
+		ISOLOGGER_TRACE("OpenGLVertexBuffer(vertices, size) Constructor Called... \n");
 		/* Upload data to GPU from CPU */
 		glCreateBuffers(1, &m_RendererID);	
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
@@ -31,11 +31,13 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		ISOLOGGER_TRACE("OpenGLVertexBuffer() Destructor Called... \n");
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
 	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
 	{
+		ISOLOGGER_TRACE("OpenGLVertexBuffer::SetData() Called... \n");
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
@@ -44,6 +46,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		ISOLOGGER_TRACE("OpenGLVertexBuffer::Bind() Called... \n");
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 	}
 
@@ -51,6 +54,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		ISOLOGGER_TRACE("OpenGLVertexBuffer::UnBind() Called... \n");
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
@@ -59,7 +63,7 @@ namespace IE
 		: m_Count(count)
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_TRACE("OpenGLIndexBuffer(indices, count) Constructor Called... \n");
 		/* Upload data to GPU from CPU */
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
@@ -69,7 +73,7 @@ namespace IE
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_TRACE("OpenGLIndexBuffer Destructor Called... \n");
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
@@ -77,13 +81,14 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
+		ISOLOGGER_TRACE("OpenGLIndexBuffer::Bind() Called... \n");
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 	}
 
 	void OpenGLIndexBuffer::UnBind() const
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_TRACE("OpenGLIndexBuffer::UnBind() Called... \n");
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 }

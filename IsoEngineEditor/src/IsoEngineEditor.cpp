@@ -10,7 +10,7 @@
 
 namespace IE
 {
-	class IsoEngineEditor : public IE::Application
+	class IsoEngineEditor : public Application
 	{
 	public:
 		IsoEngineEditor()

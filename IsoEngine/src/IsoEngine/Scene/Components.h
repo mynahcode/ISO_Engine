@@ -2,6 +2,10 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
+
 #include "IsoEngine/Core/IsoMacros.h"
 #include "ScriptableEntity.h"
 #include "SceneCamera.h"
@@ -35,11 +39,11 @@ namespace IE
 
 		glm::mat4 GetTransform() const
 		{
-			glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), Rotation.x, { 1, 0, 0 })
-								* glm::rotate(glm::mat4(1.0f), Rotation.y, { 0, 1, 0 })
-								* glm::rotate(glm::mat4(1.0f), Rotation.z, { 0, 0, 1 });
+			glm::mat4 rotation = glm::toMat4(glm::quat(Rotation));
 
-			return glm::translate(glm::mat4(1.0f), Translation) * rotation * glm::scale(glm::mat4(1.0f), Scale);
+			return glm::translate(glm::mat4(1.0f), Translation)
+				* rotation
+				* glm::scale(glm::mat4(1.0f), Scale);
 		}
 	};
 
@@ -48,24 +52,24 @@ namespace IE
 		//int TilingFactor;
 		glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		// TODO: Ref<MaterialInstance> Material; // Material = Shader + (any) Uniform Data
-		Ref<Textures2D> Texture;
 
 		SpriteRendererComponent() = default;
 		/* Copy Constructor */
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {}
-		SpriteRendererComponent(const Ref<Textures2D>& texture)
-			: Texture(texture) {}
 	};
 
 	struct CameraComponent
 	{
+		uint32_t Width, Height;
 		SceneCamera Camera;
 		bool isPrimary = true;
 		bool fixedAspectRatio = false;
 
 		CameraComponent() = default;
+		CameraComponent(uint32_t width, uint32_t height)
+			: Width(width), Height(height), Camera(width, height, SceneCamera::ProjectionType::Isometric) {}
 		CameraComponent(const CameraComponent&) = default;
 
 	};
@@ -83,5 +87,14 @@ namespace IE
 			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); }; // Capturing lambdas
 			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 		}
+	};
+
+	struct ScreenQuadComponent
+	{
+		uint32_t Width, Height;
+		Ref<Textures2D> ScreenTexture;
+		ScreenQuadComponent(uint32_t width, uint32_t height)
+			: Width(width), Height(height) {}
+		ScreenQuadComponent(const ScreenQuadComponent&) = default;
 	};
 }

@@ -53,14 +53,14 @@ namespace IE
 	void OpenGLShader::Bind() const
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_DEBUG("(GL) Binding shader...\n")
 		glUseProgram(m_RendererID);
 	}
 
 	void OpenGLShader::UnBind() const
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_DEBUG("(GL) Unbinding shader...\n")
 		glUseProgram(0);
 	}
 
@@ -293,7 +293,7 @@ namespace IE
 			IE_ENGINE_ASSERT(false, "Shader Link Compilation Failure!");
 			return;
 		}
-
+		ISOLOGGER_CRITICAL("OpenGLShader successfully linked...\n")
 		// Always detach shaders after a successful link.
 		for (auto id : glShaderIDs)
 		{

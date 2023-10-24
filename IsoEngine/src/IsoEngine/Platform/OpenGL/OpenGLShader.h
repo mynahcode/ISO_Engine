@@ -28,6 +28,7 @@ namespace IE
 		virtual void SetMat4(const std::string& name, const glm::mat4& values) override;
 
 		inline virtual const std::string& GetName() const override { return m_Name; }
+		inline virtual const uint32_t& GetShaderID() const override { return m_RendererID; }
 
 		void UploadUniformInt(const std::string& name, int value);
 		void UploadUniformIntArray(const std::string& name, int* values, uint32_t count);

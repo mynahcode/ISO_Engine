@@ -10,6 +10,7 @@ namespace IE
 	{
 	public:
 		OpenGLTextures2D(uint32_t width, uint32_t height);
+		OpenGLTextures2D(uint32_t width, uint32_t height, uint32_t renderID);
 		OpenGLTextures2D(const std::string& path);
 		virtual ~OpenGLTextures2D();
 

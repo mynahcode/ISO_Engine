@@ -144,6 +144,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLUniformBuffer.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\UniformBuffer.h" />
     <ClInclude Include="Vendor\entt\include\entt.hpp" />
     <ClInclude Include="Vendor\fmt\include\fmt\core.h" />
     <ClInclude Include="Vendor\fmt\include\fmt\format-inl.h" />
@@ -616,6 +618,8 @@
     <ClInclude Include="src\iepch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLUniformBuffer.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\UniformBuffer.cpp" />
     <ClCompile Include="Vendor\fmt\src\format.cc" />
     <ClCompile Include="Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />

@@ -25,11 +25,15 @@ namespace IE
 		ISOLOGGER_INFO("Vendor: {0}\n", (char*)glGetString(GL_VENDOR));
 		ISOLOGGER_INFO("Renderer: {0}\n", (char*)glGetString(GL_RENDERER));
 		ISOLOGGER_INFO("Version: {0}\n", (char*)glGetString(GL_VERSION));
+
 	}
 
 	void OpenGLContext::SwapBuffers()
 	{
 		_IE_PROFILER_FUNCTION();
+		ISOLOGGER_DEBUG("glfw -- Swapping Buffers...\n")
 		glfwSwapBuffers(m_WindowHandle);
+		glfwPollEvents();
 	}
+
 }

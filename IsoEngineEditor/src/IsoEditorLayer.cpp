@@ -21,7 +21,7 @@ namespace IE
         FramebufferSpecs fbSpecs;
         fbSpecs.Width = 1920;
         fbSpecs.Height = 1080;
-        fbSpecs.Attachments = { fbTextureFormats::RGBA8 };
+        fbSpecs.Attachments = { fbTextureFormats::RGBA8, fbTextureFormats::Depth };
         m_Framebuffer = Framebuffer::Create(fbSpecs);
 
         ISOLOGGER_INFO("Creating reference object to Scene...\n");
@@ -33,7 +33,7 @@ namespace IE
 
         //m_CameraController.GetCamera().SetIsometricView(true);
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
-        m_CameraEntity.AddComponent<CameraComponent>();
+        m_CameraEntity.AddComponent<CameraComponent>(fbSpecs.Width, fbSpecs.Height);
 
         
         m_SecondCameraEntity = m_ActiveScene->CreateEntity("Clip-Space Camera");
@@ -110,7 +110,7 @@ namespace IE
         RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 }); // Shouldnt render onto clear color.
         RenderCommand::Clear();
 
-
+        //m_Framebuffer->ClearAttachment(1, -1);
         //Update Scene
         m_ActiveScene->OnUpdate(timestep);
 

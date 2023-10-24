@@ -28,40 +28,40 @@ namespace IE
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_DEBUG("(GL) OpenGLVertexArray() Constructor Called...\n")
 		glCreateVertexArrays(1, &m_RendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_DEBUG("(GL) OpenGLVertexArray() Destructor Called...\n")
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 
 	void OpenGLVertexArray::Bind() const
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_CRITICAL("(GL) Binding Vertex Arrays\n")
 		glBindVertexArray(m_RendererID);
 	}
 
 	void OpenGLVertexArray::UnBind() const
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_CRITICAL("(GL) Unbinding Vertex Arrays\n")
 		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_CRITICAL("Binding Vertex Buffers --> Size: {0}...\n", vertexBuffer->GetLayout().GetElements().size());
 		/* Create OpenGL Context */
-		glBindVertexArray(m_RendererID);
-		vertexBuffer->Bind();
+		Bind();
 
-		IE_ENGINE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Error: Vertex Buffer has no Layout!")
+		IE_ENGINE_ASSERT(vertexBuffer->GetLayout().GetElements().size() > 0, "Error: Vertex Buffer has no Layout!\n");
+
 
 		/* Iterate through every element in layout */
 		uint32_t vb_Index = 0;
@@ -69,17 +69,15 @@ namespace IE
 		for (const auto& element : layout)
 		{
 			/* Layout of Buffer */
-			glEnableVertexAttribArray(vb_Index + m_VertexBufferIndexOffset);
 			glVertexAttribPointer(vb_Index + m_VertexBufferIndexOffset,
 				element.GetComponentCount(),
 				ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.IsNormalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
 				(const void*)element.Offset);
-
+			glEnableVertexAttribArray(vb_Index + m_VertexBufferIndexOffset);
 			vb_Index++;
 		}
-
 		m_VertexBuffers.push_back(vertexBuffer);
 		m_VertexBufferIndexOffset += static_cast<uint32_t>(layout.GetElements().size());
 	}
@@ -87,7 +85,7 @@ namespace IE
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
 		_IE_PROFILER_FUNCTION();
-
+		ISOLOGGER_DEBUG("(GL) Binding VertexArray and IndexBuffer... \n")
 		glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
 

@@ -173,8 +173,8 @@ namespace IE
 
 		if (--s_GLFWWindowCount == 0)
 		{
-			IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::TRACE);
-			ISOLOGGER_TRACE("Terminating GLFW in WindowsWindow::Shutdown()");
+			IELogger::IsoLogger::SetPriority(IELogger::IELogger_Priority::CRITICAL);
+			ISOLOGGER_TRACE("Terminating GLFW in WindowsWindow::Shutdown()\n");
 			glfwTerminate();
 		}
 	}
@@ -182,8 +182,7 @@ namespace IE
 	void WindowsWindow::OnUpdate()
 	{
 		_IE_PROFILER_FUNCTION();
-
-		glfwPollEvents();
+		ISOLOGGER_CRITICAL("Windowswindow swapbuffers...\n");
 		m_Context->SwapBuffers();
 	}
 

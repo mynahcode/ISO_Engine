@@ -15,10 +15,8 @@ namespace IE
 
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		static void BeginScene(const OrthographicCamera& camera); // TODO: Remove
-		static void StartBatch();
-		static void NextBatch();
 		static void EndScene();
-		static void Flush();
+		static void Draw(uint32_t attachmentID);
 
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);			// glm::vec3 for position, (x,y,z), x -> x_pos, y -> y_pos, z -> layering (drawing on top/blending textures)
@@ -53,7 +51,8 @@ namespace IE
 		static Renderer2DStats GetStats();
 
 	private:
-		static void FlushAndReset();
-
+		static void StartBatch();
+		static void NextBatch();
+		static void Flush();
 	};
 }
