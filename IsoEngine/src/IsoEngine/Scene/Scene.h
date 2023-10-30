@@ -15,7 +15,6 @@ namespace IE
 	{
 	public:
 		Scene();
-		Scene(Ref<OrthographicCameraController> camera);
 		~Scene();
 
 		Entity CreateEntity(const std::string& name = std::string());

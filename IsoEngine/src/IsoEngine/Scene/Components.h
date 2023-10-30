@@ -49,12 +49,10 @@ namespace IE
 
 	struct SpriteRendererComponent
 	{
-		//int TilingFactor;
 		glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		// TODO: Ref<MaterialInstance> Material; // Material = Shader + (any) Uniform Data
 
 		SpriteRendererComponent() = default;
-		/* Copy Constructor */
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {}
@@ -71,7 +69,6 @@ namespace IE
 		CameraComponent(uint32_t width, uint32_t height)
 			: Width(width), Height(height), Camera(width, height, SceneCamera::ProjectionType::Isometric) {}
 		CameraComponent(const CameraComponent&) = default;
-
 	};
 
 	struct NativeScriptComponent

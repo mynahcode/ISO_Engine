@@ -112,7 +112,7 @@ namespace IE
 			{
 				if (ImGui::MenuItem("Camera"))
 				{
-					m_SelectionContext.AddComponent<CameraComponent>();
+					m_SelectionContext.AddComponent<CameraComponent>(m_Context->m_ViewportWidth, m_Context->m_ViewportHeight);
 					ImGui::CloseCurrentPopup();
 				}
 

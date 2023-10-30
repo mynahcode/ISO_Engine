@@ -4,8 +4,6 @@
 #include "IsoEngine/Renderer/VertexArray.h"
 #include "IsoEngine/Renderer/Shader.h"
 #include "IsoEngine/Renderer/RenderCommand.h"
-#include "IsoEngine/Renderer/UniformBuffer.h"
-
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 
@@ -49,7 +47,6 @@ namespace IE
 			glm::mat4 ViewProjection;
 		};
 		CameraData CameraBuffer;
-		Ref<UniformBuffer> CameraUniformBuffer;
 	};
 
 
@@ -113,8 +110,6 @@ namespace IE
 		s_Data2D.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data2D.QuadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
 		s_Data2D.QuadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
-
-		s_Data2D.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DStorage::CameraData), 0);
 	}
 
 	void Renderer2D::Shutdown()
@@ -131,8 +126,6 @@ namespace IE
 		ISOLOGGER_TRACE("Renderer2D::BeginScene() with a Camera Component... \n");
 
 		s_Data2D.CameraBuffer.ViewProjection = camera.GetProjection() * glm::inverse(transform);
-		s_Data2D.CameraUniformBuffer->SetData(&s_Data2D.CameraBuffer, sizeof(Renderer2DStorage::CameraData));
-
 		glm::mat4 viewProjection = camera.GetProjection() * glm::inverse(transform);
 
 		s_Data2D.TextureShader->SetMat4("u_ViewProjection", viewProjection); // API agnostic call, in OpenGL its a Uniform, in DX it is setconstantbuffer
@@ -187,8 +180,6 @@ namespace IE
 
 		RenderCommand::DrawIndexed(s_Data2D.QuadVertexArray, s_Data2D.QuadIndexCount);
 		s_Data2D.Stats.DrawCalls++;
-
-		s_Data2D.TextureShader->UnBind();
 	}
 
 	void Renderer2D::NextBatch()

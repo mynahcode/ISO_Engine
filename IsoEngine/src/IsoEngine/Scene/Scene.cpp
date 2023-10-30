@@ -13,11 +13,6 @@ namespace IE
 
 	}
 
-	Scene::Scene(Ref<OrthographicCameraController> camera)
-		: m_CameraController(camera)
-	{
-	}
-
 	Scene::~Scene()
 	{
 	}
@@ -25,7 +20,7 @@ namespace IE
 	Entity Scene::CreateEntity(const std::string& name)
 	{
 		Entity entity = { m_Registry.create(), this };
-		entity.AddComponent<TransformComponent>(); // ALL entties must have a TransformComponent.
+		entity.AddComponent<TransformComponent>(); // ALL entities must have a TransformComponent.
 		auto& entity_tag = entity.AddComponent<TagComponent>();
 		entity_tag.Tag = name.empty() ? "Unnamed Entity" : name;
 		return entity;

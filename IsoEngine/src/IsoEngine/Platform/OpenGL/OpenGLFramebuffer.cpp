@@ -214,8 +214,6 @@ namespace IE {
 	void OpenGLFramebuffer::UnBind()
 	{
 		ISOLOGGER_WARN("(GL) OpenGLFramebuffer::UnBind() called.\n");
-		//glViewport(0, 0, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height);
-
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		RenderCommand::Clear();
 	}
