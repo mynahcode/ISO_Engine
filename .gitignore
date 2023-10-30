@@ -15,4 +15,4 @@
 **/imgui.ini
 
 # IsoEngine Editor RunTime Files (may be included later for testing and QA purposes)
-IsoEngineEditor/**.json
+**/**.json
