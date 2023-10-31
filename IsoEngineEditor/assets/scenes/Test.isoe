@@ -1,0 +1,8 @@
+Scene: Untitled Scene
+Entities:
+  - Entity: 12837192351342
+    TagComponent:
+      Tag: Camera Entity
+  - Entity: 12837192351342
+    TagComponent:
+      Tag: Square

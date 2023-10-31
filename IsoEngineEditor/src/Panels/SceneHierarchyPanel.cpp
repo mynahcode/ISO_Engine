@@ -1,6 +1,8 @@
 #include "iepch.h"
 
 #include "SceneHierarchyPanel.h"
+#include "IsoEngine/Scene/Components.h"
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 #include <glm/glm.hpp>

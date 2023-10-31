@@ -67,7 +67,8 @@ project "IsoEngine"
 		"GLFW_INCLUDE_NONE",
 		"FMT_HEADER_ONLY",
 		"_IE_DEBUG_MODE",
-		"IMGUI_API=__declspec(dllexport)"
+		"IMGUI_API=__declspec(dllexport)",
+		"YAML_CPP_STATIC_DEFINE"
 	}
 
 	includedirs
@@ -133,8 +134,7 @@ project "TheGame"
 		"%{IncludeDir.glm}",
 		"IsoEngine/Vendor",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.fmt}",
-		"%{IncludeDir.yaml_cpp}"
+		"%{IncludeDir.fmt}"
 	}
 
 	defines

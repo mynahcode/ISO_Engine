@@ -3,7 +3,6 @@
 #include "IsoEngine/Core/IsoMacros.h"
 #include "IsoEngine/Scene/Scene.h"
 #include "IsoEngine/Scene/Entity.h"
-#include "IsoEngine/Scene/Components.h"
 
 namespace IE
 {

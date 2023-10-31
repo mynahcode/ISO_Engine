@@ -84,6 +84,9 @@ namespace IE
 
         ISOLOGGER_TRACE("Setting scene context for scene hierarchy...\n")
         m_SceneHierarchy.SetContext(m_ActiveScene);
+
+        SceneSerializer serializer(m_ActiveScene);
+        serializer.Serialize("assets/scenes/Test.isoe");
     }
 
     void IsoEditorLayer::OnDetach()
