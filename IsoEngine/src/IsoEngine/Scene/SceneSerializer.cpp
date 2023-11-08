@@ -184,11 +184,8 @@ namespace IE
 
 	bool SceneSerializer::Deserialize(const std::string& filepath)
 	{
-		std::ifstream stream(filepath);
-		std::stringstream strStream;
-		strStream << stream.rdbuf();
+		YAML::Node data = YAML::LoadFile(filepath);
 
-		YAML::Node data = YAML::Load(strStream.str());
 		if (!data["Scene"])
 			return false;
 
@@ -257,5 +254,6 @@ namespace IE
 	{
 		// Not Implemented Yet
 		IE_ENGINE_ASSERT(false, "Not Implemented Yet.");
+		return false;
 	}
 }

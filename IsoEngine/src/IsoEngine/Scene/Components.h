@@ -65,7 +65,8 @@ namespace IE
 		bool isPrimary = true;
 		bool fixedAspectRatio = false;
 
-		CameraComponent() = default;
+		CameraComponent()
+			: Width(1920), Height(1080), Camera(1920, 1080, SceneCamera::ProjectionType::Isometric) {}
 		CameraComponent(uint32_t width, uint32_t height)
 			: Width(width), Height(height), Camera(width, height, SceneCamera::ProjectionType::Isometric) {}
 		CameraComponent(const CameraComponent&) = default;

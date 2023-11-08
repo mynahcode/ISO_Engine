@@ -45,3 +45,6 @@
 /* IsoEngine's Native Logging System*/
 #include "IsoEngine/IsoLogger/IsoLogger.h"
 
+/* Utilities */
+#include "IsoEngine/Utils/PlatformUtils.h"
+

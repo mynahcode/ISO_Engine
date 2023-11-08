@@ -85,6 +85,9 @@
     <Filter Include="src\IsoEngine\Scene">
       <UniqueIdentifier>{7A506F88-E6B1-4C96-6F1F-9348DB7F8355}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\IsoEngine\Utils">
+      <UniqueIdentifier>{BDE49C88-2946-7A96-B2B3-C0481E14B155}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vendor\entt\include\entt.hpp">
@@ -1494,6 +1497,9 @@
     <ClInclude Include="src\IsoEngine\Scene\ScriptableEntity.h">
       <Filter>src\IsoEngine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Utils\PlatformUtils.h">
+      <Filter>src\IsoEngine\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\iepch.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1552,6 +1558,9 @@
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\IsoEngine\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IsoEngine\Platform\Windows\WinPlatformUtils.cpp">
+      <Filter>src\IsoEngine\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\IsoEngine\Platform\Windows\WindowsInput.cpp">
       <Filter>src\IsoEngine\Platform\Windows</Filter>

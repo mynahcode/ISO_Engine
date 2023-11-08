@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Event.h"
+#include "IsoEngine/Events/Event.h"
+#include "IsoEngine/Core/KeyCodes.h"
 
 namespace IE
 {
@@ -12,37 +13,37 @@ namespace IE
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
 	protected:
-		KeyEvent(int keycode)
+		KeyEvent(const KeyCode keycode)
 			: m_KeyCode(keycode) {}
 
-		int m_KeyCode;
+		KeyCode m_KeyCode;
 	};
 
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keycode, bool isRepeat = false)
-			: KeyEvent(keycode), m_IsRepeat(isRepeat) {}
+		KeyPressedEvent(const KeyCode keycode, const uint16_t repeatCount)
+			: KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
-		bool isRepeat() const { return m_IsRepeat; }
+		uint16_t GetRepeatCount() const { return m_RepeatCount; }
 
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyPressedEvent: " << m_KeyCode << ", for " << m_IsRepeat << " repeats.";
+			ss << "KeyPressedEvent: " << m_KeyCode << ", for " << m_RepeatCount << " repeats.";
 			return ss.str();
 		}
 
 		EVENT_CLASS_TYPE(KeyPressed)
 
 	private:
-		bool  m_IsRepeat;
+		uint16_t  m_RepeatCount;
 	};
 
 	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int keycode)
+		KeyReleasedEvent(const KeyCode keycode)
 			: KeyEvent(keycode) {} 
 
 		std::string ToString() const override
@@ -58,7 +59,7 @@ namespace IE
 	class KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(int keycode)
+		KeyTypedEvent(const KeyCode keycode)
 			: KeyEvent(keycode) {}
 
 		std::string ToString() const override

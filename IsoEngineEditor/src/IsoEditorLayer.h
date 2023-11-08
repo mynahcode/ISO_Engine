@@ -8,7 +8,7 @@
 namespace IE
 {
 
-	class IsoEditorLayer : public IE::Layer
+	class IsoEditorLayer : public Layer
 	{
 	public:
 		IsoEditorLayer();
@@ -17,13 +17,18 @@ namespace IE
 		/* IsoEngine Layer Class Functions */
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
+		virtual void OnImGuiRender() override;
 
 		/* IsoEngine Application Functions */
 		void OnUpdate(Timestep timestep) override;
-		virtual void OnImGuiRender() override;
 		void OnEvent(Event& ev) override;
 
 	private:
+		void NewScene();
+		void LoadScene();
+		void SaveSceneAs();
+		bool OnKeyPressed(KeyPressedEvent& e);
+
 		OrthographicCameraController m_CameraController;
 
 		Ref<Scene> m_ActiveScene;

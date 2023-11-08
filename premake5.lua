@@ -141,7 +141,8 @@ project "TheGame"
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"_IE_DEBUG_MODE",
-		"FMT_HEADER_ONLY"
+		"FMT_HEADER_ONLY",
+		"YAML_CPP_STATIC_DEFINE"
 	}
 
 	links
@@ -197,7 +198,8 @@ project "IsoEngineEditor"
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"_IE_DEBUG_MODE",
-		"FMT_HEADER_ONLY"
+		"FMT_HEADER_ONLY",
+		"YAML_CPP_STATIC_DEFINE"
 	}
 
 	links

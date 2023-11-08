@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+
 namespace IE
 {
     IsoEditorLayer::IsoEditorLayer()
@@ -85,13 +86,56 @@ namespace IE
         ISOLOGGER_TRACE("Setting scene context for scene hierarchy...\n")
         m_SceneHierarchy.SetContext(m_ActiveScene);
 
-        SceneSerializer serializer(m_ActiveScene);
-        serializer.Serialize("assets/scenes/Test.isoe");
+        //SceneSerializer serializer(m_ActiveScene);
+       // serializer.Serialize("assets/scenes/Test.isoe");
     }
 
     void IsoEditorLayer::OnDetach()
     {
         _IE_PROFILER_FUNCTION();
+    }
+
+    void IsoEditorLayer::OnEvent(Event& ev)
+    {
+        _IE_PROFILER_FUNCTION();
+        m_CameraController.OnEvent(ev);
+
+        EventDispatcher dispatcher(ev);
+        dispatcher.Dispatch<KeyPressedEvent>(IE_BIND_EVENT_FN(IsoEditorLayer::OnKeyPressed));
+    }
+
+    bool IsoEditorLayer::OnKeyPressed(KeyPressedEvent& ev)
+    {
+        // Shortcuts
+        if (ev.GetRepeatCount() > 0)
+            return false;
+
+        bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+        bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+        switch (ev.GetKeyCode())
+        {
+            case Key::N:
+            {
+                if (control)
+                    NewScene();
+
+                break;
+            }
+            case Key::O:
+            {
+                if (control)
+                    LoadScene();
+
+                break;
+            }
+            case Key::S:
+            {
+                if (control && shift)
+                    SaveSceneAs();
+
+                break;
+            }
+        }
     }
 
     void IsoEditorLayer::OnUpdate(Timestep timestep)
@@ -174,22 +218,45 @@ namespace IE
             if (ImGui::BeginMenu("File"))
             {
 
-                if (ImGui::MenuItem("Options"))
+                if (ImGui::MenuItem("Scene"))
                 {
-                    ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
-                    ImGui::MenuItem("Padding", NULL, &opt_padding);
+                    if (ImGui::MenuItem("New Scene", "ctrl+N"))
+                    {
+                        NewScene();
+                    }
+
+                    if (ImGui::MenuItem("Open Scene", "ctrl+O"))
+                    {
+                        LoadScene();
+                    }
+
+                    if (ImGui::MenuItem("Save Scene", "ctrl+S"))
+                    {
+
+                    }
+
+                    if (ImGui::MenuItem("Save Scene As", "ctrl+shift+S"))
+                    {
+                        SaveSceneAs();
+                    }
                 }
 
                 if (ImGui::MenuItem("Serialize"))
                 {
-                    //SceneSerializer serializer(m_ActiveScene);
-                    //serializer.Serialize("Assets/scenes/Example.isoe");
+                    SceneSerializer serializer(m_ActiveScene);
+                    serializer.Serialize("assets/scenes/Test.isoe");
                 }
 
                 if (ImGui::MenuItem("Deserialize"))
                 {
-                    //SceneSerializer serializer(m_ActiveScene);
-                    //serializer.Deserialize("Assets/scenes/Example.isoe");
+                    SceneSerializer serializer(m_ActiveScene);
+                    serializer.Deserialize("assets/scenes/Test.isoe");
+                }
+
+                if (ImGui::MenuItem("Options"))
+                {
+                    ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
+                    ImGui::MenuItem("Padding", NULL, &opt_padding);
                 }
 
                 if (ImGui::MenuItem("Exit")) Application::Get().Close();
@@ -199,11 +266,10 @@ namespace IE
 
             ImGui::EndMenuBar();
         }
-        /* Additions to the ImGui Dockspace for IsoEngine go below*/
 
         m_SceneHierarchy.OnImGuiRender();
         
-        //ImGui::ShowDemoWindow(); // IMGUI DEMO WINDOW
+        //ImGui::ShowDemoWindow(); // IMGUI DEMO WINDOW *Keep for debug and learning purposes*
 
         ImGui::Begin("Statistics");
 
@@ -229,16 +295,41 @@ namespace IE
         m_ViewportSize = { vpPanelSize.x, vpPanelSize.y };
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        ImGui::Image((void*)textureID, ImVec2(m_ViewportSize.x, m_ViewportSize.y), ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+        ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2(m_ViewportSize.x, m_ViewportSize.y), ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::End();
         ImGui::PopStyleVar();
 
         ImGui::End();
-}
+    }
 
-    void IsoEditorLayer::OnEvent(Event& ev)
+    void IsoEditorLayer::NewScene()
     {
-        _IE_PROFILER_FUNCTION();
-        m_CameraController.OnEvent(ev);
+        m_ActiveScene = CreateRef<Scene>();
+        m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        m_SceneHierarchy.SetContext(m_ActiveScene);
+    }
+
+    void IsoEditorLayer::LoadScene()
+    {
+        std::optional<std::string> filepath = FileDialogs::OpenFile("IsoEngine Scene (*.isoe)\0*.isoe\0");
+        if (filepath)
+        {
+            m_ActiveScene = CreateRef<Scene>();
+            m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_SceneHierarchy.SetContext(m_ActiveScene);
+
+            SceneSerializer serializer(m_ActiveScene);
+            serializer.Deserialize(*filepath);
+        }
+    }
+
+    void IsoEditorLayer::SaveSceneAs()
+    {
+        std::optional<std::string> filepath = FileDialogs::SaveFile("IsoEngine Scene (*.isoe)\0*.isoe\0");
+        if (filepath)
+        {
+            SceneSerializer serializer(m_ActiveScene);
+            serializer.Serialize(*filepath);
+        }
     }
 }

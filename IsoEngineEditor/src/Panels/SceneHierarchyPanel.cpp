@@ -77,6 +77,7 @@ namespace IE
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
+		m_SelectionContext = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRender()
@@ -114,14 +115,23 @@ namespace IE
 			{
 				if (ImGui::MenuItem("Camera"))
 				{
-					m_SelectionContext.AddComponent<CameraComponent>(m_Context->m_ViewportWidth, m_Context->m_ViewportHeight);
+					if (!m_SelectionContext.HasComponent<CameraComponent>())
+						m_SelectionContext.AddComponent<CameraComponent>();
+					else
+						ISOLOGGER_WARN("This entity already has the Camera Component!");
 					ImGui::CloseCurrentPopup();
 				}
 
 				if (ImGui::MenuItem("Sprite"))
 				{
-					m_SelectionContext.AddComponent<SpriteRendererComponent>();
-					ImGui::CloseCurrentPopup();
+					if (ImGui::MenuItem("Sprite Renderer"))
+					{
+						if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
+							m_SelectionContext.AddComponent<SpriteRendererComponent>();
+						else
+							ISOLOGGER_WARN("This entity already has the Sprite Renderer Component!");
+						ImGui::CloseCurrentPopup();
+					}
 				}
 				// TODO: Update NativeScriptComponent
 				if (ImGui::MenuItem("C++ Native Script"))
