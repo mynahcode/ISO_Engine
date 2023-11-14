@@ -30,6 +30,7 @@ namespace IE
 		bool OnKeyPressed(KeyPressedEvent& e);
 
 		OrthographicCameraController m_CameraController;
+		EditorCamera m_EditorCamera;
 
 		Ref<Scene> m_ActiveScene;
 		Ref<Framebuffer> m_Framebuffer;

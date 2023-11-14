@@ -50,7 +50,7 @@ namespace IE
 	struct SpriteRendererComponent
 	{
 		glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
-		// TODO: Ref<MaterialInstance> Material; // Material = Shader + (any) Uniform Data
+		// TODO: Ref<Material> Material; // Material = Shader + (any) Uniform Data
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;

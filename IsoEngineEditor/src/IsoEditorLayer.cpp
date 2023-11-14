@@ -28,6 +28,9 @@ namespace IE
         ISOLOGGER_INFO("Creating reference object to Scene...\n");
         m_ActiveScene = CreateRef<Scene>();
 
+        ISOLOGGER_INFO("Creating Editor Camera...\n");
+        m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
+
         auto square = m_ActiveScene->CreateEntity("Square");
         square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
         m_SquareEntity = square;
@@ -35,7 +38,7 @@ namespace IE
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
         m_CameraEntity.AddComponent<CameraComponent>(fbSpecs.Width, fbSpecs.Height);
 
-        
+#if 0        
         //m_SecondCameraEntity = m_ActiveScene->CreateEntity("Clip-Space Camera");
        //auto& cc2 = m_SecondCameraEntity.AddComponent<CameraComponent>();
         //cc2.isPrimary = false;
@@ -83,6 +86,7 @@ namespace IE
         //m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
         m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
+#endif
         ISOLOGGER_TRACE("Setting scene context for scene hierarchy...\n")
         m_SceneHierarchy.SetContext(m_ActiveScene);
 
@@ -99,6 +103,7 @@ namespace IE
     {
         _IE_PROFILER_FUNCTION();
         m_CameraController.OnEvent(ev);
+        m_EditorCamera.OnEvent(ev);
 
         EventDispatcher dispatcher(ev);
         dispatcher.Dispatch<KeyPressedEvent>(IE_BIND_EVENT_FN(IsoEditorLayer::OnKeyPressed));
@@ -147,13 +152,17 @@ namespace IE
             (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
         {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
             m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         }
+
+        m_EditorCamera.OnUpdate(timestep);
 
         Renderer2D::ResetStats();
         m_Framebuffer->Bind();
         //m_Framebuffer->ClearAttachment(1, -1);
-        m_ActiveScene->OnUpdate(timestep);
+        m_ActiveScene->OnUpdateEditor(timestep, m_EditorCamera);
         m_Framebuffer->UnBind();
         RenderCommand::DepthTestingEnabled(true);
     }

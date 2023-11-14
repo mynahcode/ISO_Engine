@@ -1503,6 +1503,9 @@
     <ClInclude Include="src\iepch.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLMaterial.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Material.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\EditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\fmt\src\format.cc">
@@ -1619,5 +1622,8 @@
     <ClCompile Include="src\iepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLMaterial.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Material.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\EditorCamera.cpp" />
   </ItemGroup>
 </Project>

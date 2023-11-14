@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Event.h"
+#include "IsoEngine/Core/MouseCodes.h"
 
 namespace IE
 {
@@ -63,14 +64,14 @@ namespace IE
 		MouseButtonEvent(int button)
 			: m_Button(button) {}
 
-		int m_Button;
+		MouseCode m_Button;
 	};
 
 	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 
 	public:
-		MouseButtonPressedEvent(int button)
+		MouseButtonPressedEvent(const MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
@@ -86,7 +87,7 @@ namespace IE
 	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int button)
+		MouseButtonReleasedEvent(const MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override

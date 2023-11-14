@@ -2,6 +2,7 @@
 
 #include "IsoEngine/Core/Timestep.h"
 #include "IsoEngine/Controllers/OrthographicCameraController.h"
+#include "IsoEngine/Renderer/EditorCamera.h"
 #include "IsoEngine/Renderer/Framebuffer.h"
 
 #include <entt.hpp>
@@ -18,8 +19,11 @@ namespace IE
 		~Scene();
 
 		Entity CreateEntity(const std::string& name = std::string());
+		Entity GetPrimaryCameraEntity();
 		void DestroyEntity(Entity entity);
-		void OnUpdate(Timestep ts);
+
+		void OnUpdateRuntime(Timestep ts);
+		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void RenderScene(Ref<Framebuffer> fb);
 		void OnViewportResize(uint32_t width, uint32_t height);
 

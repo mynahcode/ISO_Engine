@@ -4,20 +4,24 @@ namespace IE
 {
 	using MouseCode = uint16_t;
 
-	enum : MouseCode
+	namespace Mouse
 	{
-		/* Mouse codes from glfw3.h */
-		IE_MOUSE_BUTTON_1 = 0,
-		IE_MOUSE_BUTTON_2 = 1,
-		IE_MOUSE_BUTTON_3 = 2,
-		IE_MOUSE_BUTTON_4 = 3,
-		IE_MOUSE_BUTTON_5 = 4,
-		IE_MOUSE_BUTTON_6 = 5,
-		IE_MOUSE_BUTTON_7 = 6,
-		IE_MOUSE_BUTTON_8 = 7,
-		IE_MOUSE_BUTTON_LAST = IE_MOUSE_BUTTON_8,
-		IE_MOUSE_BUTTON_LEFT = IE_MOUSE_BUTTON_1,
-		IE_MOUSE_BUTTON_RIGHT = IE_MOUSE_BUTTON_2,
-		IE_MOUSE_BUTTON_MIDDLE = IE_MOUSE_BUTTON_3
-	};
+		enum : MouseCode
+		{
+			// From glfw3.h
+			Button0 = 0,
+			Button1 = 1,
+			Button2 = 2,
+			Button3 = 3,
+			Button4 = 4,
+			Button5 = 5,
+			Button6 = 6,
+			Button7 = 7,
+
+			ButtonLast = Button7,
+			ButtonLeft = Button0,
+			ButtonRight = Button1,
+			ButtonMiddle = Button2
+		};
+	}
 }

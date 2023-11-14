@@ -143,6 +143,17 @@ namespace IE
 		StartBatch();
 	}
 
+	void Renderer2D::BeginScene(const EditorCamera& camera)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		ISOLOGGER_TRACE("Renderer2D::BeginScene() with an IsoEngine Editor Camera... \n");
+		s_Data2D.TextureShader->Bind();
+		s_Data2D.TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
+
+		StartBatch();
+	}
+
 	void Renderer2D::StartBatch()
 	{
 		s_Data2D.QuadIndexCount = 0;

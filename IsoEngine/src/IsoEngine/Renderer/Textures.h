@@ -29,6 +29,5 @@ namespace IE
 		static Ref<Textures2D> Create(uint32_t width, uint32_t height);
 		static Ref<Textures2D> Create(uint32_t width, uint32_t height, uint32_t renderID);
 		static Ref<Textures2D> Create(const std::string& path);
-
 	};
 }
