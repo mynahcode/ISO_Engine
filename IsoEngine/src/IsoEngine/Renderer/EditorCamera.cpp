@@ -22,17 +22,56 @@ namespace IE
 	void EditorCamera::RecalculateProjection()
 	{
 		m_AspectRatio = m_ViewportWidth / m_ViewportHeight;
-		m_Projection = glm::perspective(glm::radians(m_FOV), m_AspectRatio, m_NearClip, m_FarClip);
+		if (m_ProjectionType == ProjectionType::Perspective)
+		{
+			m_Projection = glm::perspective(glm::radians(m_FOV), m_AspectRatio, m_NearClip, m_FarClip);
+		}
+
+		else if (m_ProjectionType == ProjectionType::Isometric)
+		{
+			float orthoLeft = -m_OrthographicSize * m_AspectRatio * 0.5f;
+			float orthoRight = m_OrthographicSize * m_AspectRatio * 0.5f;
+			float orthoBottom = -m_OrthographicSize * 0.5f;
+			float orthoTop = m_OrthographicSize * 0.5f;
+
+			m_Projection = glm::ortho(orthoLeft, orthoRight,
+				orthoBottom, orthoTop, m_OrthographicNear, m_OrthographicFar);
+
+			float m_hRotation = 30.0f;
+			float m_vRotation = -45.0f;
+
+			glm::mat4 transform = glm::mat4(1.0f);
+			glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+			glm::mat4 dimetricRotation = glm::rotate(glm::mat4(1.0f), glm::radians(m_hRotation), glm::vec3(1.0f, 0.0f, 0.0f)) *
+				glm::rotate(glm::mat4(1.0f), glm::radians(m_vRotation), glm::vec3(0.0f, 0.0f, 1.0f));
+
+			m_Projection = m_Projection * dimetricRotation * rotation;
+
+			m_Projection = glm::inverse(m_Projection);
+		}
 	}
 
 	void EditorCamera::UpdateView()
 	{
 		// m_Yaw = m_Pitch = 0.0f; // Lock the camera's rotation
-		m_Position = CalculatePosition();
+		if (m_ProjectionType == ProjectionType::Perspective)
+		{
+			m_Position = CalculatePosition();
 
-		glm::quat orientation = GetOrientation();
-		m_ViewMatrix = glm::translate(glm::mat4(1.0f), m_Position) * glm::toMat4(orientation);
-		m_ViewMatrix = glm::inverse(m_ViewMatrix);
+			glm::quat orientation = GetOrientation();
+			m_ViewMatrix = glm::translate(glm::mat4(1.0f), m_Position) * glm::toMat4(orientation);
+			m_ViewMatrix = glm::inverse(m_ViewMatrix);
+		}
+
+		else if (m_ProjectionType == ProjectionType::Isometric)
+		{
+			m_Position = CalculatePosition();
+
+			glm::quat orientation = GetOrientation();
+			m_ViewMatrix = glm::translate(glm::mat4(1.0f), m_Position) * glm::toMat4(orientation);
+			m_ViewMatrix = glm::inverse(m_ViewMatrix);
+		}
 	}
 
 	std::pair<float, float> EditorCamera::PanSpeed() const

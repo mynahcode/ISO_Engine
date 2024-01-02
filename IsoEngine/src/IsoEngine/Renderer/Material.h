@@ -21,9 +21,7 @@ namespace IE
 	class TileMaterial : public Material
 	{
 	public:
-		//static Ref<TileMaterial> Create(uint32_t width, uint32_t height); //Empty Tile with default texture
-		//static Ref<TileMaterial> Create(uint32_t width, uint32_t height, uint32_t renderID);
-		//static Ref<TileMaterial> Create(Ref<Textures2D> TileTexture, Ref<Shader>);
-		//static Ref<TileMaterial> Create(Ref<SubTexture2D> TileTexture, Ref<Shader>);
+		static Ref<TileMaterial> Create(uint32_t width, uint32_t height, Ref<Textures2D> tileTexture, Ref<Shader> shader);
+		static Ref<TileMaterial> Create(uint32_t width, uint32_t height, Ref<SubTexture2D> tileTexture, Ref<Shader> shader);
 	};
 }

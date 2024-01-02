@@ -9,7 +9,7 @@
 #include "IsoEngine/Core/IsoMacros.h"
 #include "ScriptableEntity.h"
 #include "SceneCamera.h"
-#include "IsoEngine/Renderer/Textures.h"
+#include "IsoEngine/Renderer/Material.h"
 
 namespace IE
 {
@@ -50,12 +50,15 @@ namespace IE
 	struct SpriteRendererComponent
 	{
 		glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
-		// TODO: Ref<Material> Material; // Material = Shader + (any) Uniform Data
+		//Ref<Material> Material; // Material = Shader + (any) Uniform Data
+		Ref<Textures2D> Texture;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {}
+		SpriteRendererComponent(const Ref<Textures2D>& texture)
+			: Texture(texture) {}
 	};
 
 	struct CameraComponent
@@ -94,5 +97,13 @@ namespace IE
 		ScreenQuadComponent(uint32_t width, uint32_t height)
 			: Width(width), Height(height) {}
 		ScreenQuadComponent(const ScreenQuadComponent&) = default;
+	};
+
+	struct TileComponent
+	{
+		glm::vec2 Dimensions;
+
+		TileComponent(glm::vec2 dimensions)
+			: Dimensions(dimensions) {}
 	};
 }

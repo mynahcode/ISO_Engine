@@ -215,7 +215,6 @@ namespace IE
 
 		}
 
-		// TODO: FIX CAMERA REMOVE/ADD COMPONENT
 		if (entity.HasComponent<CameraComponent>())
 		{
 			bool open = ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), treeNodeFlags, "Camera");

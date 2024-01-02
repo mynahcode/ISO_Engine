@@ -86,7 +86,7 @@ namespace IE
 			m_Projection = glm::ortho(orthoLeft, orthoRight,
 				orthoBottom, orthoTop, m_OrthographicNear, m_OrthographicFar);
 
-			float m_hRotation = 30.0f; // Same axis rotations as Proj Zomb
+			float m_hRotation = 30.0f;
 			float m_vRotation = -45.0f;
 
 			glm::mat4 transform = glm::mat4(1.0f);

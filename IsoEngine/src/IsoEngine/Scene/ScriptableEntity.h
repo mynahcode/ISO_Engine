@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entity.h"
+#include "IsoEngine/Scene/Entity.h"
 #include "IsoEngine/Core/Timestep.h"
 
 namespace IE

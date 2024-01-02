@@ -10,7 +10,6 @@ namespace IE
 {
 	Scene::Scene()
 	{
-
 	}
 
 	Scene::~Scene()
@@ -24,6 +23,17 @@ namespace IE
 		auto& entity_tag = entity.AddComponent<TagComponent>();
 		entity_tag.Tag = name.empty() ? "Unnamed Entity" : name;
 		return entity;
+	}
+
+	Entity Scene::CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position)
+	{
+		Ref<Textures2D> m_Texture = Textures2D::Create("assets/textures/emptytile_white.png");
+		auto tileEntity = CreateEntity("Tile");
+		auto& entity_transform = tileEntity.GetComponent<TransformComponent>();
+		entity_transform.Translation = position;
+		tileEntity.AddComponent<TileComponent>(dimensions);
+		tileEntity.AddComponent<SpriteRendererComponent>(m_Texture);
+		return tileEntity;
 	}
 
 	Entity Scene::GetPrimaryCameraEntity()
@@ -96,14 +106,24 @@ namespace IE
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 	{
 		Renderer2D::BeginScene(camera);
+		// Tilemap rendering
+		auto tileGroup = m_Registry.group<TransformComponent>(entt::get<TileComponent, SpriteRendererComponent>);
+		for (auto tileEntity : tileGroup)
+		{
+			auto [tileTransform, tileComponent, tileSprite] = tileGroup.get<TransformComponent, TileComponent, SpriteRendererComponent>(tileEntity);
+			Renderer2D::DrawQuad(tileTransform.GetTransform(), tileSprite.Texture, 1.0f, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+		}
+
+		/*
 		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>); // Or a sprite 2D
 		for (auto entity : group)
 		{
 			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 			// TODO: Check if color or texture or both
-			//Renderer2D::DrawQuad(transform, sprite.Texture, 1, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
-			Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+			Renderer2D::DrawQuad(transform.GetTransform(), sprite.Texture, 1.0f, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+			//Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
 		}
+		*/
 		Renderer2D::EndScene();
 	}
 
@@ -176,6 +196,12 @@ namespace IE
 
 	template<>
 	void Scene::OnComponentAdded<ScreenQuadComponent>(Entity entity, ScreenQuadComponent& component)
+	{
+
+	}
+
+	template<>
+	void Scene::OnComponentAdded<TileComponent>(Entity entity, TileComponent& component)
 	{
 
 	}

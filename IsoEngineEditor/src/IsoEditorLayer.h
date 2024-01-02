@@ -23,6 +23,8 @@ namespace IE
 		void OnUpdate(Timestep timestep) override;
 		void OnEvent(Event& ev) override;
 
+		void CreateTileGrid(int cols, int rows, float tileWidth, float tileHeight);
+
 	private:
 		void NewScene();
 		void LoadScene();
@@ -31,6 +33,7 @@ namespace IE
 
 		OrthographicCameraController m_CameraController;
 		EditorCamera m_EditorCamera;
+		Ref<Textures2D> m_Texture;
 
 		Ref<Scene> m_ActiveScene;
 		Ref<Framebuffer> m_Framebuffer;
@@ -40,6 +43,8 @@ namespace IE
 		Entity m_SecondCameraEntity;
 		
 		bool m_PrimaryCamera = false;
+
+		std::vector<Entity> tileVec;
 
 		/* ImGui DockingSpace */
 		glm::vec2 m_ViewportSize;

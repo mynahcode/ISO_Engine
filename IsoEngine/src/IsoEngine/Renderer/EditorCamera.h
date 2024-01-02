@@ -12,6 +12,8 @@ namespace IE
 	class EditorCamera : public Camera
 	{
 	public:
+		enum class ProjectionType { Perspective = 0, Orthographic = 1, Isometric = 2 };
+
 		EditorCamera() = default;
 		EditorCamera(float fov, float aspectRatio, float nearClip, float farClip);
 
@@ -34,6 +36,8 @@ namespace IE
 
 		float GetPitch() const { return m_Pitch; }
 		float GetYaw() const { return m_Yaw; }
+
+		void SetProjectionIsometric() { m_ProjectionType = ProjectionType::Isometric; RecalculateProjection(); }
 
 	private:
 		void RecalculateProjection();
@@ -63,5 +67,10 @@ namespace IE
 		float m_Pitch = 0.0f, m_Yaw = 0.0f;
 
 		float m_ViewportWidth = 1920, m_ViewportHeight = 1080;
+
+		float m_OrthographicSize = 10.0f;
+		float m_OrthographicNear = -1.0f, m_OrthographicFar = 1.0f;
+
+		ProjectionType m_ProjectionType = ProjectionType::Perspective;
 	};
 }

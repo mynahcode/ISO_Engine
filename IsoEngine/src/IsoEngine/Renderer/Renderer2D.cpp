@@ -1,9 +1,9 @@
 #include "iepch.h"
 #include "IsoEngine/Renderer/Renderer2D.h"
-
 #include "IsoEngine/Renderer/VertexArray.h"
 #include "IsoEngine/Renderer/Shader.h"
 #include "IsoEngine/Renderer/RenderCommand.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 
@@ -18,6 +18,11 @@ namespace IE
 		float TilingFactor;
 	};
 
+	struct GridVertex
+	{
+		glm::vec3 Position;
+	};
+
 	struct Renderer2DStorage
 	{
 		static const uint32_t MAXQUADS = 10000;
@@ -26,13 +31,19 @@ namespace IE
 		static const uint32_t MAXTEXTURESLOTS = 32; // TODO: RendererCapabilities class.
 
 		Ref<VertexArray> QuadVertexArray; // VAO
+		Ref<VertexArray> GridVertexArray; // VAO
 		Ref<VertexBuffer> QuadVertexBuffer; // VBO
+		Ref<VertexBuffer> GridVertexBuffer; // VBO
+
 		Ref<Shader> TextureShader;
 		Ref<Textures2D> WhiteTexture;
 
 		uint32_t QuadIndexCount = 0;
 		QuadVertex* QuadVertexBufferBase = nullptr;
 		QuadVertex* QuadVertexBufferPtr = nullptr;
+
+		GridVertex* GridVertexBufferBase = nullptr;
+		GridVertex* GridVertexBufferPtr = nullptr;
 
 		std::array<Ref<Textures2D>, MAXTEXTURESLOTS> TextureSlots;
 		uint32_t TextureSlotIndex = 1; // Slot 0 dedicated to white texture.
@@ -56,7 +67,8 @@ namespace IE
 	{
 		// TODO: Add reference counting system to ensure objects are only deleted AFTER all classes done using them.
 		_IE_PROFILER_FUNCTION();
-		ISOLOGGER_DEBUG("Renderer2D::Init() called.\n")
+		ISOLOGGER_DEBUG("Renderer2D::Init() called.\n ");
+
 		s_Data2D.QuadVertexArray = VertexArray::Create();
 
 		s_Data2D.QuadVertexBuffer = VertexBuffer::Create(s_Data2D.MAXVERTICES * sizeof(QuadVertex));
@@ -67,6 +79,7 @@ namespace IE
 			{ ShaderDataType::Float, "a_TexIndex"},
 			{ ShaderDataType::Float, "a_TilingFactor"}
 			});
+
 		s_Data2D.QuadVertexArray->AddVertexBuffer(s_Data2D.QuadVertexBuffer);
 
 		s_Data2D.QuadVertexBufferBase = new QuadVertex[s_Data2D.MAXVERTICES];
@@ -165,6 +178,9 @@ namespace IE
 	void Renderer2D::EndScene()
 	{
 		_IE_PROFILER_FUNCTION();
+
+		// Logging Bounded Texture Slots
+		s_Data2D.Stats.InUseTextureSlots = s_Data2D.TextureSlotIndex;
 		Flush();
 	}
 

@@ -19,6 +19,8 @@ namespace IE
 		~Scene();
 
 		Entity CreateEntity(const std::string& name = std::string());
+		Entity CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position);
+
 		Entity GetPrimaryCameraEntity();
 		void DestroyEntity(Entity entity);
 
@@ -40,4 +42,5 @@ namespace IE
 		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
 	};
+
 }

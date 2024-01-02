@@ -10,6 +10,7 @@ namespace IE
 		RGBA8,
 		RED_INTEGER,
 		DEPTH24STENCIL8,
+
 		// Default configuration
 		Depth = DEPTH24STENCIL8
 	};

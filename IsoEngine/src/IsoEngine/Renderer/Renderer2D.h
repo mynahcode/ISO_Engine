@@ -18,6 +18,7 @@ namespace IE
 		static void BeginScene(const EditorCamera& camera);
 		static void BeginScene(const OrthographicCamera& camera); // TODO: Remove
 		static void EndScene();
+
 		static void Draw(uint32_t attachmentID);
 
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
@@ -44,9 +45,13 @@ namespace IE
 		{
 			uint32_t DrawCalls = 0;
 			uint32_t QuadCount = 0;
+			uint32_t MaxTextureSlots = 32;
+			uint32_t InUseTextureSlots = 0;
 
 			uint32_t GetTotalVertexCount() const { return QuadCount * 4; }
 			uint32_t GetTotalIndexCount() const { return QuadCount * 6; }
+			uint32_t GetMaxTextureSlots() const { return MaxTextureSlots; }
+			uint32_t GetTextureSlotsInUse() const { return InUseTextureSlots; }
 		};
 
 		static void ResetStats();

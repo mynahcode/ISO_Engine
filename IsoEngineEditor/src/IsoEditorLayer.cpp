@@ -30,10 +30,9 @@ namespace IE
 
         ISOLOGGER_INFO("Creating Editor Camera...\n");
         m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
+        //m_EditorCamera.SetProjectionIsometric();
 
-        auto square = m_ActiveScene->CreateEntity("Square");
-        square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
-        m_SquareEntity = square;
+        CreateTileGrid(4, 4, 128.0f, 64.0f);
 
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
         m_CameraEntity.AddComponent<CameraComponent>(fbSpecs.Width, fbSpecs.Height);
@@ -87,6 +86,7 @@ namespace IE
         m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
 #endif
+
         ISOLOGGER_TRACE("Setting scene context for scene hierarchy...\n")
         m_SceneHierarchy.SetContext(m_ActiveScene);
 
@@ -158,7 +158,6 @@ namespace IE
         }
 
         m_EditorCamera.OnUpdate(timestep);
-
         Renderer2D::ResetStats();
         m_Framebuffer->Bind();
         //m_Framebuffer->ClearAttachment(1, -1);
@@ -289,6 +288,7 @@ namespace IE
         ImGui::Text("Quads: %d", stats.QuadCount);
         ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
         ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+        ImGui::Text("Texture Slots Bounded: %d / %d", stats.GetTextureSlotsInUse(), stats.GetMaxTextureSlots()); //TODO: fix maxTextureslots
         ImGui::Text("Memory Usage: WIP"); // TODO: Add memory usage tracking
         ImGui::End();
 
@@ -340,5 +340,25 @@ namespace IE
             SceneSerializer serializer(m_ActiveScene);
             serializer.Serialize(*filepath);
         }
+    }
+
+    void IsoEditorLayer::CreateTileGrid(int cols, int rows, float tileWidth, float tileHeight)
+    {
+        glm::vec2 tileDimensions = { tileWidth, tileHeight };
+        
+        for (int i = 0; i < cols; i++)
+        {
+            for (int j = 0; j < rows; j++)
+            {
+                glm::vec3 tilePositions = { (float)i, (float)j, 0.0f };
+                ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", i, j);
+                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileDimensions, tilePositions);
+                //tileVec.push_back(tileEntity);
+                //tileEntity = {};
+            }
+        }
+        
+        //glm::vec3 tilePositions = { cols,  rows, 0.0f };
+        //Entity tileEntity = m_ActiveScene->CreateTileEntity(tileDimensions, tilePositions);
     }
 }
