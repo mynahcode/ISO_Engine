@@ -61,7 +61,7 @@ namespace IE
 	void OrthographicCameraController::OnResize(float width, float height)
 	{
 		_IE_PROFILER_FUNCTION();
-		float yScale = height / 720.0f;
+		float yScale = height / 2160.0f;
 		m_AspectRatio = yScale * width / height;
 		CalculateCameraView();
 	}

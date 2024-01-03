@@ -156,7 +156,7 @@ namespace IE
 		StartBatch();
 	}
 
-	void Renderer2D::BeginScene(const EditorCamera& camera)
+	void Renderer2D::BeginScene(const PerspectiveEditorCamera& camera)
 	{
 		_IE_PROFILER_FUNCTION();
 

@@ -103,7 +103,7 @@ namespace IE
 		}
 	}
 
-	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
+	void Scene::OnUpdateEditor(Timestep ts, PerspectiveEditorCamera& camera)
 	{
 		Renderer2D::BeginScene(camera);
 		// Tilemap rendering
@@ -112,6 +112,34 @@ namespace IE
 		{
 			auto [tileTransform, tileComponent, tileSprite] = tileGroup.get<TransformComponent, TileComponent, SpriteRendererComponent>(tileEntity);
 			Renderer2D::DrawQuad(tileTransform.GetTransform(), tileSprite.Texture, 1.0f, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+		}
+
+		/*
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>); // Or a sprite 2D
+		for (auto entity : group)
+		{
+			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+			// TODO: Check if color or texture or both
+			Renderer2D::DrawQuad(transform.GetTransform(), sprite.Texture, 1.0f, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+			//Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+		}
+		*/
+		Renderer2D::EndScene();
+	}
+
+	void Scene::OnUpdateEditor(Timestep ts, OrthographicCameraController& camera)
+	{
+		Renderer2D::BeginScene(camera.GetCamera());
+		// Tilemap rendering
+		auto tileGroup = m_Registry.group<TransformComponent>(entt::get<TileComponent, SpriteRendererComponent>);
+		for (auto tileEntity : tileGroup)
+		{
+			auto [tileTransform, tileComponent, tileSprite] = tileGroup.get<TransformComponent, TileComponent, SpriteRendererComponent>(tileEntity);
+			if (IsometricProjection)
+			{
+				glm::vec2 size = { 1.0f, 1.0f };
+				Renderer2D::DrawRotatedQuad(tileTransform.Translation, size, -45.0f, tileSprite.Texture, 1.0f, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+			}
 		}
 
 		/*

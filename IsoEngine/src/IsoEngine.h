@@ -21,7 +21,7 @@
 #include "IsoEngine/Renderer/SubTexture2D.h"
 #include "IsoEngine/Renderer/VertexArray.h"
 
-#include "IsoEngine/Renderer/EditorCamera.h"
+#include "IsoEngine/Renderer/PerspectiveEditorCamera.h"
 #include "IsoEngine/Renderer/OrthographicCamera.h"
 #include "IsoEngine/Controllers/OrthographicCameraController.h"
 

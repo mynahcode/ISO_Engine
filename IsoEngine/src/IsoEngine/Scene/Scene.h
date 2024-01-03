@@ -2,7 +2,7 @@
 
 #include "IsoEngine/Core/Timestep.h"
 #include "IsoEngine/Controllers/OrthographicCameraController.h"
-#include "IsoEngine/Renderer/EditorCamera.h"
+#include "IsoEngine/Renderer/PerspectiveEditorCamera.h"
 #include "IsoEngine/Renderer/Framebuffer.h"
 
 #include <entt.hpp>
@@ -25,7 +25,8 @@ namespace IE
 		void DestroyEntity(Entity entity);
 
 		void OnUpdateRuntime(Timestep ts);
-		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
+		void OnUpdateEditor(Timestep ts, PerspectiveEditorCamera& camera);
+		void OnUpdateEditor(Timestep ts, OrthographicCameraController& camera);
 		void RenderScene(Ref<Framebuffer> fb);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
@@ -37,6 +38,8 @@ namespace IE
 
 		entt::registry m_Registry; // Contains entity component data and entity IDs --> Container that contains entity "context"
 		uint32_t m_ViewportWidth = 1920, m_ViewportHeight = 1080;
+
+		bool IsometricProjection = true;
 
 		friend class Entity;
 		friend class SceneSerializer;

@@ -32,7 +32,7 @@ namespace IE
 		bool OnKeyPressed(KeyPressedEvent& e);
 
 		OrthographicCameraController m_CameraController;
-		EditorCamera m_EditorCamera;
+		PerspectiveEditorCamera m_EditorCamera;
 		Ref<Textures2D> m_Texture;
 
 		Ref<Scene> m_ActiveScene;
@@ -43,8 +43,6 @@ namespace IE
 		Entity m_SecondCameraEntity;
 		
 		bool m_PrimaryCamera = false;
-
-		std::vector<Entity> tileVec;
 
 		/* ImGui DockingSpace */
 		glm::vec2 m_ViewportSize;
