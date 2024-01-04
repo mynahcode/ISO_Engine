@@ -31,7 +31,12 @@ namespace IE
         ISOLOGGER_INFO("Creating Editor Camera...\n");
         //m_EditorCamera = PerspectiveEditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
-        CreateTileGrid(1, 1, 128.0f, 64.0f);
+        m_TileGridSize = { 2, 2 };
+        m_TileSize = { 1, 2 };
+        m_Origin = { 0,0 };
+
+        CreateTileGrid(m_TileGridSize, m_TileSize);
+        // gridIndices = new int [m_GridSize.x * m_GridSize.y] {0};
 
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
         m_CameraEntity.AddComponent<CameraComponent>(fbSpecs.Width, fbSpecs.Height);
@@ -344,17 +349,30 @@ namespace IE
         }
     }
 
-    void IsoEditorLayer::CreateTileGrid(int cols, int rows, float tileWidth, float tileHeight)
+    // TODO: Move to separate class
+    void IsoEditorLayer::CreateTileGrid(const glm::uvec2& gridSize, const glm::uvec2& tileSize)
     {
-        glm::vec2 tileDimensions = { tileWidth, tileHeight };
+
         
-        for (int i = 0; i < cols; i++)
+        // lambda func for ToScreen
+        auto ToScreen = [&](float x, float y)
         {
-            for (int j = 0; j < rows; j++)
+            return glm::vec2
             {
-                glm::vec3 tilePositions = { (float)i, (float)j, 0.0f };
-                ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", i, j);
-                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileDimensions, tilePositions);
+                (x - y) / (tileSize.x * gridSize.x),
+                (y + x) / (tileSize.y * gridSize.y)  
+            };
+        };
+
+        for (uint64_t j = 0; j < gridSize.y; j++)
+        {
+            for (uint64_t i = 0; i < gridSize.x; i++)
+            {
+                // Function to convert 2D coords to isometric
+                glm::vec2 gridPositions = ToScreen(i, j);
+                glm::vec3 tilePositions = { gridPositions.x, gridPositions.y, 0.0f };
+                ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", gridPositions.x, gridPositions.y);
+                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePositions);
             }
         }
         

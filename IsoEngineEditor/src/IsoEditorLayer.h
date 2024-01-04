@@ -23,7 +23,7 @@ namespace IE
 		void OnUpdate(Timestep timestep) override;
 		void OnEvent(Event& ev) override;
 
-		void CreateTileGrid(int cols, int rows, float tileWidth, float tileHeight);
+		void CreateTileGrid(const glm::uvec2& gridSize, const glm::uvec2& tileSize);
 
 	private:
 		void NewScene();
@@ -50,6 +50,11 @@ namespace IE
 
 		/* Panels */
 		SceneHierarchyPanel m_SceneHierarchy;
+
+		/* Tile Grid */
+		glm::uvec2 m_TileGridSize;
+		glm::uvec2 m_TileSize;
+		glm::vec2 m_Origin;
 	};
 
 }

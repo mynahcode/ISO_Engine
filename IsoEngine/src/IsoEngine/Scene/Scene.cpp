@@ -27,6 +27,7 @@ namespace IE
 
 	Entity Scene::CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position)
 	{
+		// TODO move the texture
 		Ref<Textures2D> m_Texture = Textures2D::Create("assets/textures/emptytile_white.png");
 		auto tileEntity = CreateEntity("Tile");
 		auto& entity_transform = tileEntity.GetComponent<TransformComponent>();
