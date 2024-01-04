@@ -31,8 +31,8 @@ namespace IE
         ISOLOGGER_INFO("Creating Editor Camera...\n");
         //m_EditorCamera = PerspectiveEditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
-        m_TileGridSize = { 2, 2 };
-        m_TileSize = { 1, 2 };
+        m_TileGridSize = { 4, 4 };
+        m_TileSize = { 1.0f, -1.0f };
         m_Origin = { 0,0 };
 
         CreateTileGrid(m_TileGridSize, m_TileSize);
@@ -350,17 +350,18 @@ namespace IE
     }
 
     // TODO: Move to separate class
-    void IsoEditorLayer::CreateTileGrid(const glm::uvec2& gridSize, const glm::uvec2& tileSize)
+    void IsoEditorLayer::CreateTileGrid(const glm::uvec2& gridSize, const glm::vec2& tileSize)
     {
 
         
         // lambda func for ToScreen
+        // converts 2D coords to isometric
         auto ToScreen = [&](float x, float y)
         {
             return glm::vec2
             {
-                (x - y) / (tileSize.x * gridSize.x),
-                (y + x) / (tileSize.y * gridSize.y)  
+                (m_Origin.x * tileSize.x) + (x - y) * (tileSize.x / 2) - (1.0f * tileSize.x),
+                (m_Origin.y * tileSize.y) + (y + x) * (tileSize.y / 2) - (0.5f * tileSize.y)
             };
         };
 
@@ -368,15 +369,10 @@ namespace IE
         {
             for (uint64_t i = 0; i < gridSize.x; i++)
             {
-                // Function to convert 2D coords to isometric
-                glm::vec2 gridPositions = ToScreen(i, j);
-                glm::vec3 tilePositions = { gridPositions.x, gridPositions.y, 0.0f };
-                ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", gridPositions.x, gridPositions.y);
-                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePositions);
+                glm::vec3 tilePosition = { ToScreen(i, j), 0.0f }; // {x, y, z}
+                ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", tilePosition.x, tilePosition.y);
+                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition);
             }
         }
-        
-        //glm::vec3 tilePositions = { cols,  rows, 0.0f };
-        //Entity tileEntity = m_ActiveScene->CreateTileEntity(tileDimensions, tilePositions);
     }
 }

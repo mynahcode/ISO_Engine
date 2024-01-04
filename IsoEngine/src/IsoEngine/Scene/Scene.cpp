@@ -10,6 +10,7 @@ namespace IE
 {
 	Scene::Scene()
 	{
+		LoadBoundedTextures();
 	}
 
 	Scene::~Scene()
@@ -27,13 +28,11 @@ namespace IE
 
 	Entity Scene::CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position)
 	{
-		// TODO move the texture
-		Ref<Textures2D> m_Texture = Textures2D::Create("assets/textures/emptytile_white.png");
 		auto tileEntity = CreateEntity("Tile");
 		auto& entity_transform = tileEntity.GetComponent<TransformComponent>();
 		entity_transform.Translation = position;
 		tileEntity.AddComponent<TileComponent>(dimensions);
-		tileEntity.AddComponent<SpriteRendererComponent>(m_Texture);
+		tileEntity.AddComponent<SpriteRendererComponent>(m_BoundedTextures[1]); // pos 1 <- default emptyTile texture
 		return tileEntity;
 	}
 
@@ -52,6 +51,36 @@ namespace IE
 	void Scene::DestroyEntity(Entity entity)
 	{
 		m_Registry.destroy(entity);
+	}
+
+	void Scene::LoadBoundedTextures()
+	{
+		// TODO: Implement
+		/*
+		for (int i = 0; i < 32; i++)
+		{
+			if (i == 0)
+			{
+				m_Texture = nullptr;
+				m_BoundedTextures.push_back(m_Texture);
+				continue;
+			}
+			
+			m_Texture = m_SceneTextures[i];
+		}
+		*/
+		
+		// Temporary:
+		// Textures[] <- {blank, emptyTile, selectTile, rocky1, rocky2, sandy1, roughconrete1, grass}
+		// Indices[] <- {0     , 1         , 2        ,3       ,4      ,5      ,6             ,7}
+		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create(""))); // for the blank texture bounded slot 0
+		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/emptytile_white.png")));
+		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/select.png")));
+		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/rockyground01.png")));
+		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/rockyground02.png")));
+		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/sandyground01.png")));
+		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/roughconcrete01.png")));
+		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/grass.jpg")));
 	}
 
 	void Scene::OnUpdateRuntime(Timestep ts)
@@ -104,7 +133,7 @@ namespace IE
 		}
 	}
 
-	void Scene::OnUpdateEditor(Timestep ts, PerspectiveEditorCamera& camera)
+	void Scene::OnUpdateEditor(Timestep ts, const PerspectiveEditorCamera& camera)
 	{
 		Renderer2D::BeginScene(camera);
 		// Tilemap rendering
@@ -128,7 +157,7 @@ namespace IE
 		Renderer2D::EndScene();
 	}
 
-	void Scene::OnUpdateEditor(Timestep ts, OrthographicCameraController& camera)
+	void Scene::OnUpdateEditor(Timestep ts, const OrthographicCameraController& camera)
 	{
 		Renderer2D::BeginScene(camera.GetCamera());
 		// Tilemap rendering
