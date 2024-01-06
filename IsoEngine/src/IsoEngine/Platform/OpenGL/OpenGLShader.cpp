@@ -53,14 +53,14 @@ namespace IE
 	void OpenGLShader::Bind() const
 	{
 		_IE_PROFILER_FUNCTION();
-		ISOLOGGER_DEBUG("(GL) Binding shader...\n")
+		//ISOLOGGER_DEBUG("(GL) Binding shader...\n")
 		glUseProgram(m_RendererID);
 	}
 
 	void OpenGLShader::UnBind() const
 	{
 		_IE_PROFILER_FUNCTION();
-		ISOLOGGER_DEBUG("(GL) Unbinding shader...\n")
+		//ISOLOGGER_DEBUG("(GL) Unbinding shader...\n")
 		glUseProgram(0);
 	}
 

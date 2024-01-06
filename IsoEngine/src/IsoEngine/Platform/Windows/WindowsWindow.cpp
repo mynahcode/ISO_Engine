@@ -182,7 +182,7 @@ namespace IE
 	void WindowsWindow::OnUpdate()
 	{
 		_IE_PROFILER_FUNCTION();
-		ISOLOGGER_CRITICAL("Windowswindow swapbuffers...\n");
+		//ISOLOGGER_CRITICAL("Windowswindow OnUpdate called... swapbuffers...\n");
 		m_Context->SwapBuffers();
 	}
 

@@ -7,8 +7,12 @@ namespace IE
 	enum class fbTextureFormats
 	{
 		None = 0,
+
+		// Color Attachments
 		RGBA8,
 		RED_INTEGER,
+
+		// Depth/Stencil
 		DEPTH24STENCIL8,
 
 		// Default configuration

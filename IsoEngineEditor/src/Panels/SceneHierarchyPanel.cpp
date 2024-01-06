@@ -366,6 +366,8 @@ namespace IE
 				entity.RemoveComponent<SpriteRendererComponent>();
 		}
 
+
+		
 		if (entity.HasComponent<NativeScriptComponent>())
 		{
 			//auto& nsc = entity.GetComponent<NativeScriptComponent>().Instance;

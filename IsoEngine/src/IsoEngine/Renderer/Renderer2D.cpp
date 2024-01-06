@@ -136,7 +136,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		ISOLOGGER_TRACE("Renderer2D::BeginScene() with a Camera Component... \n");
+		//ISOLOGGER_TRACE("Renderer2D::BeginScene() with a Camera Component... \n");
 
 		s_Data2D.CameraBuffer.ViewProjection = camera.GetProjection() * glm::inverse(transform);
 		glm::mat4 viewProjection = camera.GetProjection() * glm::inverse(transform);
@@ -149,7 +149,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		ISOLOGGER_TRACE("Renderer2D::BeginScene() with an Orthographic Camera... \n");
+		//ISOLOGGER_TRACE("Renderer2D::BeginScene() with an Orthographic Camera... \n");
 		s_Data2D.TextureShader->Bind();
 		s_Data2D.TextureShader->SetMat4("u_ViewProjection", camera.GetVPMatrix()); // API agnostic call, in OpenGL its a Uniform, in DX it is setconstantbuffer
 		
@@ -160,7 +160,7 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		ISOLOGGER_TRACE("Renderer2D::BeginScene() with an IsoEngine Editor Camera... \n");
+		//ISOLOGGER_TRACE("Renderer2D::BeginScene() with an IsoEngine Editor Camera... \n");
 		s_Data2D.TextureShader->Bind();
 		s_Data2D.TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
 

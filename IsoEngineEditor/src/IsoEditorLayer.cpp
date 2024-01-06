@@ -22,7 +22,7 @@ namespace IE
         FramebufferSpecs fbSpecs;
         fbSpecs.Width = 1920;
         fbSpecs.Height = 1080;
-        fbSpecs.Attachments = { fbTextureFormats::RGBA8, fbTextureFormats::Depth};
+        fbSpecs.Attachments = { fbTextureFormats::RGBA8, fbTextureFormats::RED_INTEGER, fbTextureFormats::Depth};
         m_Framebuffer = Framebuffer::Create(fbSpecs);
 
         ISOLOGGER_INFO("Creating reference object to Scene...\n");
@@ -93,9 +93,6 @@ namespace IE
 
         ISOLOGGER_TRACE("Setting scene context for scene hierarchy...\n")
         m_SceneHierarchy.SetContext(m_ActiveScene);
-
-        //SceneSerializer serializer(m_ActiveScene);
-       // serializer.Serialize("assets/scenes/Test.isoe");
     }
 
     void IsoEditorLayer::OnDetach()
@@ -164,11 +161,18 @@ namespace IE
 
         //m_EditorCamera.OnUpdate(timestep);
         m_CameraController.OnUpdate(timestep);
+
         Renderer2D::ResetStats();
+
         m_Framebuffer->Bind();
-        //m_Framebuffer->ClearAttachment(1, -1);
-        //m_ActiveScene->OnUpdateEditor(timestep, m_EditorCamera);
+
+        // Clearing entityID attachment to -1 to distinguish pixels (and entities) from background pixels.
+        m_Framebuffer->ClearAttachment(1, -1);
+
         m_ActiveScene->OnUpdateEditor(timestep, m_CameraController);
+
+        PollMousePosition();
+
         m_Framebuffer->UnBind();
         RenderCommand::DepthTestingEnabled(true);
     }
@@ -302,6 +306,7 @@ namespace IE
         /********************************/
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
         ImGui::Begin("Viewport");
+        auto viewportOffset = ImGui::GetCursorPos(); // includes tab bar
 
         m_ViewportFocused = ImGui::IsWindowFocused();
         m_ViewportHovered = ImGui::IsWindowHovered();
@@ -312,6 +317,17 @@ namespace IE
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
         ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2(m_ViewportSize.x, m_ViewportSize.y), ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+        auto windowSize = ImGui::GetWindowSize();
+        ImVec2 minBound = ImGui::GetWindowPos();
+        minBound.x += viewportOffset.x;
+        minBound.y += viewportOffset.y;
+
+        ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
+        m_ViewportBounds[0] = { minBound.x, minBound.y };
+        m_ViewportBounds[1] = { maxBound.x, maxBound.y };
+
+
         ImGui::End();
         ImGui::PopStyleVar();
 
@@ -349,11 +365,27 @@ namespace IE
         }
     }
 
+    void IsoEditorLayer::PollMousePosition()
+    {
+        auto [mx, my] = ImGui::GetMousePos();
+        mx -= m_ViewportBounds[0].x;
+        my -= m_ViewportBounds[0].y;
+        glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+        my = viewportSize.y - my; // Accounting for ImGui flipping OpenGL coords.
+
+        int mouseX = (int)mx;
+        int mouseY = (int)my;
+
+        if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+        {
+            int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+            ISOLOGGER_WARN("Pixel Data at position < {0}, {1} >: {2} \n", mouseX, mouseY, pixelData);
+        }
+    }
+
     // TODO: Move to separate class
     void IsoEditorLayer::CreateTileGrid(const glm::uvec2& gridSize, const glm::vec2& tileSize)
     {
-
-        
         // lambda func for ToScreen
         // converts 2D coords to isometric
         auto ToScreen = [&](float x, float y)
@@ -372,6 +404,7 @@ namespace IE
                 glm::vec3 tilePosition = { ToScreen(i, j), 0.0f }; // {x, y, z}
                 ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", tilePosition.x, tilePosition.y);
                 Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition);
+                m_TileGrid.push_back(tileEntity);
             }
         }
     }

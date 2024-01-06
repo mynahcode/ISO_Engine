@@ -24,17 +24,17 @@ namespace IE {
 			glBindTexture(TextureTarget(multisampled), id);
 		}
 
-		static void AttachColorTexture(uint32_t id, int samples, GLenum format, uint32_t width, uint32_t height, int index)
+		static void AttachColorTexture(uint32_t id, int samples, GLenum internalFormat, GLenum format, uint32_t width, uint32_t height, int index)
 		{
 			bool multisampled = samples > 1;
 
 			if (multisampled)
 			{
-				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, format, width, height, GL_FALSE);
+				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, internalFormat, width, height, GL_FALSE);
 			}
 			else
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+				glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
 
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -132,14 +132,12 @@ namespace IE {
 
 		glGenFramebuffers(1, &m_RendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
-		//RenderCommand::Clear();
 
 		bool multisample = m_FramebufferSpecs.Samples > 1;
 
 		// Attachments
 		if (m_ColorAttachmentSpecifications.size())
 		{
-			ISOLOGGER_TRACE("Color Attachments check...\n");
 			m_ColorAttachments.resize(m_ColorAttachmentSpecifications.size());
 			Utils::CreateTextures(multisample, m_ColorAttachments.data(), m_ColorAttachments.size());
 
@@ -150,7 +148,11 @@ namespace IE {
 				{
 				case fbTextureFormats::RGBA8:
 					ISOLOGGER_TRACE("RGBA8 color attachment determined...\n");
-					Utils::AttachColorTexture(m_ColorAttachments[i], m_FramebufferSpecs.Samples, GL_RGBA8, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height, i);
+					Utils::AttachColorTexture(m_ColorAttachments[i], m_FramebufferSpecs.Samples, GL_RGBA8, GL_RGBA, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height, i);
+					break;
+				case fbTextureFormats::RED_INTEGER:
+					ISOLOGGER_TRACE("RED_INTEGER color attachment determined...\n");
+					Utils::AttachColorTexture(m_ColorAttachments[i], m_FramebufferSpecs.Samples, GL_R32I, GL_RED_INTEGER, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height, i);
 					break;
 				}
 			}
@@ -173,7 +175,7 @@ namespace IE {
 
 		ISOLOGGER_WARN("Color attachment size: {0} \n", m_ColorAttachments.size());
 		GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
-		if (m_ColorAttachments.size() >= 1)
+		if (m_ColorAttachments.size() > 1)
 		{
 			IE_ENGINE_ASSERT((m_ColorAttachments.size() <= 4), "Error, too many color attachments\n");
 			glDrawBuffers(m_ColorAttachments.size(), buffers);
@@ -204,38 +206,37 @@ namespace IE {
 
 	void OpenGLFramebuffer::Bind()
 	{
-		ISOLOGGER_WARN("(GL) OpenGLFramebuffer::Bind() called.\n");
+		//ISOLOGGER_WARN("(GL) OpenGLFramebuffer::Bind() called.\n");
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 		glViewport(0, 0, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height);
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		RenderCommand::Clear();
+
 	}
 
 	void OpenGLFramebuffer::UnBind()
 	{
-		ISOLOGGER_WARN("(GL) OpenGLFramebuffer::UnBind() called.\n");
+		//ISOLOGGER_WARN("(GL) OpenGLFramebuffer::UnBind() called.\n");
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		RenderCommand::Clear();
 	}
 
 	int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
 	{
-		IE_ENGINE_ASSERT(attachmentIndex >= m_ColorAttachments.size(), "Error attachment index out of range.");
+		IE_ENGINE_ASSERT(!(attachmentIndex >= m_ColorAttachments.size()), "Error attachment index out of range. \n");
 
 		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
 		int pixelData;
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
 		return pixelData;
-
 	}
 
 	void OpenGLFramebuffer::ClearAttachment(uint32_t attachmentIndex, int value)
 	{
-		IE_ENGINE_ASSERT(attachmentIndex < m_ColorAttachments.size(), "AttachmentIndex > m_ColorAttachments max index");
+		IE_ENGINE_ASSERT(attachmentIndex < m_ColorAttachments.size(), "AttachmentIndex > m_ColorAttachments max index \n");
 
 		auto& spec = m_ColorAttachmentSpecifications[attachmentIndex];
 		glClearTexImage(m_ColorAttachments[attachmentIndex], 0,
 		Utils::IEFramebufferTextureFormatToGL(spec.TextureFormat), GL_INT, &value);
-
 	}
 }

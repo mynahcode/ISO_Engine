@@ -105,5 +105,7 @@ namespace IE
 
 		TileComponent(glm::vec2 dimensions)
 			: Dimensions(dimensions) {}
+		TileComponent(const TileComponent& tile) = default;
+
 	};
 }

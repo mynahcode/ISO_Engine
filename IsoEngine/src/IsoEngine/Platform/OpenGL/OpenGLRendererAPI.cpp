@@ -49,7 +49,7 @@ namespace IE
 	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
 	{
 		uint32_t count = indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount();
-		ISOLOGGER_CRITICAL("OpenGLRendererAPI::DrawIndexed() --> glDrawElements() w/ indexCount = {0}\n", count);
+		//ISOLOGGER_TRACE("OpenGLRendererAPI::DrawIndexed() --> glDrawElements() w/ indexCount = {0}\n", count);
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
 	}
 }

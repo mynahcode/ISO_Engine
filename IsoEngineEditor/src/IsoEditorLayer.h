@@ -23,6 +23,8 @@ namespace IE
 		void OnUpdate(Timestep timestep) override;
 		void OnEvent(Event& ev) override;
 
+		void PollMousePosition();
+
 		void CreateTileGrid(const glm::uvec2& gridSize, const glm::vec2& tileSize);
 
 	private:
@@ -45,8 +47,9 @@ namespace IE
 		bool m_PrimaryCamera = false;
 
 		/* ImGui DockingSpace */
-		glm::vec2 m_ViewportSize;
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
+		glm::vec2 m_ViewportSize;
+		glm::vec2 m_ViewportBounds[2];
 
 		/* Panels */
 		SceneHierarchyPanel m_SceneHierarchy;
@@ -55,6 +58,8 @@ namespace IE
 		glm::uvec2 m_TileGridSize;
 		glm::vec2 m_TileSize;
 		glm::vec2 m_Origin;
+
+		std::vector<Entity> m_TileGrid;
 	};
 
 }

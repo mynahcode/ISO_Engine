@@ -31,7 +31,7 @@ namespace IE
 	void OpenGLContext::SwapBuffers()
 	{
 		_IE_PROFILER_FUNCTION();
-		ISOLOGGER_DEBUG("glfw -- Swapping Buffers...\n")
+		//ISOLOGGER_DEBUG("[GLFW] -- Swapping Buffers...\n")
 		glfwSwapBuffers(m_WindowHandle);
 		glfwPollEvents();
 	}
