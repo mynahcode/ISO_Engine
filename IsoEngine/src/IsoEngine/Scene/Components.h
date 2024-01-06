@@ -101,7 +101,7 @@ namespace IE
 
 	struct TileComponent
 	{
-		glm::vec2 Dimensions;
+		glm::vec2 Dimensions = { 1.0f, 1.0f };
 
 		TileComponent(glm::vec2 dimensions)
 			: Dimensions(dimensions) {}

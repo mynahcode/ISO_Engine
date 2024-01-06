@@ -16,6 +16,9 @@ namespace IE
 		glm::vec2 TextureCoord;
 		float TextureIndex;
 		float TilingFactor;
+
+		// Editor-Only
+		int EntityID;
 	};
 
 	struct GridVertex
@@ -77,7 +80,8 @@ namespace IE
 			{ ShaderDataType::Float4, "a_Color"},
 			{ ShaderDataType::Float2, "a_TexCoord"},
 			{ ShaderDataType::Float, "a_TexIndex"},
-			{ ShaderDataType::Float, "a_TilingFactor"}
+			{ ShaderDataType::Float, "a_TilingFactor"},
+			{ ShaderDataType::Int, "a_EntityID"}
 			});
 
 		s_Data2D.QuadVertexArray->AddVertexBuffer(s_Data2D.QuadVertexBuffer);
@@ -262,7 +266,7 @@ namespace IE
 		DrawQuad(transform, subTexture, tilingFactor, tintColor);
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
 		_IE_PROFILER_FUNCTION();
 
@@ -280,6 +284,7 @@ namespace IE
 			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
 			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data2D.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data2D.QuadVertexBufferPtr++;
 		}
 
@@ -287,7 +292,7 @@ namespace IE
 		s_Data2D.Stats.QuadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
 	{
 		//constexpr float x = 2.0f, y = 3.0f;
 		//constexpr float sheetWidth = 2560.0f, sheetHeight = 1664.0f;
@@ -324,6 +329,7 @@ namespace IE
 			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
 			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data2D.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data2D.QuadVertexBufferPtr++;
 		}
 
@@ -331,7 +337,7 @@ namespace IE
 		s_Data2D.Stats.QuadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor, int entityID)
 	{
 		constexpr size_t quadVertexCount = 4;
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -365,6 +371,7 @@ namespace IE
 			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
 			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data2D.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data2D.QuadVertexBufferPtr++;
 		}
 
@@ -382,31 +389,12 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		constexpr size_t quadVertexCount = 4;
-		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} }; // { Bottom-Left, Bottom-Right, Top-Right, Top-Left }
-
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
-
-		const float textureIndex = 0.0f;
-		const float tilingFactor = 1.0f;
-
 		//transform = translation * rotation * scale
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		for (size_t i = 0; i < quadVertexCount; i++)
-		{
-			s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[i];
-			s_Data2D.QuadVertexBufferPtr->Color = color;
-			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
-			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-			s_Data2D.QuadVertexBufferPtr++;
-		}
-
-		s_Data2D.QuadIndexCount += 6;
-		s_Data2D.Stats.QuadCount++;
+		DrawQuad(transform, color);
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
@@ -419,48 +407,13 @@ namespace IE
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Textures2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		_IE_PROFILER_FUNCTION();
-		
-		constexpr size_t quadVertexCount = 4;
-		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} }; // { Bottom-Left, Bottom-Right, Top-Right, Top-Left }
-
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
-
-		float textureIndex = 0.0f;
-
-		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
-		{
-			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
-			{
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		if (textureIndex == 0.0f)
-		{
-			textureIndex = (float)s_Data2D.TextureSlotIndex;
-			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
-			s_Data2D.TextureSlotIndex++;
-		}
 
 		//transform = translation * rotation * scale
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		for (size_t i = 0; i < quadVertexCount; i++)
-		{
-			s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[i];
-			s_Data2D.QuadVertexBufferPtr->Color = color;
-			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
-			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-			s_Data2D.QuadVertexBufferPtr++;
-		}
-
-		s_Data2D.QuadIndexCount += 6;
-		s_Data2D.Stats.QuadCount++;
+		DrawQuad(transform, texture, tilingFactor, tintColor);
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor)
@@ -474,49 +427,33 @@ namespace IE
 	{
 		_IE_PROFILER_FUNCTION();
 
-		constexpr size_t quadVertexCount = 4;
-		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-		const glm::vec2* textureCoords = subTexture->GetTextureCoords();
-		const Ref<Textures2D> texture = subTexture->GetTexture();
-
-		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) NextBatch();
-
-		float textureIndex = 0.0f;
-
-		for (uint32_t i = 1; i < s_Data2D.TextureSlotIndex; i++)
-		{
-			if (*s_Data2D.TextureSlots[i].get() == *texture.get())
-			{
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		if (textureIndex == 0.0f)
-		{
-			textureIndex = (float)s_Data2D.TextureSlotIndex;
-			s_Data2D.TextureSlots[s_Data2D.TextureSlotIndex] = texture;
-			s_Data2D.TextureSlotIndex++;
-		}
-
-
 		//transform = translation * rotation * scale
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		for (size_t i = 0; i < quadVertexCount; i++)
-		{
-			s_Data2D.QuadVertexBufferPtr->Position = transform * s_Data2D.QuadVertexPositions[i];
-			s_Data2D.QuadVertexBufferPtr->Color = color;
-			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
-			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-			s_Data2D.QuadVertexBufferPtr++;
-		}
+		DrawQuad(transform, subTexture, tilingFactor, tintColor);
+	}
 
-		s_Data2D.QuadIndexCount += 6;
-		s_Data2D.Stats.QuadCount++;
+	void Renderer2D::DrawSprite(const glm::vec3& position, const glm::vec2& size, SpriteRendererComponent& src, int entityID)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		DrawQuad(transform, src.Texture, 1.0f, src.Color, entityID);
+	}
+
+	void Renderer2D::DrawRotatedSprite(const glm::vec3& position, const glm::vec2& size, SpriteRendererComponent& src, int entityID, float rotation)
+	{
+		_IE_PROFILER_FUNCTION();
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		DrawQuad(transform, src.Texture, 1.0f, src.Color, entityID);
 	}
 
 	void Renderer2D::ResetStats()

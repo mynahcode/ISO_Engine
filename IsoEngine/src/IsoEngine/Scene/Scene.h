@@ -45,8 +45,6 @@ namespace IE
 
 		bool IsometricProjection = true;
 
-		//Ref<Textures2D> m_Texture;
-
 		std::vector<Ref<Textures2D>> m_BoundedTextures;
 
 		friend class Entity;

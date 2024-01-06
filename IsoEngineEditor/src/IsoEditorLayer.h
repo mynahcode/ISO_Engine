@@ -31,7 +31,9 @@ namespace IE
 		void NewScene();
 		void LoadScene();
 		void SaveSceneAs();
+
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& ev);
 
 		OrthographicCameraController m_CameraController;
 		PerspectiveEditorCamera m_EditorCamera;
@@ -42,7 +44,8 @@ namespace IE
 
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
-		Entity m_SecondCameraEntity;
+
+		Entity m_HoveredEntity;
 		
 		bool m_PrimaryCamera = false;
 

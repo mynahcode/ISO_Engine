@@ -160,6 +160,7 @@ namespace IE
 	void Scene::OnUpdateEditor(Timestep ts, const OrthographicCameraController& camera)
 	{
 		Renderer2D::BeginScene(camera.GetCamera());
+
 		// Tilemap rendering
 		auto tileGroup = m_Registry.group<TransformComponent>(entt::get<TileComponent, SpriteRendererComponent>);
 		for (auto tileEntity : tileGroup)
@@ -167,8 +168,8 @@ namespace IE
 			auto [tileTransform, tileComponent, tileSprite] = tileGroup.get<TransformComponent, TileComponent, SpriteRendererComponent>(tileEntity);
 			if (IsometricProjection)
 			{
-				glm::vec2 size = { 1.0f, 1.0f };
-				Renderer2D::DrawRotatedQuad(tileTransform.Translation, size, -45.0f, tileSprite.Texture, 1.0f, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+				//Renderer2D::DrawRotatedQuad(tileTransform.Translation, tileComponent.Dimensions, -45.0f, tileSprite.Texture, 1.0f, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+				Renderer2D::DrawRotatedSprite(tileTransform.Translation, { 1.0f, 1.0f }, tileSprite, (int)tileEntity, -45.0f);
 			}
 		}
 

@@ -13,6 +13,7 @@ namespace IE
 		SceneHierarchyPanel(const Ref<Scene>& context);
 
 		void SetContext(const Ref<Scene>& context);
+		void SetSelectedEntity(Entity entity);
 
 		void OnImGuiRender();
 

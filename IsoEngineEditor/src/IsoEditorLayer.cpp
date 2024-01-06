@@ -107,7 +107,9 @@ namespace IE
         //m_EditorCamera.OnEvent(ev);
 
         EventDispatcher dispatcher(ev);
+
         dispatcher.Dispatch<KeyPressedEvent>(IE_BIND_EVENT_FN(IsoEditorLayer::OnKeyPressed));
+        dispatcher.Dispatch<MouseButtonPressedEvent>(IE_BIND_EVENT_FN(IsoEditorLayer::OnMouseButtonPressed));
     }
 
     bool IsoEditorLayer::OnKeyPressed(KeyPressedEvent& ev)
@@ -142,6 +144,22 @@ namespace IE
                 break;
             }
         }
+    }
+
+    bool IsoEditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& ev)
+    {
+        if (ev.GetMouseButton() == Mouse::ButtonLeft)
+        {
+            if (m_HoveredEntity)
+            {
+                if (m_ViewportHovered && !Input::IsKeyPressed(Key::LeftAlt))
+                {
+                    m_SceneHierarchy.SetSelectedEntity(m_HoveredEntity);
+                }
+            }
+        }
+
+        return false;
     }
 
     void IsoEditorLayer::OnUpdate(Timestep timestep)
@@ -292,6 +310,12 @@ namespace IE
 
         ImGui::Begin("Statistics");
 
+        std::string name = "None";
+        if (m_HoveredEntity)
+            name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+
+        ImGui::Text("Hovered Entity: %s", name.c_str());
+
         auto stats = Renderer2D::GetStats();
 
         ImGui::Text("2D Renderer Stats:");
@@ -370,16 +394,16 @@ namespace IE
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_ViewportBounds[0].x;
         my -= m_ViewportBounds[0].y;
-        glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
-        my = viewportSize.y - my; // Accounting for ImGui flipping OpenGL coords.
+        my = m_ViewportSize.y - my; // Accounting for ImGui flipping OpenGL coords.
 
         int mouseX = (int)mx;
         int mouseY = (int)my;
 
-        if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+        if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)m_ViewportSize.x && mouseY < (int)m_ViewportSize.y)
         {
             int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
-            ISOLOGGER_WARN("Pixel Data at position < {0}, {1} >: {2} \n", mouseX, mouseY, pixelData);
+            //ISOLOGGER_WARN("Pixel Data at position < {0}, {1} >: {2} \n", mouseX, mouseY, pixelData);
+            m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
         }
     }
 
@@ -402,7 +426,7 @@ namespace IE
             for (uint64_t i = 0; i < gridSize.x; i++)
             {
                 glm::vec3 tilePosition = { ToScreen(i, j), 0.0f }; // {x, y, z}
-                ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", tilePosition.x, tilePosition.y);
+                //ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", tilePosition.x, tilePosition.y);
                 Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition);
                 m_TileGrid.push_back(tileEntity);
             }

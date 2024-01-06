@@ -80,6 +80,11 @@ namespace IE
 		m_SelectionContext = {};
 	}
 
+	void SceneHierarchyPanel::SetSelectedEntity(Entity entity)
+	{
+		m_SelectionContext = entity;
+	}
+
 	void SceneHierarchyPanel::OnImGuiRender()
 	{
 		ImGui::Begin("Scene Hierarchy");
@@ -272,12 +277,12 @@ namespace IE
 
 					if (ImGui::DragFloat("Near", &perspectiveNear))
 					{
-						camera.SetOrthographicNearClip(perspectiveNear);
+						camera.SetPerspectiveNearClip(perspectiveNear);
 					}
 
 					if (ImGui::DragFloat("Far", &perspectiveFar))
 					{
-						camera.SetOrthographicFarClip(perspectiveFar);
+						camera.SetPerspectiveFarClip(perspectiveFar);
 					}
 				}
 
