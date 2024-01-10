@@ -25,6 +25,9 @@
 #include "IsoEngine/Renderer/OrthographicCamera.h"
 #include "IsoEngine/Controllers/OrthographicCameraController.h"
 
+/* Generators */
+#include "IsoEngine/Generators/ProceduralGenerator.h"
+
 /* Timestep Helper */
 #include "IsoEngine/Core/Timestep.h"
 

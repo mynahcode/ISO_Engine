@@ -31,12 +31,8 @@ namespace IE
         ISOLOGGER_INFO("Creating Editor Camera...\n");
         //m_EditorCamera = PerspectiveEditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
-        m_TileGridSize = { 4, 4 };
-        m_TileSize = { 1.0f, -1.0f };
-        m_Origin = { 0,0 };
+        m_Grids = GridManager(m_ActiveScene, { 4, 4 }, { 1.0f, -1.0f }, { 0,0 });
 
-        CreateTileGrid(m_TileGridSize, m_TileSize);
-        // gridIndices = new int [m_GridSize.x * m_GridSize.y] {0};
 
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
         m_CameraEntity.AddComponent<CameraComponent>(fbSpecs.Width, fbSpecs.Height);
@@ -407,29 +403,4 @@ namespace IE
         }
     }
 
-    // TODO: Move to separate class
-    void IsoEditorLayer::CreateTileGrid(const glm::uvec2& gridSize, const glm::vec2& tileSize)
-    {
-        // lambda func for ToScreen
-        // converts 2D coords to isometric
-        auto ToScreen = [&](float x, float y)
-        {
-            return glm::vec2
-            {
-                (m_Origin.x * tileSize.x) + (x - y) * (tileSize.x / 2) - (1.0f * tileSize.x),
-                (m_Origin.y * tileSize.y) + (y + x) * (tileSize.y / 2) - (0.5f * tileSize.y)
-            };
-        };
-
-        for (uint64_t j = 0; j < gridSize.y; j++)
-        {
-            for (uint64_t i = 0; i < gridSize.x; i++)
-            {
-                glm::vec3 tilePosition = { ToScreen(i, j), 0.0f }; // {x, y, z}
-                //ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", tilePosition.x, tilePosition.y);
-                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition);
-                m_TileGrid.push_back(tileEntity);
-            }
-        }
-    }
 }

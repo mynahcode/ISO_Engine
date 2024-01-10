@@ -3,6 +3,7 @@
 #include <vector>
 
 #include <IsoEngine.h>
+#include "Grids/GridManager.h"
 #include "Panels/SceneHierarchyPanel.h"
 
 namespace IE
@@ -24,8 +25,6 @@ namespace IE
 		void OnEvent(Event& ev) override;
 
 		void PollMousePosition();
-
-		void CreateTileGrid(const glm::uvec2& gridSize, const glm::vec2& tileSize);
 
 	private:
 		void NewScene();
@@ -57,12 +56,6 @@ namespace IE
 		/* Panels */
 		SceneHierarchyPanel m_SceneHierarchy;
 
-		/* Tile Grid */
-		glm::uvec2 m_TileGridSize;
-		glm::vec2 m_TileSize;
-		glm::vec2 m_Origin;
-
-		std::vector<Entity> m_TileGrid;
+		GridManager m_Grids;
 	};
-
 }
