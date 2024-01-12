@@ -299,7 +299,6 @@ namespace IE
 		//constexpr float spriteWidth = 128.0f, spriteHeight = 128.0f;
 
 		constexpr size_t quadVertexCount = 4;
-		//constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 
 		if (s_Data2D.QuadIndexCount >= Renderer2DStorage::MAXINDICES) 

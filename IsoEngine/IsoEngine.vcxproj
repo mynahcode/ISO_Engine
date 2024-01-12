@@ -145,6 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\IsoEngine\Generators\ProceduralGenerator.h" />
+    <ClInclude Include="src\IsoEngine\Managers\TextureManager.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLMaterial.h" />
     <ClInclude Include="src\IsoEngine\Renderer\PerspectiveEditorCamera.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Material.h" />
@@ -622,6 +623,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IsoEngine\Generators\ProceduralGenerator.cpp" />
+    <ClCompile Include="src\IsoEngine\Managers\TextureManager.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLMaterial.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\PerspectiveEditorCamera.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Material.cpp" />
