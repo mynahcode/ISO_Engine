@@ -57,5 +57,9 @@ namespace IE
 		SceneHierarchyPanel m_SceneHierarchy;
 
 		GridManager m_Grids;
+		TextureManager m_TextureManager;
+
+		// Temporary -- Default starting textures
+		Ref<Textures2D> m_DefaultSpriteSheet;
 	};
 }

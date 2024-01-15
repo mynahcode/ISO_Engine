@@ -9,7 +9,8 @@
 namespace IE
 {
     IsoEditorLayer::IsoEditorLayer()
-        : Layer("IsoEngine Editor"), m_CameraController((1920.0f / 1080.0f))
+        : Layer("IsoEngine Editor"), 
+            m_CameraController((1920.0f / 1080.0f))
     {
         _IE_PROFILER_FUNCTION();
     }
@@ -24,7 +25,7 @@ namespace IE
         fbSpecs.Height = 1080;
         fbSpecs.Attachments = { fbTextureFormats::RGBA8, fbTextureFormats::RED_INTEGER, fbTextureFormats::Depth};
         m_Framebuffer = Framebuffer::Create(fbSpecs);
-
+        //m_DefaultSpriteSheet = CreateRef<Textures2D>("assets/textures/spritesheet.png");
         ISOLOGGER_INFO("Creating reference object to Scene...\n");
         m_ActiveScene = CreateRef<Scene>();
 
@@ -32,7 +33,9 @@ namespace IE
         //m_EditorCamera = PerspectiveEditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
         m_Grids = GridManager(m_ActiveScene, { 4, 4 }, { 1.0f, -1.0f }, { 0,0 });
+        //m_TextureManager = TextureManager(m_DefaultSpriteSheet, { 192.0f, 320.0f }, { 64.0f, 64.0f }, { 5, 3 });
 
+        //auto m_defaultTextures = m_TextureManager.GetTextureSprites();
 
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
         m_CameraEntity.AddComponent<CameraComponent>(fbSpecs.Width, fbSpecs.Height);

@@ -51,4 +51,5 @@
 
 /* Utilities */
 #include "IsoEngine/Utils/PlatformUtils.h"
+#include "IsoEngine/Managers/TextureManager.h"
 
