@@ -52,13 +52,22 @@ namespace IE
 		glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		//Ref<Material> Material; // Material = Shader + (any) Uniform Data
 		Ref<Textures2D> Texture;
+		Ref<SubTexture2D> SubTexture;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {}
 		SpriteRendererComponent(const Ref<Textures2D>& texture)
-			: Texture(texture) {}
+			: Texture(texture) 
+		{
+			ISOLOGGER_WARN("SPRITE RENDERER COMPONENT CREATED WITH TEXTURE \n");
+		}
+		SpriteRendererComponent(const Ref<SubTexture2D>& subtexture)
+			: SubTexture(subtexture) 
+		{
+			ISOLOGGER_WARN("SPRITE RENDERER COMPONENT CREATED WITH SUBTEXTURE \n");
+		}
 	};
 
 	struct CameraComponent

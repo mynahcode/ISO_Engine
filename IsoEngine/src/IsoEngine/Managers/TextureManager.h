@@ -16,8 +16,8 @@ namespace IE
 
 		std::vector<Ref<SubTexture2D>> GetTextureSprites() const { return m_Sprites; }
 
+		// TODO: Make static initializer
 	private:
 		std::vector<Ref<SubTexture2D>> m_Sprites;
-
 	};
 }

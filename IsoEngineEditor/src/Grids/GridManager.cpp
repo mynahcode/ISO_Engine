@@ -40,8 +40,9 @@ namespace IE
             for (uint64_t i = 0; i < gridSize.x; i++)
             {
                 glm::vec3 tilePosition = { ToScreen(i, j), (float)zLevel }; // {x, y, z}
-                //ISOLOGGER_WARN("Creating Tile at position:< {0}, {1}> \n", tilePosition.x, tilePosition.y);
-                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition);
+                //auto spriteTexture = m_ActiveScene->GetSpriteTexture(0); // 8, 11, 14 
+                
+                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition, m_ActiveScene->GetSpriteTexture(0));
                 m_TileGrid.push_back(tileEntity);
             }
         }

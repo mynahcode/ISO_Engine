@@ -5,6 +5,7 @@
 #include "IsoEngine/Renderer/PerspectiveEditorCamera.h"
 #include "IsoEngine/Renderer/Framebuffer.h"
 #include "IsoEngine/Renderer/Textures.h"
+#include "IsoEngine/Renderer/SubTexture2D.h"
 
 #include <entt.hpp>
 #include <vector>
@@ -22,6 +23,7 @@ namespace IE
 
 		Entity CreateEntity(const std::string& name = std::string());
 		Entity CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position);
+		Entity CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position, const Ref<SubTexture2D>& spriteTexture);
 
 		Entity GetPrimaryCameraEntity();
 		void DestroyEntity(Entity entity);
@@ -33,6 +35,9 @@ namespace IE
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		void LoadBoundedTextures();
+		void AddSpriteSheetTextures(const std::vector<Ref<SubTexture2D>>& sprites);
+
+		Ref<SubTexture2D> GetSpriteTexture(int index) const { return m_SpriteSheetTextures[index]; }
 
 	private:
 		template<typename T>
@@ -46,6 +51,7 @@ namespace IE
 		bool IsometricProjection = true;
 
 		std::vector<Ref<Textures2D>> m_BoundedTextures;
+		std::vector<Ref<SubTexture2D>> m_SpriteSheetTextures;
 
 		friend class Entity;
 		friend class SceneSerializer;

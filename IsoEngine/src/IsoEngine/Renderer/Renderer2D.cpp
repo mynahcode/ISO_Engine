@@ -452,7 +452,24 @@ namespace IE
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		DrawQuad(transform, src.Texture, 1.0f, src.Color, entityID);
+		ISOLOGGER_WARN("SubTexture: {0}\n", src.SubTexture == nullptr);
+		ISOLOGGER_WARN("Texture: {0}\n", src.Texture == nullptr);
+
+		if (src.SubTexture != nullptr)
+		{
+			ISOLOGGER_CRITICAL("DRAWING SUBTEXTURE QUAD: Entity {0}\n", entityID);
+			DrawQuad(transform, src.SubTexture, 1.0f, src.Color, entityID);
+		}
+		else if (src.Texture != nullptr)
+		{
+			ISOLOGGER_CRITICAL("DRAWING TEXTURE QUAD: Entity {0}\n", entityID);
+			DrawQuad(transform, src.Texture, 1.0f, src.Color, entityID);
+		}
+		else
+		{
+			ISOLOGGER_CRITICAL("DRAWING COLOR QUAD: Entity {0}\n", entityID);
+			DrawQuad(transform, src.Color);
+		}
 	}
 
 	void Renderer2D::ResetStats()

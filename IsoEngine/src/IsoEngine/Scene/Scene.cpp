@@ -36,6 +36,16 @@ namespace IE
 		return tileEntity;
 	}
 
+	Entity Scene::CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position, const Ref<SubTexture2D>& spriteTexture)
+	{
+		auto tileEntity = CreateEntity("Tile");
+		auto& entity_transform = tileEntity.GetComponent<TransformComponent>();
+		entity_transform.Translation = position;
+		tileEntity.AddComponent<TileComponent>(dimensions);
+		tileEntity.AddComponent<SpriteRendererComponent>(spriteTexture);
+		return tileEntity;
+	}
+
 	Entity Scene::GetPrimaryCameraEntity()
 	{
 		auto view = m_Registry.view<CameraComponent>();
@@ -81,6 +91,16 @@ namespace IE
 		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/sandyground01.png")));
 		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/roughconcrete01.png")));
 		m_BoundedTextures.push_back(Ref<Textures2D>(Textures2D::Create("assets/textures/grass.jpg")));
+	}
+
+	void Scene::AddSpriteSheetTextures(const std::vector<Ref<SubTexture2D>>& sprites)
+	{
+		m_SpriteSheetTextures.insert(
+				m_SpriteSheetTextures.end(), 
+				std::make_move_iterator(sprites.begin()), 
+				std::make_move_iterator(sprites.end()));
+
+		ISOLOGGER_CRITICAL("Sprite Extracted from Sprite Sheet: {0}\n", m_SpriteSheetTextures.size());
 	}
 
 	void Scene::OnUpdateRuntime(Timestep ts)
