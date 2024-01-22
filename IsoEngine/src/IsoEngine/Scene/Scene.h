@@ -37,7 +37,7 @@ namespace IE
 		void LoadBoundedTextures();
 		void AddSpriteSheetTextures(const std::vector<Ref<SubTexture2D>>& sprites);
 
-		Ref<SubTexture2D> GetSpriteTexture(int index) const { return m_SpriteSheetTextures[index]; }
+		 Ref<SubTexture2D> GetSpriteTexture(int index) const { return m_SpriteSheetTextures[index]; }
 
 	private:
 		template<typename T>

@@ -11,6 +11,8 @@
 #include "SceneCamera.h"
 #include "IsoEngine/Renderer/Material.h"
 
+#include <vector>
+
 namespace IE
 {
 	/* Name component for entities, if none is given upon instantiation of the TagComponent a default will be given.
@@ -52,7 +54,12 @@ namespace IE
 		glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		//Ref<Material> Material; // Material = Shader + (any) Uniform Data
 		Ref<Textures2D> Texture;
-		Ref<SubTexture2D> SubTexture;
+		// TODO: Move to tile component to make sprite renderer functionality for tile rendering not
+		// sound to the SpriteRendererComponent struct.
+		std::map<uint8_t, Ref<SubTexture2D>> SubTextures;
+
+		uint8_t SubTexturePosition = 0;
+
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
@@ -61,12 +68,17 @@ namespace IE
 		SpriteRendererComponent(const Ref<Textures2D>& texture)
 			: Texture(texture) 
 		{
-			ISOLOGGER_WARN("SPRITE RENDERER COMPONENT CREATED WITH TEXTURE \n");
 		}
-		SpriteRendererComponent(const Ref<SubTexture2D>& subtexture)
-			: SubTexture(subtexture) 
+		SpriteRendererComponent(const Ref<SubTexture2D>& subtexture) 
 		{
-			ISOLOGGER_WARN("SPRITE RENDERER COMPONENT CREATED WITH SUBTEXTURE \n");
+			SubTextures[0] = subtexture;
+			SubTexturePosition++;
+		}
+
+		inline void AddSubtextureLayer(const Ref<SubTexture2D>& subtexture)
+		{
+			SubTextures[SubTexturePosition] = subtexture;
+			SubTexturePosition++;
 		}
 	};
 

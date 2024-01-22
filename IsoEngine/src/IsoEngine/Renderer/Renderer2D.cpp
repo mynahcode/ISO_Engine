@@ -452,13 +452,16 @@ namespace IE
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		ISOLOGGER_WARN("SubTexture: {0}\n", src.SubTexture == nullptr);
-		ISOLOGGER_WARN("Texture: {0}\n", src.Texture == nullptr);
+		//ISOLOGGER_WARN("SubTexture: {0}\n", src.SubTexture == nullptr);
+		//ISOLOGGER_WARN("Texture: {0}\n", src.Texture == nullptr);
 
-		if (src.SubTexture != nullptr)
+		if (!src.SubTextures.empty())
 		{
-			ISOLOGGER_CRITICAL("DRAWING SUBTEXTURE QUAD: Entity {0}\n", entityID);
-			DrawQuad(transform, src.SubTexture, 1.0f, src.Color, entityID);
+			for (uint8_t i = 0; i < src.SubTexturePosition; i++)
+			{
+				ISOLOGGER_CRITICAL("DRAWING SUBTEXTURE LAYER {0} for QUAD Entity: {1}\n", i, entityID);
+				DrawQuad(transform, src.SubTextures[i], 1.0f, src.Color, entityID);
+			}
 		}
 		else if (src.Texture != nullptr)
 		{
