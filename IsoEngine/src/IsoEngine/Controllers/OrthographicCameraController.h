@@ -20,7 +20,7 @@ namespace IE
 	class OrthographicCameraController
 	{
 	public:
-		OrthographicCameraController(float aspectRatio, bool rotation = false); // Default: aspectratio * 2 units of space regardless of resolution and adjust accordingly to zoom in/zoom out
+		OrthographicCameraController(float aspectRatio, int projType, bool rotation = false); // Default: aspectratio * 2 units of space regardless of resolution and adjust accordingly to zoom in/zoom out
 
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& ev);

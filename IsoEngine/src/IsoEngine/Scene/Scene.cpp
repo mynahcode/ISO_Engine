@@ -43,6 +43,20 @@ namespace IE
 		entity_transform.Translation = position;
 		tileEntity.AddComponent<TileComponent>(dimensions);
 		tileEntity.AddComponent<SpriteRendererComponent>(spriteTexture);
+
+		return tileEntity;
+	}
+
+	Entity Scene::CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position, const Ref<SubTexture2D>& spriteTexture, const Ref<SubTexture2D>& spriteTextureLayer)
+	{
+		auto tileEntity = CreateEntity("Tile");
+		auto& entity_transform = tileEntity.GetComponent<TransformComponent>();
+		entity_transform.Translation = position;
+		tileEntity.AddComponent<TileComponent>(dimensions);
+		tileEntity.AddComponent<SpriteRendererComponent>(spriteTexture, spriteTextureLayer);
+		//auto src = tileEntity.GetComponent<SpriteRendererComponent>();
+		//src.AddSubtextureLayer(spriteTextureLayer);
+
 		return tileEntity;
 	}
 
@@ -189,7 +203,7 @@ namespace IE
 			if (IsometricProjection)
 			{
 				//Renderer2D::DrawRotatedQuad(tileTransform.Translation, tileComponent.Dimensions, -45.0f, tileSprite.Texture, 1.0f, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
-				Renderer2D::DrawRotatedSprite(tileTransform.Translation, { 1.0f, 1.0f }, tileSprite, (int)tileEntity, -45.0f);
+				Renderer2D::DrawIsometricSprite(tileTransform.Translation, { 1.0f, 1.0f }, tileSprite, (int)tileEntity);
 			}
 		}
 

@@ -31,7 +31,8 @@ namespace IE
             return glm::vec2
             {
                 (m_GridOrigin.x * tileSize.x) + (x - y) * (tileSize.x / 2) - (1.0f * tileSize.x),
-                (m_GridOrigin.y * tileSize.y) + (y + x) * (tileSize.y / 2) - (0.5f * tileSize.y)
+                (m_GridOrigin.y * tileSize.y) + (x + y) * (tileSize.y / 2) - (1.0f * tileSize.y)
+                                                                             //0.5f - (1.0f * tileSize.y) - (1.0f * tileSize.x)
             };
         };
 
@@ -39,10 +40,9 @@ namespace IE
         {
             for (uint64_t i = 0; i < gridSize.x; i++)
             {
-                glm::vec3 tilePosition = { ToScreen(i, j), (float)zLevel }; // {x, y, z}
+                glm::vec3 tilePosition = { (float)i, (float)j, (float)zLevel }; // {x, y, z}
                 //auto spriteTexture = m_ActiveScene->GetSpriteTexture(0); // 6, 11, 14 
-                
-                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition, m_ActiveScene->GetSpriteTexture(13));
+                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition, m_ActiveScene->GetSpriteTexture(13), m_ActiveScene->GetSpriteTexture(5));
                 m_TileGrid.push_back(tileEntity);
             }
         }

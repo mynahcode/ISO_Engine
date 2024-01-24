@@ -444,12 +444,12 @@ namespace IE
 		DrawQuad(transform, src.Texture, 1.0f, src.Color, entityID);
 	}
 
-	void Renderer2D::DrawRotatedSprite(const glm::vec3& position, const glm::vec2& size, SpriteRendererComponent& src, int entityID, float rotation)
+	void Renderer2D::DrawIsometricSprite(const glm::vec3& position, const glm::vec2& size, SpriteRendererComponent& src, int entityID)
 	{
 		_IE_PROFILER_FUNCTION();
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+			* glm::rotate(glm::mat4(1.0f), glm::radians(0.0f), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		//ISOLOGGER_WARN("SubTexture: {0}\n", src.SubTexture == nullptr);
@@ -457,10 +457,12 @@ namespace IE
 
 		if (!src.SubTextures.empty())
 		{
-			for (uint8_t i = 0; i < src.SubTexturePosition; i++)
+			int i = 0; // debug
+			for (auto subtexture : src.SubTextures)
 			{
-				ISOLOGGER_CRITICAL("DRAWING SUBTEXTURE LAYER {0} for QUAD Entity: {1}\n", i, entityID);
-				DrawQuad(transform, src.SubTextures[i], 1.0f, src.Color, entityID);
+				ISOLOGGER_CRITICAL("DRAWING SUBTEXTURE LAYER {0} of {1} for QUAD Entity: {2}\n", i, src.SubTextures.size(), entityID);
+				DrawQuad(transform, subtexture, 1.0f, src.Color, entityID);
+				i++;
 			}
 		}
 		else if (src.Texture != nullptr)

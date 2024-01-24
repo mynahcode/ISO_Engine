@@ -14,6 +14,7 @@ namespace IE
 
 		// Depth/Stencil
 		DEPTH24STENCIL8,
+		DEPTHCOMPONENT32,
 
 		// Default configuration
 		Depth = DEPTH24STENCIL8

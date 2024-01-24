@@ -10,7 +10,7 @@ namespace IE
 {
     IsoEditorLayer::IsoEditorLayer()
         : Layer("IsoEngine Editor"), 
-            m_CameraController((1920.0f / 1080.0f))
+            m_CameraController((1920.0f / 1080.0f), 1)
     {
         _IE_PROFILER_FUNCTION();
     }
@@ -23,7 +23,11 @@ namespace IE
         FramebufferSpecs fbSpecs;
         fbSpecs.Width = 1920;
         fbSpecs.Height = 1080;
-        fbSpecs.Attachments = { fbTextureFormats::RGBA8, fbTextureFormats::RED_INTEGER, fbTextureFormats::Depth};
+        fbSpecs.Attachments = { 
+            fbTextureFormats::RGBA8, 
+            fbTextureFormats::RED_INTEGER, 
+            fbTextureFormats::Depth
+        };
         m_Framebuffer = Framebuffer::Create(fbSpecs);
 
         m_DefaultSpriteSheet = Textures2D::Create("assets/textures/spritesheet.png");
@@ -187,8 +191,8 @@ namespace IE
 
         Renderer2D::ResetStats();
 
+        RenderCommand::DepthTestingEnabled(false);
         m_Framebuffer->Bind();
-
         // Clearing entityID attachment to -1 to distinguish pixels (and entities) from background pixels.
         m_Framebuffer->ClearAttachment(1, -1);
 
@@ -197,7 +201,6 @@ namespace IE
         PollMousePosition();
 
         m_Framebuffer->UnBind();
-        RenderCommand::DepthTestingEnabled(true);
     }
 
     void IsoEditorLayer::OnImGuiRender()

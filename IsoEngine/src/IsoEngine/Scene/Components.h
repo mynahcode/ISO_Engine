@@ -56,29 +56,24 @@ namespace IE
 		Ref<Textures2D> Texture;
 		// TODO: Move to tile component to make sprite renderer functionality for tile rendering not
 		// sound to the SpriteRendererComponent struct.
-		std::map<uint8_t, Ref<SubTexture2D>> SubTextures;
-
-		uint8_t SubTexturePosition = 0;
-
+		//std::map<uint8_t, Ref<SubTexture2D>> SubTextures;
+		std::vector<Ref<SubTexture2D>> SubTextures;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {}
 		SpriteRendererComponent(const Ref<Textures2D>& texture)
-			: Texture(texture) 
-		{
-		}
+			: Texture(texture) {}
+		// TODO: Template
 		SpriteRendererComponent(const Ref<SubTexture2D>& subtexture) 
 		{
-			SubTextures[0] = subtexture;
-			SubTexturePosition++;
+			SubTextures.push_back(subtexture);
 		}
-
-		inline void AddSubtextureLayer(const Ref<SubTexture2D>& subtexture)
+		SpriteRendererComponent(const Ref<SubTexture2D>& subtexture, const Ref<SubTexture2D>& subtextureLayer)
 		{
-			SubTextures[SubTexturePosition] = subtexture;
-			SubTexturePosition++;
+			SubTextures.push_back(subtexture);
+			SubTextures.push_back(subtextureLayer);
 		}
 	};
 

@@ -70,6 +70,7 @@ namespace IE {
 			switch (format)
 			{
 				case fbTextureFormats::DEPTH24STENCIL8:  return true;
+				case fbTextureFormats::DEPTHCOMPONENT32: return true;
 			}
 
 			return false;
@@ -165,8 +166,13 @@ namespace IE {
 			switch (m_DepthAttachmentSpecification.TextureFormat)
 			{
 			case fbTextureFormats::DEPTH24STENCIL8:
-				ISOLOGGER_TRACE("Depth24Stencil8 Depth Attachment texture format determined...\n")
+				ISOLOGGER_TRACE("GL_Depth24_Stencil8 Depth Attachment texture format determined...\n")
 				Utils::AttachDepthTexture(m_DepthAttachment, m_FramebufferSpecs.Samples, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height);
+				break;
+
+			case fbTextureFormats::DEPTHCOMPONENT32:
+				ISOLOGGER_TRACE("GL_DEPTH_COMPONENT32 Depth Attachment texture format determined...\n")
+				Utils::AttachDepthTexture(m_DepthAttachment, m_FramebufferSpecs.Samples, GL_DEPTH_COMPONENT32, GL_DEPTH_STENCIL_ATTACHMENT, m_FramebufferSpecs.Width, m_FramebufferSpecs.Height);
 				break;
 			}
 		}

@@ -43,7 +43,7 @@ namespace IE
 		static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor);
 
 		static void DrawSprite(const glm::vec3& position, const glm::vec2& size, SpriteRendererComponent& src, int entityID);
-		static void DrawRotatedSprite(const glm::vec3& position, const glm::vec2& size, SpriteRendererComponent& src, int entityID, float rotation);
+		static void DrawIsometricSprite(const glm::vec3& position, const glm::vec2& size, SpriteRendererComponent& src, int entityID);
 
 		// Statistics
 		struct Renderer2DStats

@@ -7,37 +7,55 @@
 
 namespace IE
 {
-	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
-		: m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio* m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(rotation)
+	OrthographicCameraController::OrthographicCameraController(float aspectRatio, int projType, bool rotation)
+		: m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio* m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel, (OrthographicCamera::OrthoProjectionType) projType), m_Rotation(rotation)
 	{
 	}
 
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
 		_IE_PROFILER_FUNCTION();
-
-		/* Basic Camera Movement */
-		if (Input::IsKeyPressed(Key::W))
-			m_CameraPosition.y += m_CameraTranslationSpeed * ts;
-		else if (IE::Input::IsKeyPressed(Key::S))
-			m_CameraPosition.y -= m_CameraTranslationSpeed * ts;
-		if (Input::IsKeyPressed(Key::D))
-			m_CameraPosition.x += m_CameraTranslationSpeed * ts;
-		else if (Input::IsKeyPressed(Key::A))
-			m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
-		if (m_Rotation)
+		if (m_Camera.GetProjectionType() == OrthographicCamera::OrthoProjectionType::Orthographic)
 		{
-			if (Input::IsKeyPressed(Key::Q))
-				m_CameraRotation += m_CameraRotationSpeed * ts; // Positive rotation 
-			else if (Input::IsKeyPressed(Key::E))
-				m_CameraRotation -= m_CameraRotationSpeed * ts; // Negative rotation -- Counterintuitively	
+			/* Basic Camera Movement */
+			if (Input::IsKeyPressed(Key::W))
+				m_CameraPosition.y += m_CameraTranslationSpeed * ts;
+			else if (IE::Input::IsKeyPressed(Key::S))
+				m_CameraPosition.y -= m_CameraTranslationSpeed * ts;
+			if (Input::IsKeyPressed(Key::D))
+				m_CameraPosition.x += m_CameraTranslationSpeed * ts;
+			else if (Input::IsKeyPressed(Key::A))
+				m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
+			if (m_Rotation)
+			{
+				if (Input::IsKeyPressed(Key::Q))
+					m_CameraRotation += m_CameraRotationSpeed * ts; // Positive rotation 
+				else if (Input::IsKeyPressed(Key::E))
+					m_CameraRotation -= m_CameraRotationSpeed * ts; // Negative rotation -- Counterintuitively	
 
-			m_Camera.SetRotation(m_CameraRotation);
+				m_Camera.SetRotation(m_CameraRotation);
+			}
+
+			m_Camera.SetPosition(m_CameraPosition);
+
+			m_CameraTranslationSpeed = m_ZoomLevel;
 		}
+		else if (m_Camera.GetProjectionType() == OrthographicCamera::OrthoProjectionType::Isometric)
+		{
+			/* Basic Camera Movement */
+			if (Input::IsKeyPressed(Key::W))
+				m_CameraPosition.y += m_CameraTranslationSpeed * ts;
+			else if (IE::Input::IsKeyPressed(Key::S))
+				m_CameraPosition.y -= m_CameraTranslationSpeed * ts;
+			if (Input::IsKeyPressed(Key::D))
+				m_CameraPosition.x += m_CameraTranslationSpeed * ts;
+			else if (Input::IsKeyPressed(Key::A))
+				m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
 
-		m_Camera.SetPosition(m_CameraPosition);
+			m_Camera.SetPosition(m_CameraPosition);
 
-		m_CameraTranslationSpeed = m_ZoomLevel;
+			m_CameraTranslationSpeed = m_ZoomLevel;
+		}
 	}
 
 	void OrthographicCameraController::OnEvent(Event& ev)
@@ -61,8 +79,8 @@ namespace IE
 	void OrthographicCameraController::OnResize(float width, float height)
 	{
 		_IE_PROFILER_FUNCTION();
-		float yScale = height / 2160.0f;
-		m_AspectRatio = yScale * width / height;
+
+		m_AspectRatio = width / (height * 2);
 		CalculateCameraView();
 	}
 

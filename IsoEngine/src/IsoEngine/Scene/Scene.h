@@ -24,7 +24,8 @@ namespace IE
 		Entity CreateEntity(const std::string& name = std::string());
 		Entity CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position);
 		Entity CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position, const Ref<SubTexture2D>& spriteTexture);
-
+		// TODO: Turn to template argument func call.
+		Entity CreateTileEntity(const glm::vec2& dimensions, const glm::vec3& position, const Ref<SubTexture2D>& spriteTexture, const Ref<SubTexture2D>& spriteTextureLayer);
 		Entity GetPrimaryCameraEntity();
 		void DestroyEntity(Entity entity);
 
