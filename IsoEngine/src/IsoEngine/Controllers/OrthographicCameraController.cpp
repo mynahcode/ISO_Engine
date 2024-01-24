@@ -44,13 +44,25 @@ namespace IE
 		{
 			/* Basic Camera Movement */
 			if (Input::IsKeyPressed(Key::W))
+			{
 				m_CameraPosition.y += m_CameraTranslationSpeed * ts;
-			else if (IE::Input::IsKeyPressed(Key::S))
-				m_CameraPosition.y -= m_CameraTranslationSpeed * ts;
-			if (Input::IsKeyPressed(Key::D))
 				m_CameraPosition.x += m_CameraTranslationSpeed * ts;
-			else if (Input::IsKeyPressed(Key::A))
+			}
+			else if (IE::Input::IsKeyPressed(Key::S))
+			{
+				m_CameraPosition.y -= m_CameraTranslationSpeed * ts;
 				m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
+			}
+			if (Input::IsKeyPressed(Key::D))
+			{
+				m_CameraPosition.x += m_CameraTranslationSpeed * ts;
+				m_CameraPosition.y -= m_CameraTranslationSpeed * ts;
+			}
+			else if (Input::IsKeyPressed(Key::A))
+			{
+				m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
+				m_CameraPosition.y += m_CameraTranslationSpeed * ts;
+			}
 
 			m_Camera.SetPosition(m_CameraPosition);
 
