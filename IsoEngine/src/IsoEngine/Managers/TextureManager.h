@@ -12,11 +12,9 @@ namespace IE
 		TextureManager() = default;
 		TextureManager(const Ref<Textures2D>& spriteSheet, const glm::vec2& sheetDimensions, const glm::vec2& spriteDimensions, const glm::uvec2& sheetRowsandCols);
 
-		~TextureManager() = default;
+		~TextureManager();
 
 		std::vector<Ref<SubTexture2D>> GetTextureSprites() const { return m_Sprites; }
-
-		// TODO: Make static initializer
 	private:
 		std::vector<Ref<SubTexture2D>> m_Sprites;
 	};

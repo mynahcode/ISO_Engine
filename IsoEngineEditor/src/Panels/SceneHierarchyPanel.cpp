@@ -8,6 +8,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+// TODO: Update/clean up presentation of SceneHierarchyPanel and IsoEditor in general.
+
 namespace IE
 {
 
@@ -109,7 +111,8 @@ namespace IE
 
 		ImGui::End();
 
-		ImGui::Begin("Properties");
+		ImGui::Begin("Entity Properties");
+		ImGui::Separator();
 		if (m_SelectionContext)
 		{
 			DrawEntityComponents(m_SelectionContext);
@@ -138,6 +141,20 @@ namespace IE
 						ImGui::CloseCurrentPopup();
 					}
 				}
+
+				if (ImGui::MenuItem("Tile"))
+				{
+					if (ImGui::MenuItem("Normal Tile"))
+					{
+						// TODO: Add different types of tiles/interactive tiles/trigger tiles
+						if (!m_SelectionContext.HasComponent<TileComponent>())
+							m_SelectionContext.AddComponent<TileComponent>();
+						else
+							ISOLOGGER_WARN("This entity already has the Tile Component!");
+						ImGui::CloseCurrentPopup();
+					}
+				}
+
 				// TODO: Update NativeScriptComponent
 				if (ImGui::MenuItem("C++ Native Script"))
 				{
@@ -344,7 +361,7 @@ namespace IE
 
 		if (entity.HasComponent<SpriteRendererComponent>())
 		{
-			bool open = ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), treeNodeFlags, "Sprite Renderer");
+			bool open = ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), treeNodeFlags, "Sprite Options");
 			ImGui::SameLine();
 			if (ImGui::Button("+"))
 			{
@@ -354,7 +371,7 @@ namespace IE
 			bool removeComponent = false;
 			if (ImGui::BeginPopup("ComponentSettings"))
 			{
-				if (ImGui::MenuItem("Remove Component"))
+				if (ImGui::MenuItem("Delete Component"))
 					removeComponent = true;
 				ImGui::EndPopup();
 			}
@@ -364,6 +381,25 @@ namespace IE
 
 				auto& src = entity.GetComponent<SpriteRendererComponent>().Color;
 				ImGui::ColorEdit4("Color", glm::value_ptr(src));
+				ImGui::NewLine();
+
+				if (ImGui::Button("Add"))
+				{
+					ImGui::OpenPopup("Add Sprite Texture");
+				}
+				if (ImGui::BeginPopup("Add Sprite Texture"))
+				{
+					if (ImGui::MenuItem("Base Texture"))
+					{
+
+					}
+					if (ImGui::MenuItem("Subtexture Layer"))
+					{
+
+					}
+					ImGui::EndPopup();
+				}
+
 				ImGui::TreePop();
 			}
 
@@ -371,7 +407,36 @@ namespace IE
 				entity.RemoveComponent<SpriteRendererComponent>();
 		}
 
+		if (entity.HasComponent<TileComponent>())
+		{
+			bool open = ImGui::TreeNodeEx((void*)typeid(TileComponent).hash_code(), treeNodeFlags, "Tile Options");
+			ImGui::SameLine();
+			if (ImGui::Button("+"))
+			{
+				ImGui::OpenPopup("ComponentSettings");
+			}
 
+			bool removeComponent = false;
+			if (ImGui::BeginPopup("ComponentSettings"))
+			{
+				if (ImGui::MenuItem("Delete Component"))
+					removeComponent = true;
+				ImGui::EndPopup();
+			}
+
+			if (open)
+			{
+
+				// TODO: Tile dimension slider
+				//auto& tile = entity.GetComponent<TileComponent>().Dimensions;
+				ImGui::TreePop();
+			}
+
+			if (removeComponent)
+			{
+				entity.RemoveComponent<TileComponent>();
+			}
+		}
 		
 		if (entity.HasComponent<NativeScriptComponent>())
 		{

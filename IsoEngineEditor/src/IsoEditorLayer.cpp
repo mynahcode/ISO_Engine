@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -123,7 +124,7 @@ namespace IE
 
     bool IsoEditorLayer::OnKeyPressed(KeyPressedEvent& ev)
     {
-        // Shortcuts
+        // Keyboard Shortcuts
         if (ev.GetRepeatCount() > 0)
             return false;
 
@@ -158,6 +159,17 @@ namespace IE
     bool IsoEditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& ev)
     {
         if (ev.GetMouseButton() == Mouse::ButtonLeft)
+        {
+            if (m_HoveredEntity)
+            {
+                if (m_ViewportHovered && !Input::IsKeyPressed(Key::LeftAlt))
+                {
+                    m_SceneHierarchy.SetSelectedEntity(m_HoveredEntity);
+                }
+            }
+        }
+
+        if (ev.GetMouseButton() == Mouse::ButtonRight)
         {
             if (m_HoveredEntity)
             {
@@ -319,13 +331,13 @@ namespace IE
         ImGui::Begin("Statistics");
 
         std::string name = "None";
+
         if (m_HoveredEntity)
             name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
 
         ImGui::Text("Hovered Entity: %s", name.c_str());
 
         auto stats = Renderer2D::GetStats();
-
         ImGui::Text("2D Renderer Stats:");
         ImGui::Text("DrawCalls: %d", stats.DrawCalls);
         ImGui::Text("Quads: %d", stats.QuadCount);
@@ -358,7 +370,6 @@ namespace IE
         ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
         m_ViewportBounds[0] = { minBound.x, minBound.y };
         m_ViewportBounds[1] = { maxBound.x, maxBound.y };
-
 
         ImGui::End();
         ImGui::PopStyleVar();

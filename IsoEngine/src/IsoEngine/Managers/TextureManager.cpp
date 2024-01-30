@@ -20,4 +20,8 @@ namespace IE
 			}
 		}
 	}
+
+	TextureManager::~TextureManager()
+	{
+	}
 }

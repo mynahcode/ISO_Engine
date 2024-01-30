@@ -65,7 +65,6 @@ namespace IE
 			: Color(color) {}
 		SpriteRendererComponent(const Ref<Textures2D>& texture)
 			: Texture(texture) {}
-		// TODO: Template
 		SpriteRendererComponent(const Ref<SubTexture2D>& subtexture) 
 		{
 			SubTextures.push_back(subtexture);
@@ -112,13 +111,15 @@ namespace IE
 		Ref<Textures2D> ScreenTexture;
 		ScreenQuadComponent(uint32_t width, uint32_t height)
 			: Width(width), Height(height) {}
-		ScreenQuadComponent(const ScreenQuadComponent&) = default;
+		ScreenQuadComponent(const ScreenQuadComponent& sqc) = default;
 	};
 
 	struct TileComponent
 	{
-		glm::vec2 Dimensions = { 1.0f, 1.0f };
+		glm::vec2 Dimensions;
 
+		TileComponent()
+			: Dimensions({ 1.0f, 1.0f }) {}
 		TileComponent(glm::vec2 dimensions)
 			: Dimensions(dimensions) {}
 		TileComponent(const TileComponent& tile) = default;
