@@ -84,7 +84,30 @@ namespace IE
 
 	void SceneHierarchyPanel::SetSelectedEntity(Entity entity)
 	{
+
+		if (m_SelectionContext)
+		{
+			m_PrevSelectionContext = m_SelectionContext;
+			if (m_PrevSelectionContext.HasComponent<TileComponent>())
+			{
+				auto& tile = m_PrevSelectionContext.GetComponent<TileComponent>();
+				if (tile.IsSelected)
+				{
+					auto& src = m_PrevSelectionContext.GetComponent<SpriteRendererComponent>().SubTextures;
+					src.pop_back();
+				}
+				tile.IsSelected = false;
+			}
+		}
+
 		m_SelectionContext = entity;
+		if (m_SelectionContext.HasComponent<TileComponent>())
+		{
+			// If entity has a TileComponent it will always have a SpriteRendererComponent subtexture.
+			auto& src = m_SelectionContext.GetComponent<SpriteRendererComponent>().SubTextures;
+			src.push_back(m_Context->GetSpriteTexture(14));
+			auto& tile = m_SelectionContext.GetComponent<TileComponent>().IsSelected = true;
+		}
 	}
 
 	void SceneHierarchyPanel::OnImGuiRender()
@@ -378,27 +401,30 @@ namespace IE
 
 			if (open)
 			{
+				auto& src = entity.GetComponent<SpriteRendererComponent>();
+				ImGui::ColorEdit4("Color", glm::value_ptr(src.Color));
 
-				auto& src = entity.GetComponent<SpriteRendererComponent>().Color;
-				ImGui::ColorEdit4("Color", glm::value_ptr(src));
 				ImGui::NewLine();
+				ImVec2 size = ImVec2(32.0f, 32.0f);
+				ImVec2 uv0 = ImVec2(0.0f, 0.0f);                            // lower-left UV coords
+				ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+				ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-				if (ImGui::Button("Add"))
+				if (src.Texture != nullptr)
 				{
-					ImGui::OpenPopup("Add Sprite Texture");
+					ImVec2 uv1 = ImVec2(32.0f / src.Texture->GetWidth(), 32.0f / src.Texture->GetHeight());	// (32.0, 32.0) UV coords for texture
+					ImGui::ImageButton("", (ImTextureID)src.Texture->GetRendererID(), size, uv0, uv1, bg_col, tint_col);
 				}
-				if (ImGui::BeginPopup("Add Sprite Texture"))
+				else
 				{
-					if (ImGui::MenuItem("Base Texture"))
-					{
-
-					}
-					if (ImGui::MenuItem("Subtexture Layer"))
-					{
-
-					}
-					ImGui::EndPopup();
+					ImVec2 uv1 = ImVec2(32.0f, 32.0f);	// (32.0, 32.0) UV coords for texture
+					ImGui::ImageButton("", 0, size, uv0, uv1, bg_col, tint_col);
 				}
+				ImGui::SameLine();
+				ImGui::Text("Base Texture");
+
+				ImGui::SameLine();
+				ImGui::Text("Subtexture Layer");
 
 				ImGui::TreePop();
 			}
@@ -429,6 +455,22 @@ namespace IE
 
 				// TODO: Tile dimension slider
 				//auto& tile = entity.GetComponent<TileComponent>().Dimensions;
+				if (ImGui::Button("Add"))
+				{
+					ImGui::OpenPopup("Add Sprite Texture");
+				}
+				if (ImGui::BeginPopup("Add Sprite Texture"))
+				{
+					if (ImGui::MenuItem("Base Texture"))
+					{
+
+					}
+					if (ImGui::MenuItem("Subtexture Layer"))
+					{
+
+					}
+					ImGui::EndPopup();
+				}
 				ImGui::TreePop();
 			}
 

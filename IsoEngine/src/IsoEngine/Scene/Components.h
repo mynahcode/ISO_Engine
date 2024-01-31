@@ -117,6 +117,7 @@ namespace IE
 	struct TileComponent
 	{
 		glm::vec2 Dimensions;
+		bool IsSelected = false;
 
 		TileComponent()
 			: Dimensions({ 1.0f, 1.0f }) {}

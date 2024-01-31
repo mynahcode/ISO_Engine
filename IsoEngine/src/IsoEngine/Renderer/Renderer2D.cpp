@@ -457,12 +457,12 @@ namespace IE
 
 		if (!src.SubTextures.empty())
 		{
-			int i = 0; // debug
+			//int i = 0; // debug
 			for (auto subtexture : src.SubTextures)
 			{
-				ISOLOGGER_CRITICAL("DRAWING SUBTEXTURE LAYER {0} of {1} for QUAD Entity: {2}\n", i, src.SubTextures.size(), entityID);
+				//ISOLOGGER_CRITICAL("DRAWING SUBTEXTURE LAYER {0} of {1} for QUAD Entity: {2}\n", i, src.SubTextures.size(), entityID);
 				DrawQuad(transform, subtexture, 1.0f, src.Color, entityID);
-				i++;
+				//i++;
 			}
 		}
 		else if (src.Texture != nullptr)
