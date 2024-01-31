@@ -7,6 +7,8 @@ namespace IE
 	SubTexture2D::SubTexture2D(const Ref<Textures2D>& texture, const glm::vec2& min, const glm::vec2& max)
 		: m_Texture(texture)
 	{
+		m_Coords[0] = min;
+		m_Coords[1] = max;
 		m_TextureCoords[0] = { min.x, min.y };
 		m_TextureCoords[1] = { max.x, min.y };
 		m_TextureCoords[2] = { max.x, max.y };

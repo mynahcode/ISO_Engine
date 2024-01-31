@@ -14,11 +14,13 @@ namespace IE
 
 		const Ref<Textures2D> GetTexture() const { return m_Texture; }
 		const glm::vec2* GetTextureCoords() const { return m_TextureCoords; }
+		const glm::vec2* GetSubTextureCoords() const { return m_Coords; }
 
 		static Ref<SubTexture2D> CreateFromCoords(const Ref<Textures2D>& texture, const glm::vec2& coords, const glm::vec2& cellSize, const glm::vec2& spriteSize = { 1, 1 });
 
 	private:
 		Ref<Textures2D> m_Texture;
 		glm::vec2 m_TextureCoords[4];
+		glm::vec2 m_Coords[2];
 	};
 }
