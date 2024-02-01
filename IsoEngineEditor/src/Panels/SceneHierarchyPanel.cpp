@@ -404,32 +404,41 @@ namespace IE
 				auto& src = entity.GetComponent<SpriteRendererComponent>();
 				ImGui::ColorEdit4("Color", glm::value_ptr(src.Color));
 
-				ImGui::NewLine();
 
 				ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 				ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 				if (src.Texture != nullptr)
 				{
+					ImGui::NewLine();
 					ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
 					ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 					ImVec2 uv_tex = ImVec2(src.Texture->GetWidth(), src.Texture->GetHeight());	// (32.0, 32.0) UV coords for texture
-					ImGui::Image(reinterpret_cast<void*>(src.Texture->GetRendererID()), uv_tex, uv_min, uv_max, tint_col, border_col);
+					ImGui::Image(reinterpret_cast<void*>(src.Texture->GetRendererID()), uv_tex, uv_max, uv_min, tint_col, border_col);
+					ImGui::SameLine();
+					ImGui::Text("Base Texture");
 				}
-				else if (!src.SubTextures.empty())
+				if (!src.SubTextures.empty())
 				{
-					ImVec2 uv_tex = ImVec2(64.0f, 64.0f);	// (32.0, 32.0) UV coords for texture
-					auto sub_texture = src.SubTextures.front();
-					auto sub_textureCoords = sub_texture->GetSubTextureCoords();
-					ImVec2 uv_min = ImVec2(sub_textureCoords[0].x, sub_textureCoords[0].y);
-					ImVec2 uv_max = ImVec2(sub_textureCoords[1].x, sub_textureCoords[1].y);
-					ImGui::Image(reinterpret_cast<void*>(sub_texture->GetTexture()->GetRendererID()), uv_tex, uv_min, uv_max, tint_col, border_col);
-				}
-				ImGui::SameLine();
-				ImGui::Text("Base Texture");
+					ImVec2 uv_texSize = ImVec2(32.0f, 32.0f);
 
-				ImGui::SameLine();
-				ImGui::Text("Subtexture Layer");
+					int i = 0;
+					for (auto subtexture : src.SubTextures)
+					{
+						if (i == src.SubTextures.size() - 1)
+						{
+							break;
+						}
+						ImGui::NewLine();
+						auto subtexture_coords = subtexture->GetSubTextureCoords();
+						ImVec2 uv_min = ImVec2(subtexture_coords[0].x, subtexture_coords[0].y);
+						ImVec2 uv_max = ImVec2(subtexture_coords[1].x, subtexture_coords[1].y);
+						ImGui::Image(reinterpret_cast<void*>(subtexture->GetTexture()->GetRendererID()), uv_texSize, uv_max, uv_min, tint_col, border_col); // min/max reversed because texture is flipped by ImGui
+						ImGui::SameLine();
+						ImGui::Text("Subtexture Layer %d", i + 1);
+						i++;
+					}
+				}
 
 				ImGui::TreePop();
 			}
