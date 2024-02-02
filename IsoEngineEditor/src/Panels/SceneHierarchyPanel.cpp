@@ -110,8 +110,23 @@ namespace IE
 		}
 	}
 
+	void SceneHierarchyPanel::ResetSelectionContext()
+	{
+		if (m_SelectionContext.HasComponent<TileComponent>())
+		{
+			auto& tile_textures = m_SelectionContext.GetComponent<SpriteRendererComponent>().SubTextures;
+			if (tile_textures.size() > 1)
+			{
+				ISOLOGGER_WARN("Removing Selection Texture \n");
+				tile_textures.pop_back();
+			}
+		}
+		m_SelectionContext = {};
+	}
+
 	void SceneHierarchyPanel::OnImGuiRender()
 	{
+		/* Scene Hierarchy Panel*/
 		ImGui::Begin("Scene Hierarchy");
 		m_Context->m_Registry.each([&](auto entityID)
 		{
@@ -134,11 +149,12 @@ namespace IE
 
 		ImGui::End();
 
+		/* Entity Properties Panel */
 		ImGui::Begin("Entity Properties");
-		ImGui::Separator();
 		if (m_SelectionContext)
 		{
 			DrawEntityComponents(m_SelectionContext);
+
 			if (ImGui::Button("Add Component"))
 				ImGui::OpenPopup("AddComponent");
 
@@ -440,6 +456,26 @@ namespace IE
 					}
 				}
 
+				ImGui::SameLine();
+				if (ImGui::Button("New"))
+				{
+					ImGui::OpenPopup("AddSprite");
+				}
+				if (ImGui::BeginPopup("AddSprite"))
+				{
+					if (ImGui::BeginMenu("Texture Sprite"))
+					{
+
+						ImGui::EndMenu();
+					}
+					if (ImGui::BeginMenu("Subtexture Sprite Layer"))
+					{
+
+					}
+
+					ImGui::EndPopup();
+				}
+
 				ImGui::TreePop();
 			}
 
@@ -469,22 +505,7 @@ namespace IE
 
 				// TODO: Tile dimension slider
 				//auto& tile = entity.GetComponent<TileComponent>().Dimensions;
-				if (ImGui::Button("Add"))
-				{
-					ImGui::OpenPopup("Add Sprite Texture");
-				}
-				if (ImGui::BeginPopup("Add Sprite Texture"))
-				{
-					if (ImGui::MenuItem("Base Texture"))
-					{
-
-					}
-					if (ImGui::MenuItem("Subtexture Layer"))
-					{
-
-					}
-					ImGui::EndPopup();
-				}
+				
 				ImGui::TreePop();
 			}
 
@@ -498,5 +519,6 @@ namespace IE
 		{
 			//auto& nsc = entity.GetComponent<NativeScriptComponent>().Instance;
 		}
+		ImGui::NewLine();
 	}
 }

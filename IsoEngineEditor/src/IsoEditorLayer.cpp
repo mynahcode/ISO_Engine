@@ -167,15 +167,37 @@ namespace IE
                     m_SceneHierarchy.SetSelectedEntity(m_HoveredEntity);
                 }
             }
+            else
+            {
+                if (m_ViewportHovered)
+                {
+                    ISOLOGGER_WARN("Resetting Selection Context\n");
+                    if (m_SceneHierarchy.GetSelectionContext())
+                    {
+                        m_SceneHierarchy.ResetSelectionContext();
+                    }
+                }
+            }
         }
 
         if (ev.GetMouseButton() == Mouse::ButtonRight)
         {
             if (m_HoveredEntity)
             {
-                if (m_ViewportHovered && !Input::IsKeyPressed(Key::LeftAlt))
+                if (m_ViewportHovered)
                 {
                     m_SceneHierarchy.SetSelectedEntity(m_HoveredEntity);
+                }
+            }
+            else
+            {
+                if (m_ViewportHovered)
+                {
+                    ISOLOGGER_WARN("Resetting Selection Context\n");
+                    if (m_SceneHierarchy.GetSelectionContext())
+                    {
+                        m_SceneHierarchy.ResetSelectionContext();
+                    }
                 }
             }
         }
@@ -347,7 +369,7 @@ namespace IE
         ImGui::Text("Memory Usage: WIP"); // TODO: Add memory usage tracking
         ImGui::End();
 
-        /********************************/
+        /* ImGui Viewport Dockspace */
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
         ImGui::Begin("Viewport");
         auto viewportOffset = ImGui::GetCursorPos(); // includes tab bar
@@ -370,6 +392,24 @@ namespace IE
         ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
         m_ViewportBounds[0] = { minBound.x, minBound.y };
         m_ViewportBounds[1] = { maxBound.x, maxBound.y };
+
+        if (ImGui::BeginPopupContextWindow(0, 1 | ImGuiPopupFlags_NoOpenOverItems))
+        {
+            auto selectedEntity = m_SceneHierarchy.GetSelectionContext();
+            if (selectedEntity && selectedEntity.HasComponent<TileComponent>())
+            {
+                if (ImGui::MenuItem("Copy"))
+                {
+
+                }
+                if (ImGui::MenuItem("Delete"))
+                {
+
+                }
+
+            }
+            ImGui::EndPopup();
+        }
 
         ImGui::End();
         ImGui::PopStyleVar();

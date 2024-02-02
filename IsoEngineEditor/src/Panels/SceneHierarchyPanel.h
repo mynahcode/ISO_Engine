@@ -14,8 +14,11 @@ namespace IE
 
 		void SetContext(const Ref<Scene>& context);
 		void SetSelectedEntity(Entity entity);
+		void ResetSelectionContext();
 
 		void OnImGuiRender();
+
+		Entity GetSelectionContext() const { return m_SelectionContext; }
 
 	private:
 		void DrawEntityNode(Entity entity);

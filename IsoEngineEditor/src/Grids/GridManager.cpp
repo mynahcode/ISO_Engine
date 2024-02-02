@@ -41,7 +41,7 @@ namespace IE
             {
                 glm::vec3 tilePosition = { (float)i, (float)j, (float)zLevel }; // {x, y, z}
                 //auto spriteTexture = m_ActiveScene->GetSpriteTexture(0); // 6, 11, 14 
-                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition, m_ActiveScene->GetSpriteTexture(7), m_ActiveScene->GetSpriteTexture(5));
+                Entity tileEntity = m_ActiveScene->CreateTileEntity(tileSize, tilePosition, m_ActiveScene->GetSpriteTexture(13));
                 m_TileGrid.push_back(tileEntity);
             }
         }
