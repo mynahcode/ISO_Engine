@@ -103,7 +103,7 @@ namespace IE
 		m_SelectionContext = entity;
 		if (m_SelectionContext.HasComponent<TileComponent>())
 		{
-			// If entity has a TileComponent it will always have a SpriteRendererComponent subtexture.
+			// If entity has a TileComponent it will always have a SpriteRendererComponent subtexture (so far).
 			auto& src = m_SelectionContext.GetComponent<SpriteRendererComponent>().SubTextures;
 			src.push_back(m_Context->GetSpriteTexture(14));
 			auto& tile = m_SelectionContext.GetComponent<TileComponent>().IsSelected = true;
@@ -441,7 +441,7 @@ namespace IE
 					int i = 0;
 					for (auto subtexture : src.SubTextures)
 					{
-						if (i == src.SubTextures.size() - 1)
+						if (i == src.SubTextures.size() - 1 || src.SubTextures.front() == m_Context->GetSpriteTexture(13))
 						{
 							break;
 						}
@@ -456,7 +456,7 @@ namespace IE
 					}
 				}
 
-				ImGui::SameLine();
+				//ImGui::SameLine();
 				if (ImGui::Button("New"))
 				{
 					ImGui::OpenPopup("AddSprite");
@@ -465,12 +465,57 @@ namespace IE
 				{
 					if (ImGui::BeginMenu("Texture Sprite"))
 					{
-
+						// TODO
 						ImGui::EndMenu();
 					}
 					if (ImGui::BeginMenu("Subtexture Sprite Layer"))
 					{
+						// removing border for texture ImageButtons
+						tint_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+						ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.f, 0.f, 0.f, 0.f));
+						ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.f, 0.f, 0.f, 0.f));
+						ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.f, 0.f, 0.f, 0.f));
+						int i = 1;
+						for (auto& subtexture : m_Context->m_SpriteSheetTextures)
+						{
+							ImGui::PushID(i);
+							ImVec2 uv_texSize = ImVec2(32.0f, 32.0f);
+							auto subtexture_coords = subtexture->GetSubTextureCoords();
+							ImVec2 uv_min = ImVec2(subtexture_coords[0].x, subtexture_coords[0].y);
+							ImVec2 uv_max = ImVec2(subtexture_coords[1].x, subtexture_coords[1].y);
+							if (ImGui::ImageButton("##", reinterpret_cast<void*>(subtexture->GetTexture()->GetRendererID()), uv_texSize, uv_max, uv_min, tint_col, border_col))
+							{
+								if (std::find(src.SubTextures.begin(), src.SubTextures.end(), subtexture) != src.SubTextures.end())
+								{
+									ISOLOGGER_WARN("Subtexture is already placed in tile!")
+								}
+								else if (src.SubTextures.front() != m_Context->GetSpriteTexture(13)) // use-case: tile has texture and want to add subtexture on top
+								{
+									src.SubTextures.emplace(src.SubTextures.end() - 1, subtexture);
+								}
+								else // adding a texture to tile with default texture
+								{
+									src.SubTextures.erase(src.SubTextures.begin());
+									src.SubTextures.insert(src.SubTextures.begin(), subtexture);
+								}
+							}
+							ImGui::PopID();
 
+							if (i % 5 == 0)
+							{
+								ImGui::NewLine();
+							}
+							else
+							{
+								ImGui::SameLine();
+							}
+
+							
+							i++;
+						}
+
+						ImGui::PopStyleColor(3);
+						ImGui::EndMenu();
 					}
 
 					ImGui::EndPopup();
