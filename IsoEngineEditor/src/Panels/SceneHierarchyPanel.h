@@ -25,6 +25,7 @@ namespace IE
 		void DrawEntityComponents(Entity entity);
 
 		Ref<Scene> m_Context;
+		Ref<SubTexture2D> m_SubtextureRemove;
 		Entity m_SelectionContext;
 		Entity m_PrevSelectionContext;
 	};

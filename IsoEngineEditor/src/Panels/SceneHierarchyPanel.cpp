@@ -439,6 +439,8 @@ namespace IE
 					ImVec2 uv_texSize = ImVec2(32.0f, 32.0f);
 
 					int i = 0;
+					bool removeSubtexture = false;
+
 					for (auto subtexture : src.SubTextures)
 					{
 						if (i == src.SubTextures.size() - 1 || src.SubTextures.front() == m_Context->GetSpriteTexture(13))
@@ -452,9 +454,46 @@ namespace IE
 						ImGui::Image(reinterpret_cast<void*>(subtexture->GetTexture()->GetRendererID()), uv_texSize, uv_max, uv_min, tint_col, border_col); // min/max reversed because texture is flipped by ImGui
 						ImGui::SameLine();
 						ImGui::Text("Subtexture Layer %d", i + 1);
+
+						ImGui::SameLine();
+						ImGui::PushID(i);
+						if (ImGui::Button("+"))
+						{
+							ImGui::OpenPopup("SubTextureSettings");
+						}
+
+						if (ImGui::BeginPopup("SubTextureSettings"))
+						{
+							if (ImGui::MenuItem("Delete"))
+							{
+								removeSubtexture = true; // only one subtexture can be removed at a any given  time and only one per tile
+								m_SubtextureRemove = subtexture;
+							}
+							
+							ImGui::EndPopup();
+						}
+						ImGui::PopID();
 						i++;
 					}
+
+					if (removeSubtexture)
+					{
+						if (i == 0)
+						{
+							auto& deletedSubtexture = std::find(src.SubTextures.begin(), src.SubTextures.end(), m_SubtextureRemove);
+							src.SubTextures.erase(deletedSubtexture);
+							src.SubTextures.insert(src.SubTextures.begin(), m_Context->GetSpriteTexture(13));
+						}
+						else
+						{
+							auto& deletedSubtexture = std::find(src.SubTextures.begin(), src.SubTextures.end(), m_SubtextureRemove);
+							src.SubTextures.erase(deletedSubtexture);
+						}
+
+						m_SubtextureRemove = {};
+					}
 				}
+
 
 				//ImGui::SameLine();
 				if (ImGui::Button("New"))
