@@ -439,13 +439,17 @@ namespace IE
 					ImVec2 uv_texSize = ImVec2(32.0f, 32.0f);
 
 					int i = 0;
-					bool removeSubtexture = false;
-
-					for (auto subtexture : src.SubTextures)
+					for (auto& subtexture : src.SubTextures)
 					{
-						if (i == src.SubTextures.size() - 1 || src.SubTextures.front() == m_Context->GetSpriteTexture(13))
+
+						if (subtexture == m_Context->GetSpriteTexture(13))
 						{
-							break;
+							i = 0;
+							continue;
+						}
+						else if (subtexture == m_Context->GetSpriteTexture(14))
+						{
+							continue;
 						}
 						ImGui::NewLine();
 						auto subtexture_coords = subtexture->GetSubTextureCoords();
@@ -464,36 +468,19 @@ namespace IE
 
 						if (ImGui::BeginPopup("SubTextureSettings"))
 						{
+
 							if (ImGui::MenuItem("Delete"))
 							{
-								removeSubtexture = true; // only one subtexture can be removed at a any given  time and only one per tile
 								m_SubtextureRemove = subtexture;
 							}
-							
+
 							ImGui::EndPopup();
 						}
+
 						ImGui::PopID();
 						i++;
 					}
-
-					if (removeSubtexture)
-					{
-						if (i == 0)
-						{
-							auto& deletedSubtexture = std::find(src.SubTextures.begin(), src.SubTextures.end(), m_SubtextureRemove);
-							src.SubTextures.erase(deletedSubtexture);
-							src.SubTextures.insert(src.SubTextures.begin(), m_Context->GetSpriteTexture(13));
-						}
-						else
-						{
-							auto& deletedSubtexture = std::find(src.SubTextures.begin(), src.SubTextures.end(), m_SubtextureRemove);
-							src.SubTextures.erase(deletedSubtexture);
-						}
-
-						m_SubtextureRemove = {};
-					}
 				}
-
 
 				//ImGui::SameLine();
 				if (ImGui::Button("New"))
@@ -532,7 +519,7 @@ namespace IE
 								{
 									src.SubTextures.emplace(src.SubTextures.end() - 1, subtexture);
 								}
-								else // adding a texture to tile with default texture
+								else // adding a texture to tile with default texture -- also useful for swapping the base layer texture while keeping added sublayers
 								{
 									src.SubTextures.erase(src.SubTextures.begin());
 									src.SubTextures.insert(src.SubTextures.begin(), subtexture);
@@ -565,6 +552,23 @@ namespace IE
 
 			if (removeComponent)
 				entity.RemoveComponent<SpriteRendererComponent>();
+
+			if (m_SubtextureRemove)
+			{
+				auto& src = entity.GetComponent<SpriteRendererComponent>();
+				if (m_SubtextureRemove == src.SubTextures.front())
+				{
+					//auto& deletedSubtexture = std::find(src.SubTextures.begin(), src.SubTextures.end(), m_SubtextureRemove);
+					src.SubTextures.insert(src.SubTextures.begin(), m_Context->GetSpriteTexture(13));
+					src.SubTextures.erase(src.SubTextures.begin()+1);
+				}
+				else
+				{
+					auto& deletedSubtexture = std::find(src.SubTextures.begin(), src.SubTextures.end(), m_SubtextureRemove);
+					src.SubTextures.erase(deletedSubtexture);
+				}
+				m_SubtextureRemove = {};
+			}
 		}
 
 		if (entity.HasComponent<TileComponent>())
