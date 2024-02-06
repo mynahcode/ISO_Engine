@@ -434,6 +434,7 @@ namespace IE
 					ImGui::SameLine();
 					ImGui::Text("Base Texture");
 				}
+
 				if (!src.SubTextures.empty())
 				{
 					ImVec2 uv_texSize = ImVec2(32.0f, 32.0f);
@@ -441,7 +442,7 @@ namespace IE
 					int i = 0;
 					for (auto& subtexture : src.SubTextures)
 					{
-
+						// TODO: Refactor TextureManager are sprite implementations so default and highlight sprites are fixed textures
 						if (subtexture == m_Context->GetSpriteTexture(13))
 						{
 							i = 0;
