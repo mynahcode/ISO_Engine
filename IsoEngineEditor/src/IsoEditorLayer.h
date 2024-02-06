@@ -41,10 +41,10 @@ namespace IE
 		Ref<Scene> m_ActiveScene;
 		Ref<Framebuffer> m_Framebuffer;
 
-		Entity m_SquareEntity;
 		Entity m_CameraEntity;
 
 		Entity m_HoveredEntity;
+		Entity m_CopiedEntity;
 		
 		bool m_PrimaryCamera = false;
 

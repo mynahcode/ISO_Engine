@@ -94,7 +94,8 @@ namespace IE
 				if (tile.IsSelected)
 				{
 					auto& src = m_PrevSelectionContext.GetComponent<SpriteRendererComponent>().SubTextures;
-					src.pop_back();
+					if (src.back() == m_Context->GetSpriteTexture(14)) // So copying doesn't delete last texture
+						src.pop_back();
 				}
 				tile.IsSelected = false;
 			}
@@ -118,7 +119,10 @@ namespace IE
 			if (tile_textures.size() > 1)
 			{
 				ISOLOGGER_WARN("Removing Selection Texture \n");
-				tile_textures.pop_back();
+				//auto& deletedSubtexture = std::find(tile_textures.begin(), tile_textures.end(), m_Context->GetSpriteTexture(14));
+				//tile_textures.erase(deletedSubtexture);
+				if(tile_textures.back() == m_Context->GetSpriteTexture(14))
+					tile_textures.pop_back();
 			}
 		}
 		m_SelectionContext = {};

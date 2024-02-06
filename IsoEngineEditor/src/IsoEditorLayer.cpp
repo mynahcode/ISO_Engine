@@ -393,6 +393,8 @@ namespace IE
         m_ViewportBounds[0] = { minBound.x, minBound.y };
         m_ViewportBounds[1] = { maxBound.x, maxBound.y };
 
+        /* Right-Clicking an entity in scene viewport */
+
         if (ImGui::BeginPopupContextWindow(0, 1 | ImGuiPopupFlags_NoOpenOverItems))
         {
             auto selectedEntity = m_SceneHierarchy.GetSelectionContext();
@@ -400,7 +402,25 @@ namespace IE
             {
                 if (ImGui::MenuItem("Copy"))
                 {
-
+                    m_CopiedEntity = selectedEntity;
+                }
+                if (m_CopiedEntity && m_CopiedEntity != selectedEntity)
+                {
+                    if (ImGui::MenuItem("Paste"))
+                    {
+                        auto& src = m_CopiedEntity.GetComponent<SpriteRendererComponent>();
+                        auto& dest = selectedEntity.GetComponent<SpriteRendererComponent>();
+                        if (src.Texture && dest.Texture)
+                        {
+                            dest.Texture = src.Texture;
+                        }
+                        else if (!(src.SubTextures.empty() && dest.SubTextures.empty()))
+                        {
+                            dest.SubTextures = src.SubTextures;
+                        }
+                        
+                        dest.Color = src.Color;
+                    }
                 }
                 if (ImGui::MenuItem("Delete"))
                 {
