@@ -1,27 +1,26 @@
 #pragma once
 
-#include "IsoEngine/Core/IsoMacros.h"
+#include "glm/glm.hpp"
 
-
+#include "Shader.h"
 #include "Textures.h"
 #include "SubTexture2D.h"
-#include "Shader.h"
 
 namespace IE
 {
 	class Material 
 	{
-		//virtual ~Material() = default;
-		virtual uint32_t GetMaterialRendererID() const = 0;
-
-		virtual bool operator==(const Material& other) const = 0;
+	public:
+		virtual ~Material() = default;
+		virtual uint32_t GetShaderRendererID() const = 0;
+		virtual void SetShaderUniforms() = 0;
 	};
 
-
-	class TileMaterial : public Material
+	class Material2D : public Material
 	{
 	public:
-		static Ref<TileMaterial> Create(uint32_t width, uint32_t height, Ref<Textures2D> tileTexture, Ref<Shader> shader);
-		static Ref<TileMaterial> Create(uint32_t width, uint32_t height, Ref<SubTexture2D> tileTexture, Ref<Shader> shader);
+		static Ref<Material2D> Create(const Ref<Shader>& shader, const Ref<Textures2D>& texture = nullptr);
+		static Ref<Material2D> Create(const Ref<Shader>& shader, const Ref<SubTexture2D>& subtexture = nullptr);
+		static Ref<Material2D> Create(const Ref<Shader>& shader, const Ref<Textures2D>& texture, Ref<SubTexture2D> subtexture = nullptr);
 	};
 }
