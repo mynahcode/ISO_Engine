@@ -1,4 +1,12 @@
 # ISO_Engine
-IsoEngine is meant to be a modified version of the Hazel Engine and Hazelnut Editor by YouTuber and developer TheCherno (located here: https://github.com/TheCherno/Hazel) tailored specifically for 2D/3D isometric game development. 
-The incremental development I'm doing for this engine is loosely followed along with the tutorial for designing a game engine made by TheCherno, but I intend to design the third-party features by myself as much as reasonably possible; for example, instead of using the spdlog library for a logging system, I decided to create my own simple thread-safe logger. On top of this, as apart of supporting my learning of C++, now that I have added quite a few of my own features and implementations, I feel that I am ready to move off from the tutorials and continue the development of the modded engine myself.
-This project is purely intended to re-teach myself game design principles as well as learning C++ core concepts and best practices. The "game" that is apart of the project is simply a test game and does not have any gameplay. I intend to remove the game from the repository and make a game with my engine myself after I feel that I am satisfied with the progress of my game engine and editor. 
+IsoEngine is currently intended to be relatively rudimentary game engine meant to support Isometric 2D graphics with 3D rendering
+similar to the engine created in Java for the PC game Project Zomboid. 
+The incremental development I'm doing for this engine is loosely followed along with the tutorial for designing a game engine made
+by YouTuber TheCherno, but I intend to design the third-party features by myself as much as reasonably possible; for example, instead
+of using the spdlog library for a logging system, I decided to create my own simple thread-safe logger. On top of this,
+as apart of supporting my learning of C++, I decided to do most of the refactoring of the engine to the newest standards of C++ myself
+as much as I possibly can with limited external resources. Meaning once I am finished with the YouTube series tutorial of designing the
+engine, or at least once I feel that I am satisfied with its development, I will develop and refactor the rest completely on my own and
+not look at repository for TheCherno's current implementation of their engine "Hazel." This project is purely intended to re-teach myself
+game design principles as well as learning C++ core concepts and is not intended to create a game that is for profit unless I make very
+substantial progress and new features.  
