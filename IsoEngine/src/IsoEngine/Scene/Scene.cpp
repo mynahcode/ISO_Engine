@@ -203,7 +203,7 @@ namespace IE
 			if (IsometricProjection)
 			{
 				//Renderer2D::DrawRotatedQuad(tileTransform.Translation, tileComponent.Dimensions, -45.0f, tileSprite.Texture, 1.0f, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
-				Renderer2D::DrawIsometricSprite(tileTransform.Translation, { 1.0f, 1.0f }, tileSprite, (int)tileEntity);
+				Renderer2D::DrawSprite(tileTransform.Translation, { 1.0f, 1.0f }, tileSprite, (int)tileEntity);
 			}
 		}
 
@@ -277,6 +277,12 @@ namespace IE
 
 	template<>
 	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
+	{
+
+	}
+
+	template<>
+	void Scene::OnComponentAdded<LightComponent>(Entity entity, LightComponent& component)
 	{
 
 	}

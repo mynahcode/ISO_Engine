@@ -19,6 +19,7 @@
 
 /* C++ Data Structures */
 #include <string>
+#include <queue>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>

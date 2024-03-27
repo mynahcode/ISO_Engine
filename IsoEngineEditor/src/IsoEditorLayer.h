@@ -3,7 +3,6 @@
 #include <vector>
 
 #include <IsoEngine.h>
-#include "Grids/GridManager.h"
 #include "Panels/SceneHierarchyPanel.h"
 
 namespace IE

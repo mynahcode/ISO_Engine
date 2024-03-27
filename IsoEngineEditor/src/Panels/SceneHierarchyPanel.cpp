@@ -185,6 +185,16 @@ namespace IE
 					}
 				}
 
+				if (ImGui::MenuItem("Light"))
+				{
+
+					if (!m_SelectionContext.HasComponent<LightComponent>())
+						m_SelectionContext.AddComponent<LightComponent>();
+					else
+						ISOLOGGER_WARN("This entity already has the Tile Component!");
+					ImGui::CloseCurrentPopup();
+				}
+
 				if (ImGui::MenuItem("Tile"))
 				{
 					if (ImGui::MenuItem("Normal Tile"))
@@ -573,6 +583,36 @@ namespace IE
 					src.SubTextures.erase(deletedSubtexture);
 				}
 				m_SubtextureRemove = {};
+			}
+		}
+
+		if (entity.HasComponent<LightComponent>())
+		{
+			bool open = ImGui::TreeNodeEx((void*)typeid(LightComponent).hash_code(), treeNodeFlags, "Tile Options");
+			ImGui::SameLine();
+			if (ImGui::Button("+"))
+			{
+				ImGui::OpenPopup("ComponentSettings");
+			}
+
+			bool removeComponent = false;
+			if (ImGui::BeginPopup("ComponentSettings"))
+			{
+				if (ImGui::MenuItem("Delete Component"))
+					removeComponent = true;
+				ImGui::EndPopup();
+			}
+
+			if (open)
+			{
+
+				
+				ImGui::TreePop();
+			}
+
+			if (removeComponent)
+			{
+				entity.RemoveComponent<LightComponent>();
 			}
 		}
 

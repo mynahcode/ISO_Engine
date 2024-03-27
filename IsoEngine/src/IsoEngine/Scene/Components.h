@@ -58,6 +58,7 @@ namespace IE
 		// sound to the SpriteRendererComponent struct.
 		//std::map<uint8_t, Ref<SubTexture2D>> SubTextures;
 		std::vector<Ref<SubTexture2D>> SubTextures;
+		float LightLevel = 0.0f;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
@@ -74,6 +75,19 @@ namespace IE
 			SubTextures.push_back(subtexture);
 			SubTextures.push_back(subtextureLayer);
 		}
+	};
+
+	struct LightComponent
+	{
+		glm::vec3 Color = { 1.0f, 1.0f, 1.0f };
+		int Range = 5;
+
+		LightComponent() = default;
+		LightComponent(const LightComponent&) = default;
+		LightComponent(int range)
+			: Range(range) {}
+		LightComponent(glm::vec3 color, int range)
+			: Color(color), Range(range) {}
 	};
 
 	struct CameraComponent

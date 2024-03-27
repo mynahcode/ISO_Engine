@@ -1508,6 +1508,7 @@
     <ClInclude Include="src\IsoEngine\Renderer\PerspectiveEditorCamera.h" />
     <ClInclude Include="src\IsoEngine\Generators\ProceduralGenerator.h" />
     <ClInclude Include="src\IsoEngine\Managers\TextureManager.h" />
+    <ClInclude Include="src\IsoEngine\Managers\GridManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\fmt\src\format.cc">
@@ -1629,5 +1630,6 @@
     <ClCompile Include="src\IsoEngine\Renderer\PerspectiveEditorCamera.cpp" />
     <ClCompile Include="src\IsoEngine\Generators\ProceduralGenerator.cpp" />
     <ClCompile Include="src\IsoEngine\Managers\TextureManager.cpp" />
+    <ClCompile Include="src\IsoEngine\Managers\GridManager.cpp" />
   </ItemGroup>
 </Project>

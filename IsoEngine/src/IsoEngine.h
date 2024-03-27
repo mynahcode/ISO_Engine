@@ -39,6 +39,10 @@
 #include "IsoEngine/Scene/Components.h"
 #include "IsoEngine/Scene/SceneSerializer.h"
 
+/* Managers */
+#include "IsoEngine/Managers/GridManager.h"
+#include "IsoEngine/Managers/TextureManager.h"
+
 /* IsoEngine's Input Polling Manager */
 #include "IsoEngine/Core/Input.h"
 
@@ -51,5 +55,5 @@
 
 /* Utilities */
 #include "IsoEngine/Utils/PlatformUtils.h"
-#include "IsoEngine/Managers/TextureManager.h"
+
 

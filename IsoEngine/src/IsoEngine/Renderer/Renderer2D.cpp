@@ -16,6 +16,7 @@ namespace IE
 		glm::vec2 TextureCoord;
 		float TextureIndex;
 		float TilingFactor;
+		float LightLevel;
 
 		// Editor-Only
 		int EntityID;
@@ -81,6 +82,7 @@ namespace IE
 			{ ShaderDataType::Float2, "a_TexCoord"},
 			{ ShaderDataType::Float, "a_TexIndex"},
 			{ ShaderDataType::Float, "a_TilingFactor"},
+			{ ShaderDataType::Float, "a_LightLevel"},
 			{ ShaderDataType::Int, "a_EntityID"}
 			});
 
@@ -263,7 +265,7 @@ namespace IE
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		DrawQuad(transform, subTexture, tilingFactor, tintColor);
+		//DrawQuad(transform, subTexture, tilingFactor, 1.0f, tintColor);
 	}
 
 	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
@@ -328,6 +330,7 @@ namespace IE
 			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
 			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data2D.QuadVertexBufferPtr->LightLevel = 1.0f;
 			s_Data2D.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data2D.QuadVertexBufferPtr++;
 		}
@@ -336,7 +339,7 @@ namespace IE
 		s_Data2D.Stats.QuadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor, int entityID)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<SubTexture2D>& subTexture, float tilingFactor, const glm::vec4& tintColor, float lightLevel, int entityID)
 	{
 		constexpr size_t quadVertexCount = 4;
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -370,6 +373,7 @@ namespace IE
 			s_Data2D.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
 			s_Data2D.QuadVertexBufferPtr->TextureIndex = textureIndex;
 			s_Data2D.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data2D.QuadVertexBufferPtr->LightLevel = lightLevel;
 			s_Data2D.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data2D.QuadVertexBufferPtr++;
 		}
@@ -431,7 +435,7 @@ namespace IE
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		DrawQuad(transform, subTexture, tilingFactor, tintColor);
+		//DrawQuad(transform, subTexture, tilingFactor,  tintColor);
 	}
 
 	void Renderer2D::DrawSprite(const glm::vec3& position, const glm::vec2& size, SpriteRendererComponent& src, int entityID)
@@ -441,7 +445,26 @@ namespace IE
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		DrawQuad(transform, src.Texture, 1.0f, src.Color, entityID);
+		if (!src.SubTextures.empty())
+		{
+			//int i = 0; // debug
+			for (auto subtexture : src.SubTextures)
+			{
+				//ISOLOGGER_CRITICAL("DRAWING SUBTEXTURE LAYER {0} of {1} for QUAD Entity: {2}\n", i, src.SubTextures.size(), entityID);
+				DrawQuad(transform, subtexture, 1.0f, src.Color, src.LightLevel, entityID);
+				//i++;
+			}
+		}
+		else if (src.Texture != nullptr)
+		{
+			ISOLOGGER_CRITICAL("DRAWING TEXTURE QUAD: Entity {0}\n", entityID);
+			DrawQuad(transform, src.Texture, 1.0f, src.Color, entityID);
+		}
+		else
+		{
+			ISOLOGGER_CRITICAL("DRAWING COLOR QUAD: Entity {0}\n", entityID);
+			DrawQuad(transform, src.Color);
+		}
 	}
 
 	void Renderer2D::DrawIsometricSprite(const glm::vec3& position, const glm::vec2& size, SpriteRendererComponent& src, int entityID)
@@ -461,7 +484,7 @@ namespace IE
 			for (auto subtexture : src.SubTextures)
 			{
 				//ISOLOGGER_CRITICAL("DRAWING SUBTEXTURE LAYER {0} of {1} for QUAD Entity: {2}\n", i, src.SubTextures.size(), entityID);
-				DrawQuad(transform, subtexture, 1.0f, src.Color, entityID);
+				DrawQuad(transform, subtexture, 1.0f, src.Color, src.LightLevel, entityID);
 				//i++;
 			}
 		}

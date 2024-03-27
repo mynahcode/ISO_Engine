@@ -8,6 +8,7 @@
 # Project Binaries
 **/bin/
 !vendor/bin/premake
+IsoEngine/vendor/vulkan
 **/obj/
 
 # Logging and Instrumentation Outputs

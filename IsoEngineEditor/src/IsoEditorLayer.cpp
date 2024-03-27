@@ -46,7 +46,7 @@ namespace IE
         m_ActiveScene->AddSpriteSheetTextures(m_TextureManager.GetTextureSprites());
 
         ISOLOGGER_WARN("Creating GridManager object...\n");
-        m_Grids = GridManager(m_ActiveScene, { 4, 4 }, { 1.0f, -1.0f }, { 0,0 });
+        m_Grids = GridManager(m_ActiveScene, { 16, 16 }, { 1.0f, -1.0f }, { 0,0 });
 
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
         m_CameraEntity.AddComponent<CameraComponent>(fbSpecs.Width, fbSpecs.Height);
@@ -230,6 +230,7 @@ namespace IE
         // Clearing entityID attachment to -1 to distinguish pixels (and entities) from background pixels.
         m_Framebuffer->ClearAttachment(1, -1);
 
+        m_Grids.CreateLightMap(0);
         m_ActiveScene->OnUpdateEditor(timestep, m_CameraController);
 
         PollMousePosition();
