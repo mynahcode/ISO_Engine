@@ -16,6 +16,7 @@
 #include <ctime>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <math.h>
 
 /* C++ Data Structures */
 #include <string>

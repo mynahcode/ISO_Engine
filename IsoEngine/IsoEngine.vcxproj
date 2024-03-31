@@ -148,8 +148,11 @@
     <ClInclude Include="src\IsoEngine\Managers\GridManager.h" />
     <ClInclude Include="src\IsoEngine\Managers\TextureManager.h" />
     <ClInclude Include="src\IsoEngine\Platform\OpenGL\OpenGLMaterial.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Mesh.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Model.h" />
     <ClInclude Include="src\IsoEngine\Renderer\PerspectiveEditorCamera.h" />
     <ClInclude Include="src\IsoEngine\Renderer\Material.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Renderer3D.h" />
     <ClInclude Include="Vendor\entt\include\entt.hpp" />
     <ClInclude Include="Vendor\fmt\include\fmt\core.h" />
     <ClInclude Include="Vendor\fmt\include\fmt\format-inl.h" />
@@ -627,8 +630,11 @@
     <ClCompile Include="src\IsoEngine\Managers\GridManager.cpp" />
     <ClCompile Include="src\IsoEngine\Managers\TextureManager.cpp" />
     <ClCompile Include="src\IsoEngine\Platform\OpenGL\OpenGLMaterial.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Mesh.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Model.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\PerspectiveEditorCamera.cpp" />
     <ClCompile Include="src\IsoEngine\Renderer\Material.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Renderer3D.cpp" />
     <ClCompile Include="Vendor\fmt\src\format.cc" />
     <ClCompile Include="Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\IsoEngine\Controllers\OrthographicCameraController.cpp" />

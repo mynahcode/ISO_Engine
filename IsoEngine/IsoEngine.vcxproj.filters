@@ -1509,6 +1509,9 @@
     <ClInclude Include="src\IsoEngine\Generators\ProceduralGenerator.h" />
     <ClInclude Include="src\IsoEngine\Managers\TextureManager.h" />
     <ClInclude Include="src\IsoEngine\Managers\GridManager.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Model.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Mesh.h" />
+    <ClInclude Include="src\IsoEngine\Renderer\Renderer3D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\fmt\src\format.cc">
@@ -1631,5 +1634,8 @@
     <ClCompile Include="src\IsoEngine\Generators\ProceduralGenerator.cpp" />
     <ClCompile Include="src\IsoEngine\Managers\TextureManager.cpp" />
     <ClCompile Include="src\IsoEngine\Managers\GridManager.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Model.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Mesh.cpp" />
+    <ClCompile Include="src\IsoEngine\Renderer\Renderer3D.cpp" />
   </ItemGroup>
 </Project>

@@ -286,6 +286,7 @@ namespace IE
 				DrawVec3Control("Scale", tc.Scale, 1.0f);
 
 				ImGui::TreePop();
+				ImGui::NewLine();
 			}
 
 		}
@@ -405,6 +406,7 @@ namespace IE
 				}
 
 				ImGui::TreePop();
+				ImGui::NewLine();
 			}
 
 
@@ -563,6 +565,7 @@ namespace IE
 				}
 
 				ImGui::TreePop();
+				ImGui::NewLine();
 			}
 
 			if (removeComponent)
@@ -588,7 +591,7 @@ namespace IE
 
 		if (entity.HasComponent<LightComponent>())
 		{
-			bool open = ImGui::TreeNodeEx((void*)typeid(LightComponent).hash_code(), treeNodeFlags, "Tile Options");
+			bool open = ImGui::TreeNodeEx((void*)typeid(LightComponent).hash_code(), treeNodeFlags, "Light Options");
 			ImGui::SameLine();
 			if (ImGui::Button("+"))
 			{
@@ -605,9 +608,64 @@ namespace IE
 
 			if (open)
 			{
+				auto& light = entity.GetComponent<LightComponent>();
+				auto pattern = light.GetLightPattern();
+				auto range = light.GetRange();
+				ImGui::Text("Lighting Pattern:");
+				ImGui::SameLine();
+				switch (pattern)
+				{
+					case 1: 
+						ImGui::Text("Square");
+						break;
+					case 2: 
+						ImGui::Text("IsoSquare");
+						break;
+					case 3: 
+						ImGui::Text("Circular");
+						break;
+				}
+				ImGui::SameLine();
 
-				
+				if (ImGui::Button("Change"))
+				{
+					ImGui::OpenPopup("Light Patterns");
+				}
+				if (ImGui::BeginPopup("Light Patterns"))
+				{
+					if (ImGui::MenuItem("Square"))
+					{
+						if (pattern != 1)
+						{
+							light.SetLightPattern(1);
+						}
+					}
+					if (ImGui::MenuItem("IsoSquare"))
+					{
+						if (pattern != 2)
+						{
+							light.SetLightPattern(2);
+						}
+					}
+					if (ImGui::MenuItem("Circular"))
+					{
+						if (pattern != 3)
+						{
+							light.SetLightPattern(3);
+						}
+					}
+					ImGui::EndPopup();
+				}
+
+				ImGui::NewLine();
+
+				if (ImGui::DragInt("Range", &range, 0.05f, 3, 25))
+				{
+					light.SetRange(range);
+				}
+
 				ImGui::TreePop();
+				ImGui::NewLine();
 			}
 
 			if (removeComponent)

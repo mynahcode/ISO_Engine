@@ -2,8 +2,10 @@
 
 #include "OpenGLMaterial.h"
 
+#include <glad/glad.h>
 namespace IE
 {
+	/*
 	OpenGLMaterial2D::OpenGLMaterial2D(const Ref<Shader>& shader, const Ref<Textures2D>& texture)
 		: m_Shader(shader), m_Texture(texture), m_SubTexture(nullptr)
 	{
@@ -21,8 +23,15 @@ namespace IE
 	{
 
 	}
+	*/
 
-	OpenGLMaterial2D::OpenGLMaterial2D(const OpenGLMaterial2D& other)
+	OpenGLMaterial::OpenGLMaterial(const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, const GLint& diffuseTex, const GLint& specularTex)
+		: m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular), m_DiffuseTex(diffuseTex), m_SpecularTex(specularTex)
+	{
+
+	}
+
+	OpenGLMaterial::OpenGLMaterial(const OpenGLMaterial& other)
 	{
 		m_Shader = other.m_Shader;
 		m_Texture = other.m_Texture;
@@ -36,15 +45,18 @@ namespace IE
 		m_UniformMat4s = other.m_UniformMat4s;
 	}
 
-	uint32_t OpenGLMaterial2D::GetShaderRendererID() const
+	uint32_t OpenGLMaterial::GetShaderRendererID() const
 	{
 		return m_Shader->GetShaderID();
 	}
 
-	void OpenGLMaterial2D::SetShaderUniforms()
+	void OpenGLMaterial::SetShaderUniforms()
 	{
 		if (m_Shader)
 		{
+			m_Shader->SetFloat3("material.ambient", m_Ambient);
+			m_Shader->SetFloat3("material.diffuse", m_Diffuse);
+			m_Shader->SetFloat3("material.specular", m_Specular);
 			for (const auto& iter : m_UniformInts)
 			{
 				m_Shader->SetInt(iter.first, iter.second);
@@ -77,7 +89,7 @@ namespace IE
 		}
 	}
 
-	void OpenGLMaterial2D::SetShader(Ref<Shader> shader)
+	void OpenGLMaterial::SetShader(Ref<Shader> shader)
 	{
 		IE_ENGINE_ASSERT(shader, "Cannot set a nullptr shader!");
 		if (shader)

@@ -23,7 +23,7 @@ namespace IE
 
 	private:
 		void CreateTileGrid(const glm::uvec2& gridSize, const glm::vec2& tileSize, int level);
-		void UpdateLightMap(const std::vector<Entity>& tiles, int threshold, int range, int depth_n, int count);
+		void UpdateLightMap(const std::vector<Entity>& tiles, int threshold, int range, int depth_n, int count, int lightType);
 
 		glm::uvec2 m_GridSize;
 		glm::vec2 m_TileScale;
@@ -32,6 +32,7 @@ namespace IE
 		std::map<int, std::vector<float>> m_LightMaps;
 
 		// BFS
+		std::pair<int, int> m_OriginCoords;
 		std::queue<std::pair<int, int>> m_TilesToExplore;
 		std::vector<std::pair<int,int>> m_TilesInQueue;
 		std::unordered_set<uint32_t> m_ComputedLights;

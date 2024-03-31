@@ -22,11 +22,6 @@ namespace IE
 		int EntityID;
 	};
 
-	struct GridVertex
-	{
-		glm::vec3 Position;
-	};
-
 	struct Renderer2DStorage
 	{
 		static const uint32_t MAXQUADS = 10000;
@@ -35,9 +30,7 @@ namespace IE
 		static const uint32_t MAXTEXTURESLOTS = 32; // TODO: RendererCapabilities class.
 
 		Ref<VertexArray> QuadVertexArray; // VAO
-		Ref<VertexArray> GridVertexArray; // VAO
 		Ref<VertexBuffer> QuadVertexBuffer; // VBO
-		Ref<VertexBuffer> GridVertexBuffer; // VBO
 
 		Ref<Shader> TextureShader;
 		Ref<Textures2D> WhiteTexture;
@@ -45,9 +38,6 @@ namespace IE
 		uint32_t QuadIndexCount = 0;
 		QuadVertex* QuadVertexBufferBase = nullptr;
 		QuadVertex* QuadVertexBufferPtr = nullptr;
-
-		GridVertex* GridVertexBufferBase = nullptr;
-		GridVertex* GridVertexBufferPtr = nullptr;
 
 		std::array<Ref<Textures2D>, MAXTEXTURESLOTS> TextureSlots;
 		uint32_t TextureSlotIndex = 1; // Slot 0 dedicated to white texture.

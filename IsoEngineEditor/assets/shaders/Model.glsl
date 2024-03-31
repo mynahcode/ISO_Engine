@@ -34,6 +34,15 @@ void main()
 #type fragment
 #version 450
 
+struct Material
+{
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+	sampler2D diffuseTex;
+	sampler2D specularTex;
+}
+
 layout(location = 0) out vec4 color;
 layout(location = 1) out int color2;
 
@@ -44,6 +53,7 @@ in float v_TilingFactor;
 in float v_LightLevel;
 in flat int v_EntityID;
 
+uniform Material material;
 
 uniform sampler2D u_Textures[32];
 

@@ -41,22 +41,24 @@ namespace IE
             int index = it - tileGrid.begin(); // Guaranteed to be in vector
             if (tileEntity.HasComponent<LightComponent>() && m_ComputedLights.find(index) == m_ComputedLights.end()) // To prevent recalculating same tileLight.
             {
-                int lightRange = tileEntity.GetComponent<LightComponent>().Range;
-
+                auto& tileLight = tileEntity.GetComponent<LightComponent>();
+                int lightRange = tileLight.GetRange();
+                int lightingType = tileLight.GetLightPattern();
                 m_TilesToExplore = {};
                 m_TilesInQueue = {};
-                m_TilesToExplore.push(convert2DCoord(index));
-                m_TilesInQueue.push_back(convert2DCoord(index));
+                m_OriginCoords = convert2DCoord(index);
+                m_TilesToExplore.push(m_OriginCoords);
+                m_TilesInQueue.push_back(m_OriginCoords);
                 int depth_n = 1;
                 int count = 0;
-                UpdateLightMap(tileGrid, lightRange, lightRange, depth_n, count);
+                UpdateLightMap(tileGrid, lightRange, lightRange, depth_n, count, lightingType);
 
                 m_ComputedLights.insert(index);
             }
         }
     }
 
-    void GridManager::UpdateLightMap(const std::vector<Entity>& tiles, int threshold, int range, int depth_n, int count)
+    void GridManager::UpdateLightMap(const std::vector<Entity>& tiles, int threshold, int range, int depth_n, int count, int lightType)
     {
         auto convert1DCoord = [&](int x, int y)
         {
@@ -99,11 +101,26 @@ namespace IE
                 auto tileIter = *(tiles.begin() + index); // Guaranteed to be in vector
                 auto& tileLightLevel = tileIter.GetComponent<SpriteRendererComponent>().LightLevel;
                 //ISOLOGGER_TRACE("Exploring tile at index: {0}\n", tileIndex);
+                if (lightType == 1)
+                {
+                    float linearFactor = ((float)threshold / range);
+                    tileLightLevel += linearFactor;
+                    if (tileLightLevel > 1.0f)
+                        tileLightLevel = 1.0f;
+                }
+                else if (lightType == 2)
+                {
 
-                float linearFactor = ((float)threshold / range);
-                tileLightLevel += linearFactor;
-                if (tileLightLevel > 1.0f)
-                    tileLightLevel = 1.0f;
+                }
+                else if (lightType == 3)
+                {
+                    float dist = sqrt((tileIndex.first * tileIndex.first) + (tileIndex.second * tileIndex.second)) + (m_OriginCoords.first * m_OriginCoords.second) / (m_OriginCoords.first * m_OriginCoords.second);
+                    float fallOffFactor = 1 / dist;
+                    tileLightLevel += fallOffFactor;
+                    if (tileLightLevel > 1.0f)
+                        tileLightLevel = 1.0f;
+
+                }
             }
             if (tilesPerDepth == count)
             {
@@ -112,14 +129,33 @@ namespace IE
                 depth_n++;
                 threshold--;
             }
+
             count++;
             if (threshold > 0)
             {
-                addTileToExplore(tileIndex.first, tileIndex.second + 1); // top
-                addTileToExplore(tileIndex.first + 1, tileIndex.second); // right
-                addTileToExplore(tileIndex.first, tileIndex.second - 1); // bottom
-                addTileToExplore(tileIndex.first - 1, tileIndex.second); // left
-                UpdateLightMap(tiles, threshold, range, depth_n, count);
+                if (lightType == 1)
+                {
+                    addTileToExplore(tileIndex.first, tileIndex.second + 1); // top
+                    addTileToExplore(tileIndex.first + 1, tileIndex.second); // right
+                    addTileToExplore(tileIndex.first, tileIndex.second - 1); // bottom
+                    addTileToExplore(tileIndex.first - 1, tileIndex.second); // left
+                }
+                if (lightType == 2)
+                {
+                    addTileToExplore(tileIndex.first, tileIndex.second + 1); // top
+                    addTileToExplore(tileIndex.first + 1, tileIndex.second); // right
+                    addTileToExplore(tileIndex.first, tileIndex.second - 1); // bottom
+                    addTileToExplore(tileIndex.first - 1, tileIndex.second); // left
+                }
+                if (lightType == 3)
+                {
+                    addTileToExplore(tileIndex.first, tileIndex.second + 1); // top
+                    addTileToExplore(tileIndex.first + 1, tileIndex.second); // right
+                    addTileToExplore(tileIndex.first, tileIndex.second - 1); // bottom
+                    addTileToExplore(tileIndex.first - 1, tileIndex.second); // left
+                }
+
+                    UpdateLightMap(tiles, threshold, range, depth_n, count, lightType);
             }
         }
         //ISOLOGGER_CRITICAL("LIGHTMAP CALCULATION FINISHED \n");

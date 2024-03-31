@@ -79,15 +79,35 @@ namespace IE
 
 	struct LightComponent
 	{
+		enum LightVariant
+		{
+			Square = 1,
+			IsoSquare = 2,
+			Circular = 3,
+		};
+
 		glm::vec3 Color = { 1.0f, 1.0f, 1.0f };
+		LightVariant LightPattern = LightVariant::Square;
 		int Range = 5;
 
 		LightComponent() = default;
 		LightComponent(const LightComponent&) = default;
 		LightComponent(int range)
 			: Range(range) {}
-		LightComponent(glm::vec3 color, int range)
+		LightComponent(int range, glm::vec3 color)
 			: Color(color), Range(range) {}
+		LightComponent(int range, glm::vec3 color, LightVariant pattern)
+			: Color(color), Range(range), LightPattern(pattern) {}
+
+		int GetRange() const { return Range; }
+		void SetRange(const int& range) { Range = range; }
+
+		glm::vec3 GetColor() const { return Color; }
+		void SetColor(const glm::vec3& color) { Color = color; }
+
+		int GetLightPattern() const { return (int)LightPattern; }
+		void SetLightPattern(int pattern) { LightPattern = (LightVariant)pattern; }
+
 	};
 
 	struct CameraComponent
