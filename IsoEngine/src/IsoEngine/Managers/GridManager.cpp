@@ -33,7 +33,7 @@ namespace IE
                 (index % m_GridSize.y)
             };
         };
-        //ISOLOGGER_CRITICAL("Recreating Light Map at Z-Level {0}\n", zLevel);
+        //ISOLOGGER_CRITICAL("Recreating Light Map at Z-Level {0}\n",* *//zLevel);
         std::vector tileGrid = m_TileGrids[zLevel];
         for (auto& tileEntity : tileGrid)
         {
@@ -51,6 +51,9 @@ namespace IE
                 m_TilesInQueue.push_back(m_OriginCoords);
                 int depth_n = 1;
                 int count = 0;
+                invDiagCount = 0;
+                invSwitch = false;
+                ISOLOGGER_CRITICAL("Light Pattern: {0}\n", lightingType);
                 UpdateLightMap(tileGrid, lightRange, lightRange, depth_n, count, lightingType);
 
                 m_ComputedLights.insert(index);
@@ -60,14 +63,6 @@ namespace IE
 
     void GridManager::UpdateLightMap(const std::vector<Entity>& tiles, int threshold, int range, int depth_n, int count, int lightType)
     {
-        auto convert1DCoord = [&](int x, int y)
-        {
-            return uint32_t
-            {
-                (y + ((m_GridSize.y) * x))
-            };
-        };
-
         auto convert2DCoord = [&](int index)
         {
             return std::pair
@@ -87,67 +82,132 @@ namespace IE
                 m_TilesToExplore.push(tileIndex);
             }
         };
-        
-        int tilesPerDepth = ((2 * depth_n) + 1) + (2 * (depth_n - 1) + 1);
+
+        auto addTileToExploreDiag = [&](int x, int y)
+        {
+            std::pair tileIndex = std::make_pair(x, y);
+            if (std::find(m_TilesInQueue.begin(), m_TilesInQueue.end(), tileIndex) == m_TilesInQueue.end())
+            {
+                //ISOLOGGER_TRACE("Tile To Explore At Threshold Level and depth_n: {0}, {1}; at Tile Grid index: < {2} > \n", threshold, depth_n, index);
+                m_TilesInQueue.push_back(tileIndex);
+                m_TilesToExplore.push(tileIndex);
+                invDiagCount++;
+            }
+        };
+
+
         if (!m_TilesToExplore.empty())
         {
-            ISOLOGGER_CRITICAL("Count: {0}\n", count);
+            //ISOLOGGER_CRITICAL("Count: {0}\n", count);
+            //ISOLOGGER_CRITICAL("InvDiagCount: {0}\n", invDiagCount);
             auto tileIndex = m_TilesToExplore.front();
             m_TilesToExplore.pop();
             ISOLOGGER_TRACE("Exploring tile at index: <{0}, {1}>\n", tileIndex.first, tileIndex.second);
-            if ((tileIndex.first >= 0 && tileIndex.second >= 0) && (tileIndex.first < m_GridSize.x && tileIndex.second < m_GridSize.y)) // if valid index, update tile light
+
+            if (lightType == 1) // Diagonal Pattern
             {
-                auto index = convert1DCoord(tileIndex.first, tileIndex.second);
-                auto tileIter = *(tiles.begin() + index); // Guaranteed to be in vector
-                auto& tileLightLevel = tileIter.GetComponent<SpriteRendererComponent>().LightLevel;
-                //ISOLOGGER_TRACE("Exploring tile at index: {0}\n", tileIndex);
-                if (lightType == 1)
+                tilesPerDepth = 4 * depth_n;
+                UpdateTile(tiles, tileIndex, tilesPerDepth, lightType, threshold, range);
+                if (tilesPerDepth == count)
                 {
-                    float linearFactor = ((float)threshold / range);
-                    tileLightLevel += linearFactor;
-                    if (tileLightLevel > 1.0f)
-                        tileLightLevel = 1.0f;
-                }
-                else if (lightType == 2)
-                {
-
-                }
-                else if (lightType == 3)
-                {
-                    float dist = sqrt((tileIndex.first * tileIndex.first) + (tileIndex.second * tileIndex.second)) + (m_OriginCoords.first * m_OriginCoords.second) / (m_OriginCoords.first * m_OriginCoords.second);
-                    float fallOffFactor = 1 / dist;
-                    tileLightLevel += fallOffFactor;
-                    if (tileLightLevel > 1.0f)
-                        tileLightLevel = 1.0f;
-
+                    ISOLOGGER_INFO("Incrementing depth_n\n");
+                    count = 0;
+                    depth_n++;
+                    threshold--;
                 }
             }
-            if (tilesPerDepth == count)
+            if (lightType == 2) // Inverse Diagonal
             {
-                ISOLOGGER_INFO("Incrementing depth_n\n");
-                count = 0;
-                depth_n++;
-                threshold--;
+                if (depth_n == 1)
+                {
+                    tilesPerDepth = 4 * depth_n;
+                }
+                else
+                {
+                    tilesPerDepth = 4 * depth_n + 4 * (depth_n -1);
+                }
+                UpdateTile(tiles, tileIndex, tilesPerDepth, lightType, threshold, range);
+                if (tilesPerDepth == count)
+                {
+                    ISOLOGGER_INFO("Incrementing depth_n\n");
+                    count = 0;
+                    depth_n++;
+                    threshold--;
+                }
+            }
+            if (lightType == 3) // Square
+            {
+                tilesPerDepth = 8 * depth_n; // 8 * depth_n 
+                UpdateTile(tiles, tileIndex, tilesPerDepth, lightType, threshold, range);
+                if (tilesPerDepth == count)
+                {
+                    ISOLOGGER_INFO("Incrementing depth_n\n");
+                    count = 0;
+                    depth_n++;
+                    threshold--;
+                }
+            }
+            if (lightType == 4) // Circular
+            {
+                tilesPerDepth = 4 * depth_n;
+                UpdateTile(tiles, tileIndex, tilesPerDepth, lightType, threshold, range);
+                if (tilesPerDepth == count)
+                {
+                    ISOLOGGER_INFO("Incrementing depth_n\n");
+                    count = 0;
+                    depth_n++;
+                    threshold--;
+                }
             }
 
             count++;
+
             if (threshold > 0)
             {
-                if (lightType == 1)
+                if (lightType == 1) // Diagonal
                 {
                     addTileToExplore(tileIndex.first, tileIndex.second + 1); // top
                     addTileToExplore(tileIndex.first + 1, tileIndex.second); // right
                     addTileToExplore(tileIndex.first, tileIndex.second - 1); // bottom
                     addTileToExplore(tileIndex.first - 1, tileIndex.second); // left
                 }
-                if (lightType == 2)
+                if (lightType == 2) // Inverse Diagonal
                 {
-                    addTileToExplore(tileIndex.first, tileIndex.second + 1); // top
-                    addTileToExplore(tileIndex.first + 1, tileIndex.second); // right
-                    addTileToExplore(tileIndex.first, tileIndex.second - 1); // bottom
-                    addTileToExplore(tileIndex.first - 1, tileIndex.second); // left
+
+                    if (!invSwitch)
+                    {
+                        addTileToExploreDiag(tileIndex.first + 1, tileIndex.second + 1); // top-right
+                        addTileToExploreDiag(tileIndex.first + 1, tileIndex.second - 1); // bottom-right
+                        addTileToExploreDiag(tileIndex.first - 1, tileIndex.second - 1); // bottom-left
+                        addTileToExploreDiag(tileIndex.first - 1, tileIndex.second + 1); // top-left
+                    }
+                    if (invDiagCount == 4)
+                    {
+                        invSwitch = !invSwitch;
+                        //ISOLOGGER_CRITICAL("Switching Diagonal Index: {0}\n", invSwitch);
+                    }
+                    if (invSwitch)
+                    {
+                        addTileToExplore(tileIndex.first, tileIndex.second + 1); // top
+                        addTileToExplore(tileIndex.first + 1, tileIndex.second); // right
+                        addTileToExplore(tileIndex.first, tileIndex.second - 1); // bottom
+                        addTileToExplore(tileIndex.first - 1, tileIndex.second); // left
+                        invSwitch = !invSwitch;
+                        //ISOLOGGER_CRITICAL("Switching Diagonal Index: {0}\n", invSwitch);
+                    }
                 }
-                if (lightType == 3)
+                if (lightType == 3) // Square
+                {
+                    addTileToExplore(tileIndex.first + 1, tileIndex.second + 1); // top-right
+                    addTileToExplore(tileIndex.first + 1, tileIndex.second); // right
+                    addTileToExplore(tileIndex.first + 1, tileIndex.second - 1); // bottom-right
+                    addTileToExplore(tileIndex.first, tileIndex.second - 1); // bottom
+                    addTileToExplore(tileIndex.first - 1, tileIndex.second - 1); // bottom-left
+                    addTileToExplore(tileIndex.first - 1, tileIndex.second); // left
+                    addTileToExplore(tileIndex.first - 1, tileIndex.second + 1); // top-left
+                    addTileToExplore(tileIndex.first, tileIndex.second + 1); // top
+                }
+                if (lightType == 4) // Circular
                 {
                     addTileToExplore(tileIndex.first, tileIndex.second + 1); // top
                     addTileToExplore(tileIndex.first + 1, tileIndex.second); // right
@@ -155,10 +215,55 @@ namespace IE
                     addTileToExplore(tileIndex.first - 1, tileIndex.second); // left
                 }
 
-                    UpdateLightMap(tiles, threshold, range, depth_n, count, lightType);
+                UpdateLightMap(tiles, threshold, range, depth_n, count, lightType);
             }
         }
         //ISOLOGGER_CRITICAL("LIGHTMAP CALCULATION FINISHED \n");
+    }
+
+    void GridManager::UpdateTile(const std::vector<Entity>& tiles, const std::pair<int, int>& tileIndex, int tilesPerDepth, int lightType, int threshold, int range)
+    {
+        auto convert1DCoord = [&](int x, int y)
+        {
+            return uint32_t
+            {
+                (y + ((m_GridSize.y) * x))
+            };
+        };
+
+        if ((tileIndex.first >= 0 && tileIndex.second >= 0) && (tileIndex.first < m_GridSize.x && tileIndex.second < m_GridSize.y)) // if valid index, update tile light
+        {
+            auto index = convert1DCoord(tileIndex.first, tileIndex.second);
+            auto tileIter = *(tiles.begin() + index); // Guaranteed to be in vector
+            auto& tileLightLevel = tileIter.GetComponent<SpriteRendererComponent>().LightLevel;
+            //ISOLOGGER_TRACE("Exploring tile at index: {0}\n", tileIndex);
+            if (lightType == 1 || lightType == 2 || lightType == 3)
+            {
+                float linearFactor = ((float)threshold / range);
+                tileLightLevel += linearFactor;
+                if (tileLightLevel > 1.0f)
+                    tileLightLevel = 1.0f;
+            }
+            else if (lightType == 4)
+            {
+
+                float dx = (float)((tileIndex.first - m_OriginCoords.first) * (tileIndex.first - m_OriginCoords.first));
+                float dy = (float)((tileIndex.second - m_OriginCoords.second) * (tileIndex.second - m_OriginCoords.second));
+                if (m_OriginCoords == tileIndex)
+                {
+                    tileLightLevel = 1.0f;
+                }
+                else
+                {
+                    float dist = sqrt(dx + dy);
+                    float fallOffFactor = 1.0f - ((dist) / (dist * dist));
+                    ISOLOGGER_CRITICAL("Distance from Origin <{0}, {1}>, to current tile <{2}, {3}>: {4}, Falloff: {5}\n", m_OriginCoords.first, m_OriginCoords.second, tileIndex.first, tileIndex.second, dist, fallOffFactor);
+                    tileLightLevel += (1.0f - fallOffFactor);
+                    if (tileLightLevel > 1.0f)
+                        tileLightLevel = 1.0f;
+                }
+            }
+        }
     }
 
 	void GridManager::CreateTileGrid(const glm::uvec2& gridSize, const glm::vec2& tileSize, int zLevel)

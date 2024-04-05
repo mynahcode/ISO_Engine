@@ -616,12 +616,15 @@ namespace IE
 				switch (pattern)
 				{
 					case 1: 
-						ImGui::Text("Square");
+						ImGui::Text("Diagonal");
 						break;
 					case 2: 
-						ImGui::Text("IsoSquare");
+						ImGui::Text("Inverse Diagonal");
 						break;
 					case 3: 
+						ImGui::Text("Square");
+						break;
+					case 4:
 						ImGui::Text("Circular");
 						break;
 				}
@@ -633,25 +636,32 @@ namespace IE
 				}
 				if (ImGui::BeginPopup("Light Patterns"))
 				{
-					if (ImGui::MenuItem("Square"))
+					if (ImGui::MenuItem("Diagonal"))
 					{
 						if (pattern != 1)
 						{
 							light.SetLightPattern(1);
 						}
 					}
-					if (ImGui::MenuItem("IsoSquare"))
+					if (ImGui::MenuItem("Inverse Diagonal"))
 					{
 						if (pattern != 2)
 						{
 							light.SetLightPattern(2);
 						}
 					}
-					if (ImGui::MenuItem("Circular"))
+					if (ImGui::MenuItem("Square"))
 					{
 						if (pattern != 3)
 						{
 							light.SetLightPattern(3);
+						}
+					}
+					if (ImGui::MenuItem("Circular"))
+					{
+						if (pattern != 4)
+						{
+							light.SetLightPattern(4);
 						}
 					}
 					ImGui::EndPopup();

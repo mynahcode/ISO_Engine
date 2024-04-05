@@ -81,13 +81,14 @@ namespace IE
 	{
 		enum LightVariant
 		{
-			Square = 1,
-			IsoSquare = 2,
-			Circular = 3,
+			Diagonal = 1,
+			InverseDiagonal = 2,
+			Square = 3,
+			Circular = 4,
 		};
 
 		glm::vec3 Color = { 1.0f, 1.0f, 1.0f };
-		LightVariant LightPattern = LightVariant::Square;
+		LightVariant LightPattern = LightVariant::Diagonal;
 		int Range = 5;
 
 		LightComponent() = default;

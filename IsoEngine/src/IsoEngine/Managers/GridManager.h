@@ -20,10 +20,11 @@ namespace IE
 		void RemoveGridLevel(int zLevel);
 
 		void CreateLightMap(int zLevel);
+		void CreateTileGrid(const glm::uvec2& gridSize, const glm::vec2& tileSize, int level);
 
 	private:
-		void CreateTileGrid(const glm::uvec2& gridSize, const glm::vec2& tileSize, int level);
 		void UpdateLightMap(const std::vector<Entity>& tiles, int threshold, int range, int depth_n, int count, int lightType);
+		void UpdateTile(const std::vector<Entity>& tiles, const std::pair<int, int>& tileIndex, int tilesPerDepth, int lightType, int threshold, int range);
 
 		glm::uvec2 m_GridSize;
 		glm::vec2 m_TileScale;
@@ -32,6 +33,9 @@ namespace IE
 		std::map<int, std::vector<float>> m_LightMaps;
 
 		// BFS
+		int tilesPerDepth;
+		int invDiagCount;
+		bool invSwitch;
 		std::pair<int, int> m_OriginCoords;
 		std::queue<std::pair<int, int>> m_TilesToExplore;
 		std::vector<std::pair<int,int>> m_TilesInQueue;
